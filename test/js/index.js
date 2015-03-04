@@ -2,10 +2,16 @@ var app = require('express')();
 var http = require('http').Server(app);
 var path = require('path');
 var io = require('socket.io')(http);
+var MobileDetect = require('mobile-detect');
 
 app.get('/', function(req, res){
 	//the html string being sent
+
+	var md = new MobileDetect(req.headers['user-agent']);
 	var filepath = path.resolve(__dirname + '/../index.html');
+	if(md.mobile() !== null) {
+		filepath = path.resolve();
+	}
 	res.sendFile(filepath);
 });
 
