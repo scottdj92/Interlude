@@ -21,7 +21,7 @@
 
 			//Sending a message
 			$('.chatform').submit(function(){
-				alert("BITCH YOU CLICKED ME");
+				//alert("BITCH YOU CLICKED ME");
 				//get and send value from form input
 				socket.emit( 'chat message', $('#m').val() );
 				console.log($('#m').val());
