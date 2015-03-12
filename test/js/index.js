@@ -1,9 +1,12 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var path = require('path');
 var io = require('socket.io')(http);
 var MobileDetect = require('mobile-detect');
 var users = [];
+
+app.use('/js', express.static(path.resolve(__dirname)));
 
 app.get('/', function(req, res){
 	//the html string being sent

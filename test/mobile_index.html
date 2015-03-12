@@ -24,9 +24,11 @@
       var green = Math.floor(Math.random() * 255);
       var blue = Math.floor(Math.random() * 255);
       var col = 'rgb('+red+','+green+','+blue+')';
+      var col2 = 'rgb('+green+','+blue+','+red+')';
       //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 			var socket = io.connect( window.location.origin, {query: 'user='+name});
       var lastPos = {x:0, y:0};
+      var lastPos2 = {x:0, y:0};
       //socket.set('name', name, function(){});
 
     /*  // Sending a message

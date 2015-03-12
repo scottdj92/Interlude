@@ -14,18 +14,19 @@
     </style>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="/js/bubble.js"></script>
 	<script>
 		window.onload = function(){
 			// create new instance of socket.io
 			var num = Math.floor(Math.random()*10);
       var name ='user'+num;
-      
+      game.makeBubble(0,0);
       //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 			var socket = io.connect( window.location.origin, {query: 'user='+name});
 
       var canvas = document.querySelector('#area');
       var ctx = canvas.getContext('2d');
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 5;
 			/*// Sending a message
 			$('.chatform').submit(function(){
 				//get and send value from form input
