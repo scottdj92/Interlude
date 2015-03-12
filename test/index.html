@@ -23,8 +23,9 @@
       //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 			var socket = io.connect( window.location.origin, {query: 'user='+name});
 
-
-			// Sending a message
+      var canvas = document.querySelector('#area');
+      var ctx = canvas.getContext('2d');
+			/*// Sending a message
 			$('.chatform').submit(function(){
 				//get and send value from form input
         console.log($('#m').val());
@@ -39,7 +40,12 @@
 			// show messages
 			socket.on('chat message', function(msg){
 				$('#messages').append($('<li>').text(msg.text+" -- "+msg.id));
-			});
+			});*/
+      socket.on('phone tap', function(msg){
+        ctx.fillStyle = "red";
+        ctx.fillRect(msg.x, msg.y, 10, 10);
+        console.log(msg);
+      });
 
 			/*socket.on('connect', function(){
 				$('#messages').append($('<li>').text('Someone connected'));
@@ -48,10 +54,6 @@
 	</script>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form class='chatform'>
-      <input id="m" autocomplete="off" placeholder="Type message" />
-	  <button>Send</button>
-    </form>
+    <canvas id="area" width="500px" height="500px"></canvas>
   </body>
 </html>

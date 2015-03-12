@@ -25,7 +25,7 @@
 
       //socket.set('name', name, function(){});
 
-      // Sending a message
+    /*  // Sending a message
 			$('.chatform').submit(function(){
 				//get and send value from form input
         alert("BITCH YOU CLICKED ME");
@@ -41,16 +41,22 @@
 			// show messages
 			socket.on('chat message', function(msg){
 				$('#messages').append($('<li>').text(msg.text+" -- "+msg.id));
-			});
+			}); */
+      window.addEventListener('touchstart', function(e){
+        e.preventDefault();
+        var msg = {
+          x : e.touches[0].pageX,
+          y : e.touches[0].pageY
+        };
+
+        socket.emit('phone tap', msg);
+
+      }, false);
 		}
 	</script>
   </head>
   <body>
 	<h3>MOBILE DEVICE</h3>
-    <ul id="messages"></ul>
-    <form class='chatform' action=''>
-      <input id="m" autocomplete="off" />
-	  <button>Send</button>
-    </form>
+    
   </body>
 </html>
