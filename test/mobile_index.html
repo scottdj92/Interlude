@@ -23,9 +23,10 @@
       var red = Math.floor(Math.random() * 255);
       var green = Math.floor(Math.random() * 255);
       var blue = Math.floor(Math.random() * 255);
+      var col = 'rgb('+red+','+green+','+blue+')';
       //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 			var socket = io.connect( window.location.origin, {query: 'user='+name});
-
+      var lastPos = {x:0, y:0};
       //socket.set('name', name, function(){});
 
     /*  // Sending a message
@@ -50,11 +51,25 @@
         var msg = {
           x : e.touches[0].pageX,
           y : e.touches[0].pageY,
-          color : 'rgb('+red+','+green+','+blue+')'
+          color : col
         };
 
         socket.emit('phone tap', msg);
-
+        lastPos.x = msg.x;
+        lastPos.y = msg.y;
+      }, false);
+      window.addEventListener('touchmove', function(e){
+        e.preventDefault();
+        var msg = {
+          x : e.touches[0].pageX,
+          y : e.touches[0].pageY,
+          color : col,
+          lastX : lastPos.x,
+          lastY : lastPos.y
+        }
+        socket.emit('phone move', msg);
+        lastPos.x = msg.x;
+        lastPos.y = msg.y;
       }, false);
 		}
 	</script>

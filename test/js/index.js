@@ -71,7 +71,11 @@ io.on('connection', function(socket){
   });
 });
 
-
+io.on('connection', function(socket){
+  socket.on('phone move', function(msg){
+    io.emit('phone move', msg);
+  });
+});
 
 http.listen(3000, function(){
 	console.log('listening on *:3000');
