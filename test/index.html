@@ -42,7 +42,7 @@
 				$('#messages').append($('<li>').text(msg.text+" -- "+msg.id));
 			});*/
       socket.on('phone tap', function(msg){
-        ctx.fillStyle = "red";
+        ctx.fillStyle = msg.color;
         ctx.fillRect(msg.x, msg.y, 10, 10);
         console.log(msg);
       });
@@ -54,6 +54,6 @@
 	</script>
   </head>
   <body>
-    <canvas id="area" width="500px" height="500px"></canvas>
+    <canvas id="area" width="1920px" height="1080px"></canvas>
   </body>
 </html>
