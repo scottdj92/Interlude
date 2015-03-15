@@ -24,60 +24,30 @@
       var green = Math.floor(Math.random() * 255);
       var blue = Math.floor(Math.random() * 255);
       var col = 'rgb('+red+','+green+','+blue+')';
-      var col2 = 'rgb('+green+','+blue+','+red+')';
       //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 			var socket = io.connect( window.location.origin, {query: 'user='+name});
-      var lastPos = {x:0, y:0};
-      var lastPos2 = {x:0, y:0};
-      //socket.set('name', name, function(){});
 
-    /*  // Sending a message
-			$('.chatform').submit(function(){
-				//get and send value from form input
-        alert("BITCH YOU CLICKED ME");
-        console.log($('#m').val());
-				var msg = { text: $('#m').val(),
-						    id: name };
+      var connectData = { id: num, color: col};
 
-				socket.emit( 'chat message', msg );
-				$('#m').val('');
-				return false;
-			});
+      socket.emit('player join', connectData);
 
-			// show messages
-			socket.on('chat message', function(msg){
-				$('#messages').append($('<li>').text(msg.text+" -- "+msg.id));
-			}); */
-      window.addEventListener('touchstart', function(e){
-        e.preventDefault();
-        var msg = {
-          x : e.touches[0].pageX,
-          y : e.touches[0].pageY,
-          color : col
-        };
+      if (window.DeviceOrientationEvent) {
+        window.addEventListener('deviceorientation', function(e) {
+          // gamma is the left-to-right tilt in degrees, where right is positive
+          var xTilt = e.gamma;
+          // beta is the front-to-back tilt in degrees, where front is positive
+          var yTilt = e.beta;
+          // alpha is the compass direction the device is facing in degrees
+          var rot = e.alpha
 
-        socket.emit('phone tap', msg);
-        lastPos.x = msg.x;
-        lastPos.y = msg.y;
-      }, false);
-      window.addEventListener('touchmove', function(e){
-        e.preventDefault();
-        var msg = {
-          x : e.touches[0].pageX,
-          y : e.touches[0].pageY,
-          color : col,
-          lastX : lastPos.x,
-          lastY : lastPos.y
-        }
-        socket.emit('phone move', msg);
-        lastPos.x = msg.x;
-        lastPos.y = msg.y;
-      }, false);
-		}
+          var data = { id: num, xAcc : xTilt, yAcc : yTilt };
+          socket.emit('phone tilt', data);
+        }, false);
+      }
+    };
 	</script>
   </head>
   <body>
 	<h3>MOBILE DEVICE</h3>
-    
   </body>
 </html>

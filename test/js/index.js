@@ -5,6 +5,7 @@ var path = require('path');
 var io = require('socket.io')(http);
 var MobileDetect = require('mobile-detect');
 var users = [];
+var players = [];
 
 app.use('/js', express.static(path.resolve(__dirname)));
 
@@ -29,13 +30,14 @@ io.on('connection', function(socket){
 	//pass an object containing user informatiojn?
     /*socket.broadcast.emit('Broadcast');
 	*/
-	var userId = socket.handshake.query.user;
+	/*var userId = socket.handshake.query.user;
 	console.log(userId +' connected.');
   socket.join(userId);
 
 	var msg = { text:"Hello " + userId, id:"Admin"};
 	io.to(userId).emit('chat message', msg);
 	io.emit("chat message", msg);
+*/
 
 	// handle disconnects
 	socket.on('disconnect', function(){
@@ -43,40 +45,13 @@ io.on('connection', function(socket){
 	});
 });
 
-
-
-// get sent message
 io.on('connection', function(socket){
-
-  socket.on('chat message', function(msg){
-    console.log('message: ' + msg.text);
-
+  socket.on('player join', function(data){
+    io.emit('player join', data);
   });
-});
 
-
-
-// broadcast
-io.on('connection', function(socket){
-  socket.broadcast.emit('Broadcast');
-});
-
-// emit message
-io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
-});
-
-io.on('connection', function(socket){
-  socket.on('phone tap', function(msg){
-    io.emit('phone tap', msg);
-  });
-});
-
-io.on('connection', function(socket){
-  socket.on('phone move', function(msg){
-    io.emit('phone move', msg);
+  socket.on('phone tilt', function(data){
+    io.emit('phone tilt', data);
   });
 });
 
