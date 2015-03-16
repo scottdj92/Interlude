@@ -61,6 +61,10 @@ io.on('connection', function(socket){
     console.log('message: ' + msg.text);
 
   });
+
+  socket.on('players', function(playerMsg){
+  	console.log(playerMsg.text);
+  });
 });
 
 
@@ -74,7 +78,10 @@ io.on('connection', function(socket){
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
-    io.emit('players', playerMsg);
+  });
+
+  socket.on('players', function(playerMsg){
+  	io.emit('players', playerMsg);
   });
 });
 
