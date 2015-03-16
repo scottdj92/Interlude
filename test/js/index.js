@@ -37,11 +37,14 @@ io.on('connection', function(socket){
 
   	//sends message object to IO and packages it for emitting to other users
 	var msg = { text:"Hello " + userId, id:"Admin"};
-	var playerMsg = {text: "You are player " + numPlayer, id:"Admin"};
 	io.to(userId).emit('chat message', msg);
-	io.to(userId).emit('players', playerMsg);
 	io.emit("chat message", msg);
+
+	//playerMsg message object handler
+	var playerMsg = {text: "You are player " + numPlayer, id:"Admin"};
+	io.to(userId).emit('players', playerMsg);
 	io.emit('players', playerMsg);
+
 
 	// handle disconnects
 	socket.on('disconnect', function(){
