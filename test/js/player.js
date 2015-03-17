@@ -38,7 +38,7 @@ game.createPlayer = function(id, color, x, y) {
     },
 
     move : function(dt) {
-      this.y += this.yVel;
+      this.y -= this.yVel;
       this.x += this.xVel;
     },
 
