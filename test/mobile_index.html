@@ -17,34 +17,44 @@
 	<script>
 		window.onload = function(){
 			// create new instance of socket.io
-      var num = Math.floor(Math.random()*10);
-      var name ='user'+num;
+			var num = Math.floor(Math.random()*10);
+			var name ='user'+num;
 
-      var red = Math.floor(Math.random() * 255);
-      var green = Math.floor(Math.random() * 255);
-      var blue = Math.floor(Math.random() * 255);
-      var col = 'rgb('+red+','+green+','+blue+')';
-      //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
-			var socket = io.connect( window.location.origin, {query: 'user='+name});
+			var red = Math.floor(Math.random() * 255);
+			var green = Math.floor(Math.random() * 255);
+			var blue = Math.floor(Math.random() * 255);
+			var col = 'rgb('+red+','+green+','+blue+')';
+			//setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
+			var socket = io.connect( window.location.origin);
+			
+			// we can apply more unique properties like "Name"
+			var connectData = { id: num, color: col};
+			
+			// JOIN GAME
+			socket.emit('player join', connectData);
+			
+			// LEAVE GAME 
+			/*this.onbeforeunload = function(){
+				alert(num);
+				return socket.emit('disconnect', num); //sends player id to server when closed
+			}*/
+			
+			// Movement
+			if (window.DeviceOrientationEvent) {
+				window.addEventListener('deviceorientation', function(e) {
+				// gamma is the left-to-right tilt in degrees, where right is positive
+				var xTilt = e.gamma;
+				// beta is the front-to-back tilt in degrees, where front is positive
+				var yTilt = e.beta;
+				// alpha is the compass direction the device is facing in degrees
+				var rot = e.alpha
 
-      var connectData = { id: num, color: col};
-
-      socket.emit('player join', connectData);
-
-      if (window.DeviceOrientationEvent) {
-        window.addEventListener('deviceorientation', function(e) {
-          // gamma is the left-to-right tilt in degrees, where right is positive
-          var xTilt = e.gamma;
-          // beta is the front-to-back tilt in degrees, where front is positive
-          var yTilt = e.beta;
-          // alpha is the compass direction the device is facing in degrees
-          var rot = e.alpha
-
-          var data = { id: num, xAcc : xTilt, yAcc : yTilt };
-          socket.emit('phone tilt', data);
-        }, false);
-      }
-    };
+				var data = { id: num, xAcc : xTilt, yAcc : yTilt };
+								socket.emit('phone tilt', data);
+							}, false);
+			}
+			
+		};
 	</script>
   </head>
   <body>

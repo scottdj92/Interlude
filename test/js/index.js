@@ -41,12 +41,14 @@ io.on('connection', function(socket){
 
 	// handle disconnects
 	socket.on('disconnect', function(){
-		console.log('user disconnected');
+		io.emit('player leave', socket.id);
+		console.log("Player "+socket.id+" has left the building.");
 	});
 });
 
 io.on('connection', function(socket){
   socket.on('player join', function(data){
+	data.sockID = socket.id;
     io.emit('player join', data);
   });
 

@@ -2,7 +2,7 @@
 "use strict";
 var game = game || {};
 
-game.createPlayer = function(id, color, x, y) {
+game.createPlayer = function(id, color, sockID, x, y) {
   var player = {
     x: x,
     y: y,
@@ -13,6 +13,7 @@ game.createPlayer = function(id, color, x, y) {
     r: 20,
     speed: 1,
     id : id,
+	sockID: sockID,
     color : color,
     mu : 0.95,
 
