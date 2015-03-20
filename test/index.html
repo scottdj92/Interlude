@@ -29,7 +29,7 @@
 			ctx = canvas.getContext('2d');
 			ctx.lineWidth = 5;
 
-			//Set up socket events --Ha Andrew don't look at this
+			//Set up socket events 
 			socket.on('player join', function(data){
 				var x = 200, y = 200;
 				players[data.id] = game.createPlayer(data.id, data.color, data.sockID, x, y);
