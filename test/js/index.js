@@ -49,6 +49,12 @@ io.on('connection', function(socket){
 	// handle disconnects
 	socket.on('disconnect', function(){
 		console.log( userId + ' disconnected');
+		numPlayer -= 1;
+		//reset numPlayer, as we can't have less than zero players
+		if (numPlayer < 0)
+		{
+			numPlayer = 0;
+		}
 	});
 });
 
