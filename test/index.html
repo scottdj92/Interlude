@@ -244,6 +244,53 @@
 			analyzerNode.getByteTimeDomainData(timeByteData); //gives us waveform
 
 			var lastRadius = 0; //used to store the radius of the last circle. This makes each circle relative to the last one
+
+			for (var i = 0; i < CIRCLESl i++)
+			{
+				var freqSum = 0;
+				var timeSum = 0;
+
+				for (var x = circleFreqChunk; x; x--)
+				{
+					var index = (CIRCLES - i) * circleFreqChunk - x;
+					freqsum += freqByteData[index];
+					timeSum += timeByteData[index];
+				}
+
+				freqSum = freqsum / circleFreqChunk / 255; //gives percentage of total value
+				timeSum = timeSum / circleFreqChunk / 255; //also gives a percentage
+				//index 1-4 generally stays between 1-4
+
+				//draw circle
+				lastRadius += freqSum *RADIUS_FACTOR + MIN_RADIUS;
+				var color = createjs.Graphics.getHSL((i / CIRCLES *HUE_VARIANCE + circleHue) % 360, 100, 50);
+				var g = new createjs.Graphics().beginFill(color).drawCircle(centerX, centerY, lastRadius).endFill();
+				circles[i].graphics = g;
+			}
+
+			//update dataAverage, by popping first element and pushing
+			dataAverage.shift();
+			dataAverage.push(lastRadius);
+
+			//get average data for the last 3 ticks
+			var dataSum = 0;
+			for (var i = dataAverage.length - 1; i; i--)
+			{
+				dataSum += dataAverage[i - 1];
+			}
+			dataSum = dataSum / (dataAverage.length - 1);
+
+			//calculate latest change
+			var dataDiff = dataAverage[dataAverage.length - 1] - dataSum;
+
+			//change color (not necessary unless we want to implement this)
+			/*if (dataDiff > COLOR_CHANGE_THRESHOLD || dataDiff < COLOR_CHANGE_THRESHOLD)
+			{
+				circleHue = circleHue + dataDiff;
+			}*/
+
+			//update stage
+			stage.update();
 		}
 	</script>
   </head>
