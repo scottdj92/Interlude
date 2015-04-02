@@ -43,13 +43,13 @@ game.interlude = {
     });
 
     this.loop();
-  }
+  },
 
   loop : function () {
     requestAnimationFrame(this.loop.bind(this));
     this.update();
     this.render();   
-  }
+  },
 
   update : function () {
     var dt = 0;
@@ -59,7 +59,7 @@ game.interlude = {
     this.bubbles.forEach(function(bubble) {
       bubble.update(dt);
     });
-  }
+  },
 
   render : function () {
     this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
@@ -70,7 +70,7 @@ game.interlude = {
     this.bubbles.forEach(function(bubble) {
       bubble.render(this.ctx);
     });
-  }
+  },
 
   findPlayer : function (socketID) {
       console.log('Find player: '+socketID);
