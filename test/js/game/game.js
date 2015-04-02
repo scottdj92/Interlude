@@ -3,10 +3,13 @@ var game = game || {};
 
 game.interlude = {
   players : [], 
+  bubbles : [],
   canvas : undefined, 
   ctx : undefined,
 
   init : function() {
+    console.log(this);
+    var self = this;
     // create new instance of socket.io
     var num = Math.floor(Math.random()*10);
     var name ='user'+num;
@@ -14,31 +17,31 @@ game.interlude = {
     var socket = io.connect( window.location.origin, {query: 'user='+name, type: 'desktop'});
 
     this.canvas = document.querySelector('#area');
-    this.ctx = canvas.getContext('2d');
+    this.ctx = this.canvas.getContext('2d');
     this.ctx.lineWidth = 5;
 
     //Set up socket events 
     socket.on('player join', function(data){
       var x = 200, y = 200;
-      this.players[data.id] = game.createPlayer(data.id, data.color, data.sockID, x, y);
+      self.players[data.id] = game.createPlayer(data.id, data.color, data.sockID, x, y);
       var i = parseInt(data.id);
     });
 
     socket.on('phone tilt', function(data) {
       //console.log(players);
-      //console.log(data.id);
-      if(this.players[data.id]) {
-        this.players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
+      console.log(data.id);
+      if(self.players[data.id]) {
+        self.players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
       }
     });
     
     socket.on('player leave', function(sockID) {
       // data only contains the play id
       console.log("PLAYER LEAVE:");
-      var target = this.findPlayer(sockID);
+      var target = self.findPlayer(sockID);
       if(target){
         console.log("Player "+target.id+" has left");
-        this.players.splice(this.players.indexOf(target),1); // removes player from players array
+        self.players.splice(self.players.indexOf(target),1); // removes player from players array
       }
     });
 
@@ -62,13 +65,15 @@ game.interlude = {
   },
 
   render : function () {
+    var self = this;
     this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
+
     this.players.forEach(function(player) {
-      player.render(this.ctx);
+      player.render(self.ctx);
     });
 
     this.bubbles.forEach(function(bubble) {
-      bubble.render(this.ctx);
+      bubble.render(self.ctx);
     });
   },
 

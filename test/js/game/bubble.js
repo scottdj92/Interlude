@@ -11,7 +11,7 @@ game.Bubble = function() {
     this.id = id;
     this.color = color;
   }
-  var b = bubble.prototype;
+  var b = Bubble.prototype;
 
   b.update = function(dt) {
     /*this.y -= speed;
@@ -36,5 +36,5 @@ game.Bubble = function() {
     ctx.restore();
   };
 
-  return b;
+  return Bubble;
 }();

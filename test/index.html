@@ -18,90 +18,90 @@
   <script src="/js/game/bubble.js"></script>
   <script src="/js/game/game.js"></script>
 	<script>
-		var players, canvas, ctx;
-		window.onload = function(){
-			// create new instance of socket.io
-			var num = Math.floor(Math.random()*10);
-			var name ='user'+num;
-			players = [];
-			//setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
-			var socket = io.connect( window.location.origin, {query: 'user='+name, type: 'desktop'});
+		//var players, canvas, ctx;
+		window.onload = function () { game.interlude.init(); }//function(){
+		// 	// create new instance of socket.io
+		// 	var num = Math.floor(Math.random()*10);
+		// 	var name ='user'+num;
+		// 	players = [];
+		// 	//setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
+		// 	var socket = io.connect( window.location.origin, {query: 'user='+name, type: 'desktop'});
 
-			canvas = document.querySelector('#area');
-			ctx = canvas.getContext('2d');
-			ctx.lineWidth = 5;
+		// 	canvas = document.querySelector('#area');
+		// 	ctx = canvas.getContext('2d');
+		// 	ctx.lineWidth = 5;
 
-			//Set up socket events 
-			socket.on('player join', function(data){
-				var x = 200, y = 200;
-				players[data.id] = game.createPlayer(data.id, data.color, data.sockID, x, y);
-				console.log(data.color);
-				console.log(data.id);
-				var i = parseInt(data.id);
-				console.log(players[i]);
-			});
+		// 	//Set up socket events 
+		// 	socket.on('player join', function(data){
+		// 		var x = 200, y = 200;
+		// 		players[data.id] = game.createPlayer(data.id, data.color, data.sockID, x, y);
+		// 		console.log(data.color);
+		// 		console.log(data.id);
+		// 		var i = parseInt(data.id);
+		// 		console.log(players[i]);
+		// 	});
 
-			socket.on('phone tilt', function(data) {
-				//console.log(players);
-				//console.log(data.id);
-				if(players[data.id]) {
-				players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
-				}
-			});
+		// 	socket.on('phone tilt', function(data) {
+		// 		//console.log(players);
+		// 		//console.log(data.id);
+		// 		if(players[data.id]) {
+		// 		players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
+		// 		}
+		// 	});
 			
-			socket.on('player leave', function(sockID) {
-				// data only contains the play id
-				console.log("PLAYER LEAVE:");
-				var target = findPlayer(sockID);
-				if(target){
-					console.log("Player "+target.id+" has left");
-					players.splice(players.indexOf(target),1); // removes player from players array
-				}
-			});
+		// 	socket.on('player leave', function(sockID) {
+		// 		// data only contains the play id
+		// 		console.log("PLAYER LEAVE:");
+		// 		var target = findPlayer(sockID);
+		// 		if(target){
+		// 			console.log("Player "+target.id+" has left");
+		// 			players.splice(players.indexOf(target),1); // removes player from players array
+		// 		}
+		// 	});
 
-			loop();
-		}
+		// 	loop();
+		// }
 
-		function loop() {
-			requestAnimationFrame(loop);
-			update();
-			render();   
-		}
+		// function loop() {
+		// 	requestAnimationFrame(loop);
+		// 	update();
+		// 	render();   
+		// }
 
-		function update() {
-			var dt = 0;
-			players.forEach(function(player) {
-				player.update(dt);
-			});
-			bubbles.forEach(function(bubble) {
-				bubble.update(dt);
-			});
-		}
+		// function update() {
+		// 	var dt = 0;
+		// 	players.forEach(function(player) {
+		// 		player.update(dt);
+		// 	});
+		// 	bubbles.forEach(function(bubble) {
+		// 		bubble.update(dt);
+		// 	});
+		// }
 
-		function render() {
-			ctx.clearRect(0,0, canvas.width, canvas.height);
-			players.forEach(function(player) {
-				player.render(ctx);
-			});
+		// function render() {
+		// 	ctx.clearRect(0,0, canvas.width, canvas.height);
+		// 	players.forEach(function(player) {
+		// 		player.render(ctx);
+		// 	});
 
-			bubbles.forEach(function(bubble) {
-				bubble.render(ctx);
-			});
-		}
+		// 	bubbles.forEach(function(bubble) {
+		// 		bubble.render(ctx);
+		// 	});
+		// }
 		
-		function findPlayer(socketID) {
-			console.log('Find player: '+socketID);
-			var target;
-			players.every(function(player){
-				console.log("search: "+player.sockID);
-				if(player.sockID == socketID){
-					target = player;
-					console.log('match');
-				}
-			});
+		// function findPlayer(socketID) {
+		// 	console.log('Find player: '+socketID);
+		// 	var target;
+		// 	players.every(function(player){
+		// 		console.log("search: "+player.sockID);
+		// 		if(player.sockID == socketID){
+		// 			target = player;
+		// 			console.log('match');
+		// 		}
+		// 	});
 			
-			return target;
-		}
+		// 	return target;
+		// }
 
 	</script>
 	<script type="text/javascript" src = 'https://code.createjs.com/soundjs-0.6.0.min.js'>
