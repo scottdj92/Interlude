@@ -54,10 +54,20 @@
 							}, false);
 			}
 			
+			$('#codeform').submit(function(){
+				connectData.pw = document.getElementsByName('pw_input').value;
+				// JOIN GAME
+				socket.emit('player join', connectData);
+			})
+			
 		};
 	</script>
   </head>
   <body>
-	<h3>MOBILE DEVICE</h3>
+	<h2>Enter Room Code:</h2>
+	<form id='codeform'>
+		<input type='text' name='pw_input' maxlength='8'  placeholder='Enter code here'/>
+		<submit name='submit'>Enter</submit>
+	</form>
   </body>
 </html>
