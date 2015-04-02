@@ -6,6 +6,7 @@ game.interlude = {
   bubbles : [],
   canvas : undefined, 
   ctx : undefined,
+  password: "",
 
   init : function() {
     console.log(this);
@@ -26,7 +27,11 @@ game.interlude = {
       self.players[data.id] = new game.Player(data.id, data.color, data.sockID, x, y);
       var i = parseInt(data.id);
     });
-
+	 
+	//get passwords
+	this.password = this.createPassword();
+	console.log(this.password);
+	  
     socket.on('phone tilt', function(data) {
       //console.log(players);
       console.log(data.id);
@@ -75,6 +80,17 @@ game.interlude = {
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);
     });
+  },
+	
+  createPassword: function(){
+  	var pw = "";
+	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	var string_length = 8;
+	for (var i=0; i<string_length; i++) {
+		var rnum = Math.floor(Math.random() * chars.length);
+		pw += chars.substring(rnum,rnum+1);
+	}
+	return pw;
   },
 
   findPlayer : function (socketID) {
