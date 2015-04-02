@@ -21,8 +21,8 @@ game.Player = function() {
   var p = Player.prototype;
 
   p.update = function(dt) {
-    //this.calculateVelocity(dt);
-    //this.move(dt);
+    this.calculateVelocity(dt);
+    this.move(dt);
   };
 
   p.calculateVelocity = function(dt) {
@@ -32,8 +32,8 @@ game.Player = function() {
   };
 
   p.updateAcceleration = function(x,y) {
-    this.xAcc = x;
-    this.yAcc = y;
+    this.xAcc = 1;
+    this.yAcc = 1;
   };
 
   p.applyFriction = function() {
@@ -56,10 +56,5 @@ game.Player = function() {
     ctx.restore();
   };
 
-  p.setPosition = function(x,y){
-  	this.x = x;
-	this.y = 250 - y*10;
-  };
-	
   return Player;
 }();

@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
+	 <meta name="viewport" content="width=device-width, maximum-scale=1, minimum-scale=0.5">
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
@@ -11,6 +12,7 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
+	  #fire_btn { font-size:250%; display:block; margin:auto; max-width: 400px; margin-top:40%; padding:2%; }
     </style>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -60,14 +62,21 @@
 				socket.emit('player join', connectData);
 			})
 			
+			$("#fire_btn").on('touch click', function(){
+				var data = {id:num};
+				socket.emit('game fire', data);
+			})
 		};
 	</script>
   </head>
   <body>
+	<!--  
 	<h2>Enter Room Code:</h2>
 	<form id='codeform'>
 		<input type='text' name='pw_input' maxlength='8'  placeholder='Enter code here'/>
 		<submit name='submit'>Enter</submit>
 	</form>
+	-->
+	<button id="fire_btn">Shoot Peter</button>
   </body>
 </html>
