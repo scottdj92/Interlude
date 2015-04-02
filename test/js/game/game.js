@@ -34,9 +34,10 @@ game.interlude = {
 	  
     socket.on('phone tilt', function(data) {
       //console.log(players);
-      console.log(data.id);
+      console.log(data);
       if(self.players[data.id]) {
-        self.players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
+        //self.players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
+		self.players[data.id].setPosition(150, data.yAcc);
       }
     });
     
