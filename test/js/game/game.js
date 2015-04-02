@@ -37,7 +37,7 @@ game.interlude = {
       console.log(data);
       if(self.players[data.id]) {
         //self.players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
-		self.players[data.id].setPosition(150, data.yAcc);
+		self.players[data.id].setPosition(150, 250 - data.yAcc * 10);
       }
     });
     
