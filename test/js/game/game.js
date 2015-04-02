@@ -23,7 +23,7 @@ game.interlude = {
     //Set up socket events 
     socket.on('player join', function(data){
       var x = 200, y = 200;
-      self.players[data.id] = game.createPlayer(data.id, data.color, data.sockID, x, y);
+      self.players[data.id] = new game.Player(data.id, data.color, data.sockID, x, y);
       var i = parseInt(data.id);
     });
 
