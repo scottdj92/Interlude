@@ -21,7 +21,23 @@ game.Player = function() {
   var p = Player.prototype;
 
   p.update = function(dt) {
-    //this.move(dt);
+    this.move(dt);
+  };
+
+  p.calculateVelocity = function(dt) {
+    this.applyFriction();
+    this.xVel += this.xAcc;
+    this.yVel += this.yAcc;
+  };
+
+  p.updateAcceleration = function(x,y) {
+    this.xAcc = 1;
+    this.yAcc = 1;
+  };
+
+  p.applyFriction = function() {
+    this.xVel = this.xVel * this.mu;
+    this.yVel = this.yVel * this.mu;
   };
 
   p.move = function(dt) {
