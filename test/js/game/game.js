@@ -7,6 +7,7 @@ game.interlude = {
   canvas : undefined, 
   ctx : undefined,
   password: "",
+  nextBubble: 0,
 
   init : function() {
     console.log(this);
@@ -27,17 +28,25 @@ game.interlude = {
       self.players[data.id] = new game.Player(data.id, data.color, data.sockID, x, y);
       var i = parseInt(data.id);
     });
+
+    socket.on('game fire', function(data){
+      self.bubbles.forEach(function(bubble, index, array){
+        if(self.circleCollison(bubble, self.players[data.id])) {
+          array.splice(index, 1);
+        }
+      });
+    });
 	 
-	//get passwords
-	this.password = this.createPassword();
-	console.log(this.password);
+	  //get passwords
+	  this.password = this.createPassword();
+	  console.log(this.password)
 	  
     socket.on('phone tilt', function(data) {
       //console.log(players);
-      console.log(data);
+      //console.log(data);
       if(self.players[data.id]) {
         //self.players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
-		self.players[data.id].setPosition(150, 250 - data.yAcc * 10);
+		    self.players[data.id].setPosition(self.canvas.width/2, 250 - data.yAcc * 10);
       }
     });
     
@@ -60,14 +69,32 @@ game.interlude = {
     this.render();   
   },
 
+  sq : function(val) {
+    return val * val;
+  },
+
+  circleCollison : function(c1, c2) {
+    var radSq = this.sq(c1.r + c2.r);
+    var distSq = this.sq(c2.x - c1.x) + this.sq(c2.y - c1.y);
+    return (radSq >= distSq);
+  },
+
   update : function () {
     var dt = 0;
     this.players.forEach(function(player) {
       player.update(dt);
     });
-    this.bubbles.forEach(function(bubble) {
+    this.bubbles.forEach(function(bubble, index, array) {
       bubble.update(dt);
+      if(bubble.remove)
+        array.splice(index, 1);
     });
+    this.nextBubble -= 1;
+
+    if(this.nextBubble < 0) {
+      this.bubbles.push(new game.Bubble(0, "red", this.canvas.width/2, this.canvas.height));
+      this.nextBubble = ( Math.random() * 100 ) + 100;
+    }
   },
 
   render : function () {

@@ -55,6 +55,10 @@ io.on('connection', function(socket){
   socket.on('phone tilt', function(data){
     io.emit('phone tilt', data);
   });
+
+  socket.on('game fire', function(data){
+    io.emit('game fire', data);
+  });
 });
 
 http.listen(3000, function(){
