@@ -6,7 +6,7 @@ game.Bubble = function() {
   var Bubble = function(id, color, x, y) {
     this.x = x;
     this.y = y;
-    this.r = 20;
+    this.r = 50;
     this.speed = 1;
     this.id = id;
     this.color = color;
@@ -14,11 +14,10 @@ game.Bubble = function() {
   var b = Bubble.prototype;
 
   b.update = function(dt) {
-    /*this.y -= speed;
-
     if(this.y < -10) {
       this.remove = true;
-    }*/
+    }
+    this.move(0,this.speed);
   };
 
   b.move = function(x,y) {
@@ -28,7 +27,7 @@ game.Bubble = function() {
 
   b.render = function(ctx) {
     ctx.save();
-    ctx.fillStye = color;
+    ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
     ctx.closePath();
