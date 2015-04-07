@@ -61,8 +61,16 @@ game.interlude = {
       //console.log(players);
       //console.log(data);
       if(self.players[data.id]) {
-        //self.players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
-		    self.players[data.id].setPosition(self.canvas.width/2, 250 - data.yAcc * 10);
+        //Begin rotation nonsense
+        if(self.players[data.id].startRotation === undefined)
+          self.players[data.id].startRotation = data.rot;
+        var angle = data.rot - self.players[data.id].startRotation;
+        angle = self.mod(angle + 180, 360) -180;
+        //var newRot = data.rot - self.players[data.id].startRotation;
+        //end rotation nonesense
+        //console.log(self.players[data.id].startRotation);
+		    //console.log(angle);
+        self.players[data.id].setTarget(data.xAcc*20 + self.canvas.width/2, 250 - data.yAcc * 20);
       }
     });
     
@@ -89,6 +97,10 @@ game.interlude = {
 
   sq : function(val) {
     return val * val;
+  },
+
+  mod : function(a, n) {
+    return a - Math.floor(a/n) * n;
   },
 
   circleCollison : function(c1, c2) {
@@ -119,12 +131,12 @@ game.interlude = {
     var self = this;
     this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 
-    this.players.forEach(function(player) {
-      player.render(self.ctx);
-    });
-
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);
+    });
+
+    this.players.forEach(function(player) {
+      player.render(self.ctx);
     });
   },
 	
