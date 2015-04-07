@@ -21,14 +21,33 @@ game.interlude = {
     this.canvas = document.querySelector('#area');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.lineWidth = 5;
-
+	
+	//get passwords
+	this.password = this.generatePassword();
+	console.log(this.password);
+	
+	/** PLAYER CONNECTING TO GAME ****************************************/
+	//
     //Set up socket events 
     socket.on('player join', function(data){
-      var x = 200, y = 200;
-      self.players[data.id] = new game.Player(data.id, data.color, data.sockID, x, y);
-      var i = parseInt(data.id);
+	  // check password
+	  console.log(data);
+	  // if password is correct, create new player
+	  if( data.password == self.password ){	
+		// emit successful join
+		socket.emit('player joined', data.sockID);
+        // create new player
+		self.createPlayer(data);
+	  } 
+	  else {
+	  	//emit rejection
+		socket.emit('player reject', data.sockID);
+	  }
     });
-
+	
+	/** HANDLING PLAYER ACTIONS ****************************************/
+	//
+	// Firing on phone
     socket.on('game fire', function(data){
       self.bubbles.forEach(function(bubble, index, array){
         if(self.circleCollison(bubble, self.players[data.id])) {
@@ -36,10 +55,7 @@ game.interlude = {
         }
       });
     });
-	 
-	  //get passwords
-	  this.password = this.createPassword();
-	  console.log(this.password)
+
 	  
     socket.on('phone tilt', function(data) {
       //console.log(players);
@@ -63,6 +79,8 @@ game.interlude = {
     this.loop();
   },
 
+  /** HELPER FUNCTIONS ****************************************/
+  //
   loop : function () {
     requestAnimationFrame(this.loop.bind(this));
     this.update();
@@ -110,7 +128,12 @@ game.interlude = {
     });
   },
 	
-  createPassword: function(){
+	
+  /** 
+  	* createPassword():
+	* generates a password needed to join game
+  */
+  generatePassword : function(){
   	var pw = "";
 	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	var string_length = 8;
@@ -120,7 +143,23 @@ game.interlude = {
 	}
 	return pw;
   },
-
+	
+  /** 
+  	* createPlayer():
+	* creates and adds a new player in game
+	* parameter [data object from socket]
+  */
+  createPlayer : function(data){
+  	var x = 200, y = 200;
+    this.players[data.id] = new game.Player(data.id, data.color, data.sockID, x, y);
+    var i = parseInt(data.id);
+  },
+	
+  /** 
+  	* findPlayer():
+	* locates a player in players array by ID
+	* parameter [socketID]
+  */
   findPlayer : function (socketID) {
       console.log('Find player: '+socketID);
       var target;
