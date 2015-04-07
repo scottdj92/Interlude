@@ -10,12 +10,13 @@ game.Player = function() {
     this.yAcc = 0;
     this.velocity = {x: 0, y: 0}
     this.r = 20;
-    this.speed = 40;
+    this.speed = 20;
     this.id = id;
 	  this.sockID = sockID;
     this.color = color;
     this.mu = 0.95;
-    this.target = {x:0,y:0}
+    this.target = {x:0,y:0};
+    this.startRotation = undefined;
   }
 
   var p = Player.prototype;
@@ -41,8 +42,31 @@ game.Player = function() {
   };
 
   p.move = function(dt) {
-    this.x += this.velocity.x;
-    this.y += this.velocity.y;
+    // this.x += this.velocity.x;
+    // this.y += this.velocity.y;
+    var self = this;
+    var dist = {x:self.x - self.target.x, y: self.y - self.target.y};
+    var normal = this.normalize(dist);
+    var yMag = Math.abs(dist.y);
+    var xMag = Math.abs(dist.x);
+
+
+    if(dist.x > 2 || dist.x < -2)
+      this.x -= normal.x * (this.speed * xMag/40);
+    if(dist.y > 2 || dist.y < -2)
+      this.y -= normal.y * (this.speed * yMag/40);  
+  };
+
+  p.normalize = function(vec) {
+    var norm = {x: vec.x, y: vec.y};
+    var mag = this.getMag(norm);
+    norm.x = norm.x/mag;
+    norm.y = norm.y/mag;
+    return norm;
+  };
+
+  p.getMag = function(vec) {
+    return Math.sqrt(vec.x*vec.x + vec.y*vec.y);
   };
 
   p.render = function(ctx) {

@@ -45,9 +45,15 @@ game.interlude = {
       //console.log(players);
       //console.log(data);
       if(self.players[data.id]) {
-        //self.players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
-        //console.log(data.alpha, data.rot, data.alpha - 180);
-		    self.players[data.id].setPosition( data.xAcc * 10 + self.canvas.width/2, 250 - data.yAcc * 10);
+        //Begin rotation nonsense
+        if(self.players[data.id].startRotation === undefined)
+          self.players[data.id].startRotation = data.rot;
+
+        var newRot = data.rot - self.players[data.id].startRotation;
+        //end rotation nonesense
+        //console.log(self.players[data.id].startRotation);
+		    //console.log(newRot);
+        self.players[data.id].setTarget( /*data.xAcc + */self.canvas.width/2, 250 - data.yAcc * 10);
       }
     });
     
