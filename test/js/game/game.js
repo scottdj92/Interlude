@@ -46,7 +46,8 @@ game.interlude = {
       //console.log(data);
       if(self.players[data.id]) {
         //self.players[data.id].updateAcceleration(data.xAcc/300, data.yAcc/300);
-		    self.players[data.id].setPosition(self.canvas.width/2, 250 - data.yAcc * 10);
+        //console.log(data.alpha, data.rot, data.alpha - 180);
+		    self.players[data.id].setPosition( data.xAcc * 10 + self.canvas.width/2, 250 - data.yAcc * 10);
       }
     });
     
@@ -101,12 +102,12 @@ game.interlude = {
     var self = this;
     this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 
-    this.players.forEach(function(player) {
-      player.render(self.ctx);
-    });
-
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);
+    });
+
+    this.players.forEach(function(player) {
+      player.render(self.ctx);
     });
   },
 	

@@ -26,6 +26,7 @@
 			var green = Math.floor(Math.random() * 255);
 			var blue = Math.floor(Math.random() * 255);
 			var col = 'rgb('+red+','+green+','+blue+')';
+			var startRot = "no";
 			//setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 			var socket = io.connect( window.location.origin);
 			
@@ -49,9 +50,12 @@
 				// beta is the front-to-back tilt in degrees, where front is positive
 				var yTilt = e.beta;
 				// alpha is the compass direction the device is facing in degrees
-				var rot = e.alpha
-
-				var data = { id: num, xAcc : xTilt, yAcc : yTilt };
+				var rot = e.alpha - 180;
+				if(startRot === "no")
+					startRot = rot;
+				var rot2 = rot + (-1*startRot);
+				
+				var data = { id: num, xAcc : xTilt, yAcc : yTilt, rot: rot, alpha: e.alpha };
 								socket.emit('phone tilt', data);
 							}, false);
 			}
