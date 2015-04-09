@@ -8,6 +8,7 @@ game.interlude = {
   ctx : undefined,
   password: "",
   nextBubble: 0,
+  state : "GAME",
 
   init : function() {
     console.log(this);
@@ -109,7 +110,7 @@ game.interlude = {
     return (radSq >= distSq);
   },
 
-  update : function () {
+  updateGame : function(){
     var dt = 0;
     this.players.forEach(function(player) {
       player.update(dt);
@@ -127,7 +128,17 @@ game.interlude = {
     }
   },
 
-  render : function () {
+  update : function () {
+    switch (this.state){
+      case "GAME" :
+        this.updateGame();
+        break;
+      default :
+        break;
+    }
+  },
+
+  renderGame : function() {
     var self = this;
     this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 
@@ -139,6 +150,16 @@ game.interlude = {
       player.render(self.ctx);
     });
   },
+
+  render : function () {
+    switch (this.state){
+      case "GAME" :
+        this.renderGame();
+        break;
+      default :
+        break;
+    }
+  },
 	
 	
   /** 
@@ -148,7 +169,7 @@ game.interlude = {
   generatePassword : function(){
   	var pw = "";
 	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	var string_length = 8;
+	var string_length = 5;
 	for (var i=0; i<string_length; i++) {
 		var rnum = Math.floor(Math.random() * chars.length);
 		pw += chars.substring(rnum,rnum+1);
