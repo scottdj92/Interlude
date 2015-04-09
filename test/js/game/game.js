@@ -2,13 +2,13 @@
 var game = game || {};
 
 game.interlude = {
-  players : [], 
-  bubbles : [],
-  canvas : undefined, 
-  ctx : undefined,
+  players : [], //array of players in the game
+  bubbles : [], //array of bubbles in the game
+  canvas : undefined, //canvas for drawing
+  ctx : undefined, //drawing context
   password: "",
-  nextBubble: 0,
-  state : "GAME",
+  nextBubble: 0, //time until next bubble spawn
+  state : "GAME", //current game state
 
   init : function() {
     console.log(this);
@@ -18,7 +18,7 @@ game.interlude = {
     var name ='user'+num;
     //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
     var socket = io.connect( window.location.origin, {query: 'user='+name, type: 'desktop'});
-
+    //set inital canvas variables
     this.canvas = document.querySelector('#area');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.lineWidth = 5;
@@ -89,72 +89,86 @@ game.interlude = {
   },
 
   /** HELPER FUNCTIONS ****************************************/
-  //
+  //Main loop that gets called on each frame
   loop : function () {
-    requestAnimationFrame(this.loop.bind(this));
-    this.update();
-    this.render();   
+    requestAnimationFrame(this.loop.bind(this));//Set up next loop call
+    this.update();//Update the game
+    this.render();//render the game
   },
-
+  //Returns the value multiplied by itself
   sq : function(val) {
     return val * val;
   },
-
-  mod : function(a, n) {
-    return a - Math.floor(a/n) * n;
-  },
-
+  /** Takes in two circle objects and detects a collision
+   * @param c1 : first circle in possible collision
+   * @param c2 : second circle in possible collision
+   */
   circleCollison : function(c1, c2) {
     var radSq = this.sq(c1.r + c2.r);
     var distSq = this.sq(c2.x - c1.x) + this.sq(c2.y - c1.y);
     return (radSq >= distSq);
   },
-
+  //Function for updating main game loop
   updateGame : function(){
     var dt = 0;
+    //Loop through all of the players
     this.players.forEach(function(player) {
-      player.update(dt);
+      player.update(dt); //call player's update function
     });
+    //Loop through all of the bubbles
     this.bubbles.forEach(function(bubble, index, array) {
-      bubble.update(dt);
-      if(bubble.remove)
-        array.splice(index, 1);
+      bubble.update(dt); //call bubble's update function
+      if(bubble.remove) //Check to see if the bubble should be removed
+        array.splice(index, 1); //Remove a bubble
     });
-    this.nextBubble -= 1;
-
+    this.nextBubble -= 1; //Tick down time for next bubble
+    //check to see if next bubble should be spawned
     if(this.nextBubble < 0) {
-      this.bubbles.push(new game.Bubble(0, "red", this.canvas.width/2, this.canvas.height));
-      this.nextBubble = ( Math.random() * 100 ) + 100;
+      this.bubbles.push(new game.Bubble(0, "red", this.canvas.width/2, this.canvas.height));//Create a new bubble
+      this.nextBubble = ( Math.random() * 100 ) + 100; //Randomly set next bubble spawn interval
     }
   },
-
+  //Main update function
   update : function () {
+    //Call different update function depending on the state
     switch (this.state){
+      case "START" :
+        break;
       case "GAME" :
-        this.updateGame();
+        this.updateGame();//call game update function
+        break;
+      case "BOSS" :
+        break;
+      case "END" :
         break;
       default :
         break;
     }
   },
-
+  //Render function for in game screen
   renderGame : function() {
-    var self = this;
-    this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
-
+    var self = this;//Save a reference to this
+    this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
+    //loop through bubbles
     this.bubbles.forEach(function(bubble) {
-      bubble.render(self.ctx);
+      bubble.render(self.ctx);//draw each bubble
     });
-
+    //loop through players
     this.players.forEach(function(player) {
-      player.render(self.ctx);
+      player.render(self.ctx);//draw each player
     });
   },
-
+  //Main render function
   render : function () {
     switch (this.state){
+      case "START"
+        break;
       case "GAME" :
-        this.renderGame();
+        this.renderGame();//render in game screen
+        break;
+      case "BOSS" :
+        break;
+      case "END" :
         break;
       default :
         break;
