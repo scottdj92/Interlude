@@ -1,5 +1,6 @@
 //Function for making player objects and adding them to the game
 "use strict";
+//If there is no game object make one
 var game = game || {};
 //Creates a player object that can be replicated
 game.Player = function() {
@@ -22,7 +23,7 @@ game.Player = function() {
     this.target = {x:0,y:0}; //target position for the cursor
     this.startRotation = undefined;
   }
-
+  //create a reference to the player prototype
   var p = Player.prototype;
   /** Update function for the player
    * @param dt : delta time for if we want to cap the frame rate
@@ -30,7 +31,9 @@ game.Player = function() {
   p.update = function(dt) {
     this.move(dt);
   };
-
+  /** Move function for the player
+   * @param dt : delta time for if we want to cap the frame rate
+   */
   p.move = function(dt) {
     var self = this;//save a reference to this
     //make a vector with the x and y distance
