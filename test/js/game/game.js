@@ -6,7 +6,7 @@ game.interlude = {
   bubbles : [], //array of bubbles in the game
   canvas : undefined, //canvas for drawing
   ctx : undefined, //drawing context
-  password: "",
+  password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
   state : "GAME", //current game state
 
@@ -51,7 +51,8 @@ game.interlude = {
 	// Firing on phone
     socket.on('game fire', function(data){
       self.bubbles.forEach(function(bubble, index, array){
-        if(self.circleCollison(bubble, self.players[data.id])) {
+        if(self.circleCollison(bubble, self.players[data.id]) &&
+            bubble.color === self.players[data.id].color ) {
           array.splice(index, 1);
         }
       });
@@ -63,10 +64,10 @@ game.interlude = {
       //console.log(data);
       if(self.players[data.id]) {
         //Begin rotation nonsense
-        if(self.players[data.id].startRotation === undefined)
+      /*  if(self.players[data.id].startRotation === undefined)
           self.players[data.id].startRotation = data.rot;
         var angle = data.rot - self.players[data.id].startRotation;
-        angle = self.mod(angle + 180, 360) -180;
+        angle = self.mod(angle + 180, 360) -180;*/
         //var newRot = data.rot - self.players[data.id].startRotation;
         //end rotation nonesense
         //console.log(self.players[data.id].startRotation);
@@ -124,7 +125,9 @@ game.interlude = {
     this.nextBubble -= 1; //Tick down time for next bubble
     //check to see if next bubble should be spawned
     if(this.nextBubble < 0) {
-      this.bubbles.push(new game.Bubble(0, "red", this.canvas.width/2, this.canvas.height));//Create a new bubble
+      var bubbleID = Math.floor(Math.random()*this.players.length);
+      var bubbleColor = this.players[bubbleID] ? this.players[bubbleID].color : "black";
+      this.bubbles.push(new game.Bubble(0, bubbleColor, this.canvas.width/2, this.canvas.height));//Create a new bubble
       this.nextBubble = ( Math.random() * 100 ) + 100; //Randomly set next bubble spawn interval
     }
   },
@@ -133,16 +136,16 @@ game.interlude = {
     //Call different update function depending on the state
     switch (this.state){
       case "START" :
-        break;
+        //break;
       case "GAME" :
         this.updateGame();//call game update function
         break;
       case "BOSS" :
-        break;
+        //break;
       case "END" :
-        break;
+        //break;
       default :
-        break;
+        //break;
     }
   },
   //Render function for in game screen
@@ -160,8 +163,8 @@ game.interlude = {
   },
   //Main render function
   render : function () {
-    switch (this.state){
-      case "START"
+    switch(this.state) {
+      case "START" :
         break;
       case "GAME" :
         this.renderGame();//render in game screen
