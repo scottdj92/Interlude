@@ -1,0 +1,20 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+.container {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 3%;
+  display: inline-block;
+  position: relative;
+}
+.container:after {
+  padding-top: 56.25%;
+  display: block;
+  content: '';
+}
+#canvas-holder {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}

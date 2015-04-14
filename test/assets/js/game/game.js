@@ -86,6 +86,8 @@ game.interlude = {
         self.players.splice(self.players.indexOf(target),1); // removes player from players array
       }
     });
+    this.resizeCanvas();
+    window.addEventListener('resize', this.resizeCanvas.bind(this));
 
     this.loop();
   },
