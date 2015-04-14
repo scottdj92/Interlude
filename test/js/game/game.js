@@ -51,6 +51,7 @@ game.interlude = {
 	// Firing on phone
     socket.on('game fire', function(data){
       self.bubbles.forEach(function(bubble, index, array){
+        //If there is a collision and the colors match
         if(self.circleCollison(bubble, self.players[data.id]) &&
             bubble.color === self.players[data.id].color ) {
           array.splice(index, 1);
@@ -136,16 +137,16 @@ game.interlude = {
     //Call different update function depending on the state
     switch (this.state){
       case "START" :
-        //break;
+        break;
       case "GAME" :
         this.updateGame();//call game update function
         break;
       case "BOSS" :
-        //break;
+        break;
       case "END" :
-        //break;
+        break;
       default :
-        //break;
+        break;
     }
   },
   //Render function for in game screen
