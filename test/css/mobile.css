@@ -1,0 +1,21 @@
+html, body {
+  font-family: "Lato", sans-serif;
+  margin: 0;
+  background: #222;
+  font: 13px;
+  overflow: hidden;
+  height: 100%; }
+  html #logo, body #logo {
+    text-transform: uppercase;
+    color: #FFF; }
+  html #game_controls, body #game_controls {
+    display: none; }
+    html #game_controls #fire_btn, body #game_controls #fire_btn {
+      font-size: 250%;
+      display: block;
+      margin: auto;
+      max-width: 400px;
+      margin-top: 40%;
+      padding: 2%; }
+
+/*# sourceMappingURL=mobile.css.map */
