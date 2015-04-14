@@ -4,6 +4,24 @@
     <title>Interlude - A Game of Music</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
+      .container {
+        width: 80%;
+        display: inline-block;
+        position: relative;
+      }
+      .container:after {
+        padding-top: 56.25%;
+        display: block;
+        content: '';
+      }
+      #canvas-holder {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        /* fill parent */
+      }
     </style>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -13,11 +31,25 @@
   <script src="/js/game/bubble.js"></script>
   <script src="/js/game/game.js"></script>
 	<script>
-		window.onload = function () { game.interlude.init(); audio.init();}
+		window.onload = function () { game.interlude.init(); /*audio.init();*/ resizeCanvas(); }
+    //add to the window resize event callbacks
+    //make the canvas fit to the containing div
+    var resizeCanvas = function() {
+      var canvasHolder = document.querySelector('#canvas-holder');
+      var canvas = document.querySelector('#area');
+      console.log('resize');
+      canvas.width = canvasHolder.offsetWidth;
+      canvas.height = canvasHolder.offsetHeight;
+    };
+    window.addEventListener('resize', resizeCanvas);
 	</script>
 
   </head>
   <body>
-    <canvas id="area" width="640px" height="480px"></canvas>
+    <div id="container">
+      <div id="canvas-holder">
+        <canvas id="area"></canvas>
+      </div>
+    </div>
   </body>
 </html>

@@ -153,6 +153,8 @@ game.interlude = {
   renderGame : function() {
     var self = this;//Save a reference to this
     this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
+    //this.fillStyle = "#112255";
+    //this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
     //loop through bubbles
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);//draw each bubble
