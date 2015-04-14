@@ -1,4 +1,9 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0; 
+    padding: 0;
+    background-color: #111133;
+    box-sizing: border-box; 
+  }
 .container {
   width: 80%;
   margin-left: 10%;
