@@ -1,22 +1,42 @@
 html,body
 	font-family: 'Lato', sans-serif
 	margin: 0
-	background: #222
+	background: #162028
 	font: 13px
+	font-weight: 300
+	color: #FFF
 	overflow: hidden
 	height: 100%
 	
-	#logo
-		text-transform: uppercase
-		color: #FFF
+	#mobile_body
+		display: block
+		position: absolute
+		left: 50%
+		top: 45%
+		transform: translate(-50%, -45%)
+		-webkit-transform: translate(-50%, -45%)
+		-moz-transform: translate(-50%, -45%)
+		-o-transform: translate(-50%, -45%)
+		min-width: 280px
+	
+		.logo
+			text-transform: uppercase
+			color: #FFF
+			font-size: 300%
+			
+			.icon
+				background: url("/img/logo-symbol-2x.png")
 
-	#game_controls
-		display: none
-		
-		#fire_btn
-			font-size: 250%
-			display: block 
-			margin: auto 
-			max-width: 400px 
-			margin-top: 40% 
-			padding: 2%
+		#game_login
+			display: none
+
+		#game_controls
+			display: none
+
+			#fire_btn
+				font-size: 250%
+				display: block 
+				margin: auto 
+				max-width: 400px 
+				margin-top: 40% 
+				padding: 2%

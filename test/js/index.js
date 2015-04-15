@@ -7,6 +7,8 @@ var MobileDetect = require('mobile-detect');
 var players = [];
 
 app.use('/js', express.static(path.resolve(__dirname)));
+app.use('/css', express.static(path.resolve(__dirname+'/../css')));
+app.use('/audio', express.static(path.resolve(__dirname+'/../audio')));
 
 app.get('/', function(req, res){
 	//the html string being sent

@@ -10,27 +10,30 @@
 	<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
 	<script src="/js/game/mobileClient.js"></script>
 	<script>
-		window.onload = function(){
-			mobileClient.init();
-		};
+		window.onload = function(){ mobileClient.init(); };
 	</script>
   </head>
   <body>
-	<!--LOGO-->
-	<span class="logo">INTERLUDE</span>
-	<!--SPLASH-->
-	<div id="splash">
-	</div>
-	<!--LOGIN-->
-	<div id='game_login'>
-		<h2>Enter Room Code:</h2>
-			<input type='text' name='pw_input' maxlength='5'  placeholder='Enter code here'/>
-			<button id='submit'>Enter</button>
-		<div id="status"></div>
-	</div>
-	<!--IN GAME-->
-	<div id='game_controls'>
-		<button id="fire_btn">Shoot Peter</button>
+	<div id="mobile_body">
+		<!--LOGO-->
+		<figure class="logo">
+			INTERLUDE
+			<figure class="icon"></figure>
+		</figure>
+		<!--SPLASH-->
+		<div id="splash">
+		</div>
+		<!--LOGIN-->
+		<div id='game_login'>
+			<h2>Enter Room Code:</h2>
+				<input type='text' name='pw_input' maxlength='5'  placeholder='Enter code here'/>
+				<button id='submit'>Enter</button>
+			<div id="status"></div>
+		</div>
+		<!--IN GAME-->
+		<div id='game_controls'>
+			<button id="fire_btn">Shoot Peter</button>
+		</div>
 	</div>
   </body>
 </html>
