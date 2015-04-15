@@ -129,7 +129,7 @@ game.interlude = {
     //check to see if next bubble should be spawned
     if(this.nextBubble < 0) {
       var bubbleID = Math.floor(Math.random()*this.players.length);
-      var bubbleColor = this.players[bubbleID] ? this.players[bubbleID].color : "black";
+      var bubbleColor = this.players[bubbleID] ? this.players[bubbleID].color : "#aaa";
       this.bubbles.push(new game.Bubble(0, bubbleColor, 8/9, 1));//Create a new bubble
       this.nextBubble = ( Math.random() * 100 ) + 100; //Randomly set next bubble spawn interval
     }
