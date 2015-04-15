@@ -154,7 +154,7 @@ game.interlude = {
   //Render function for in game screen
   renderGame : function() {
     var self = this;//Save a reference to this
-    this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
+    //this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
     this.ctx.fillStyle = "#112244";
     this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
     //loop through bubbles
