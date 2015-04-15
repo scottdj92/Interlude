@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1536 2048"
+	 enable-background="new 0 0 1536 2048" xml:space="preserve">
+<metadata>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  height="2048" width="1536" x="-0.2" y="-2048" bottomLeftOrigin="true"></sliceSourceBounds>
+	</sfw>
+</metadata>
+<rect x="-0.2" fill="#27DBD2" width="1536" height="2048"/>
+<g>
+	<polygon fill="#2CFFF4" points="712.5,53.9 712.5,0 707.5,0 707.5,48.9 694.6,48.9 694.6,0 689.6,0 689.6,53.9 	"/>
+	<rect x="725.8" fill="#2CFFF4" width="17.9" height="66.7"/>
+	<rect x="793.2" fill="#2CFFF4" width="17.9" height="66.7"/>
+	<polygon fill="#2CFFF4" points="779.9,53.9 779.9,0 774.9,0 774.9,48.9 762,48.9 762,0 757,0 757,53.9 	"/>
+	<polygon fill="#2CFFF4" points="847.3,53.9 847.3,0 842.3,0 842.3,48.9 829.4,48.9 829.4,0 824.4,0 824.4,53.9 	"/>
+	<path fill="#2CFFF4" d="M824.4,281h22.9V162.5h-22.9V281z M829.4,167.5h12.9V276h-12.9V167.5z"/>
+	<rect x="793.2" y="149.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="725.8" y="149.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M757,281h22.9V162.5H757V281z M762,167.5h12.9V276H762V167.5z"/>
+	<path fill="#2CFFF4" d="M689.6,281h22.9V162.5h-22.9V281z M694.6,167.5h12.9V276h-12.9V167.5z"/>
+	<path fill="#2CFFF4" d="M689.6,479.7h22.9V361.2h-22.9V479.7z M694.6,366.2h12.9v108.5h-12.9V366.2z"/>
+	<rect x="725.8" y="362.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="793.2" y="362.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M757,479.7h22.9V361.2H757V479.7z M762,366.2h12.9v108.5H762V366.2z"/>
+	<path fill="#2CFFF4" d="M824.4,479.7h22.9V361.2h-22.9V479.7z M829.4,366.2h12.9v108.5h-12.9V366.2z"/>
+	<path fill="#2CFFF4" d="M689.6,905.6h22.9V787h-22.9V905.6z M694.6,792h12.9v108.5h-12.9V792z"/>
+	<rect x="725.8" y="788.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="793.2" y="788.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M757,905.6h22.9V787H757V905.6z M762,792h12.9v108.5H762V792z"/>
+	<path fill="#2CFFF4" d="M824.4,905.6h22.9V787h-22.9V905.6z M829.4,792h12.9v108.5h-12.9V792z"/>
+	<path fill="#2CFFF4" d="M689.6,1118.5h22.9V1000h-22.9V1118.5z M694.6,1005h12.9v108.5h-12.9V1005z"/>
+	<rect x="725.8" y="1001.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="793.2" y="1001.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M757,1118.5h22.9V1000H757V1118.5z M762,1005h12.9v108.5H762V1005z"/>
+	<path fill="#2CFFF4" d="M824.4,1118.5h22.9V1000h-22.9V1118.5z M829.4,1005h12.9v108.5h-12.9V1005z"/>
+	<path fill="#2CFFF4" d="M824.4,706.8h22.9V588.3h-22.9V706.8z M829.4,593.3h12.9v108.5h-12.9V593.3z"/>
+	<rect x="793.2" y="575.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="725.8" y="575.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M757,706.8h22.9V588.3H757V706.8z M762,593.3h12.9v108.5H762V593.3z"/>
+	<path fill="#2CFFF4" d="M689.6,706.8h22.9V588.3h-22.9V706.8z M694.6,593.3h12.9v108.5h-12.9V593.3z"/>
+	<path fill="#2CFFF4" d="M470.7,178.6h22.9V60h-22.9V178.6z M475.7,65h12.9v108.5h-12.9V65z"/>
+	<rect x="506.9" y="61.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="574.3" y="61.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M538.1,178.6H561V60h-22.9V178.6z M543.1,65H556v108.5h-12.9V65z"/>
+	<path fill="#2CFFF4" d="M605.5,178.6h22.9V60h-22.9V178.6z M610.5,65h12.9v108.5h-12.9V65z"/>
+	<path fill="#2CFFF4" d="M605.5,405.7h22.9V287.2h-22.9V405.7z M610.5,292.2h12.9v108.5h-12.9V292.2z"/>
+	<rect x="574.3" y="274.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="506.9" y="274.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M538.1,405.7H561V287.2h-22.9V405.7z M543.1,292.2H556v108.5h-12.9V292.2z"/>
+	<path fill="#2CFFF4" d="M470.7,405.7h22.9V287.2h-22.9V405.7z M475.7,292.2h12.9v108.5h-12.9V292.2z"/>
+	<path fill="#2CFFF4" d="M470.7,604.4h22.9V485.9h-22.9V604.4z M475.7,490.9h12.9v108.5h-12.9V490.9z"/>
+	<rect x="506.9" y="487.2" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="574.3" y="487.2" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M538.1,604.4H561V485.9h-22.9V604.4z M543.1,490.9H556v108.5h-12.9V490.9z"/>
+	<path fill="#2CFFF4" d="M605.5,604.4h22.9V485.9h-22.9V604.4z M610.5,490.9h12.9v108.5h-12.9V490.9z"/>
+	<path fill="#2CFFF4" d="M470.7,1030.3h22.9V911.7h-22.9V1030.3z M475.7,916.7h12.9v108.5h-12.9V916.7z"/>
+	<rect x="506.9" y="913.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="574.3" y="913.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M538.1,1030.3H561V911.7h-22.9V1030.3z M543.1,916.7H556v108.5h-12.9V916.7z"/>
+	<path fill="#2CFFF4" d="M605.5,1030.3h22.9V911.7h-22.9V1030.3z M610.5,916.7h12.9v108.5h-12.9V916.7z"/>
+	<path fill="#2CFFF4" d="M470.7,1243.2h22.9v-118.5h-22.9V1243.2z M475.7,1129.7h12.9v108.5h-12.9V1129.7z"/>
+	<rect x="506.9" y="1126" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="574.3" y="1126" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M538.1,1243.2H561v-118.5h-22.9V1243.2z M543.1,1129.7H556v108.5h-12.9V1129.7z"/>
+	<path fill="#2CFFF4" d="M605.5,1243.2h22.9v-118.5h-22.9V1243.2z M610.5,1129.7h12.9v108.5h-12.9V1129.7z"/>
+	<path fill="#2CFFF4" d="M605.5,831.5h22.9V713h-22.9V831.5z M610.5,718h12.9v108.5h-12.9V718z"/>
+	<rect x="574.3" y="700.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="506.9" y="700.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M538.1,831.5H561V713h-22.9V831.5z M543.1,718H556v108.5h-12.9V718z"/>
+	<path fill="#2CFFF4" d="M470.7,831.5h22.9V713h-22.9V831.5z M475.7,718h12.9v108.5h-12.9V718z"/>
+	<polygon fill="#2CFFF4" points="274.7,53.9 274.7,0 269.7,0 269.7,48.9 256.9,48.9 256.9,0 251.9,0 251.9,53.9 	"/>
+	<rect x="288.1" fill="#2CFFF4" width="17.9" height="66.7"/>
+	<rect x="355.4" fill="#2CFFF4" width="17.9" height="66.7"/>
+	<polygon fill="#2CFFF4" points="342.1,53.9 342.1,0 337.1,0 337.1,48.9 324.3,48.9 324.3,0 319.3,0 319.3,53.9 	"/>
+	<polygon fill="#2CFFF4" points="409.5,53.9 409.5,0 404.5,0 404.5,48.9 391.6,48.9 391.6,0 386.6,0 386.6,53.9 	"/>
+	<path fill="#2CFFF4" d="M386.6,281h22.9V162.5h-22.9V281z M391.6,167.5h12.9V276h-12.9V167.5z"/>
+	<rect x="355.4" y="149.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="288.1" y="149.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M319.3,281h22.9V162.5h-22.9V281z M324.3,167.5h12.9V276h-12.9V167.5z"/>
+	<path fill="#2CFFF4" d="M251.9,281h22.9V162.5h-22.9V281z M256.9,167.5h12.9V276h-12.9V167.5z"/>
+	<path fill="#2CFFF4" d="M251.9,479.7h22.9V361.2h-22.9V479.7z M256.9,366.2h12.9v108.5h-12.9V366.2z"/>
+	<rect x="288.1" y="362.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="355.4" y="362.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M319.3,479.7h22.9V361.2h-22.9V479.7z M324.3,366.2h12.9v108.5h-12.9V366.2z"/>
+	<path fill="#2CFFF4" d="M386.6,479.7h22.9V361.2h-22.9V479.7z M391.6,366.2h12.9v108.5h-12.9V366.2z"/>
+	<path fill="#2CFFF4" d="M251.9,905.6h22.9V787h-22.9V905.6z M256.9,792h12.9v108.5h-12.9V792z"/>
+	<rect x="288.1" y="788.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="355.4" y="788.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M319.3,905.6h22.9V787h-22.9V905.6z M324.3,792h12.9v108.5h-12.9V792z"/>
+	<path fill="#2CFFF4" d="M386.6,905.6h22.9V787h-22.9V905.6z M391.6,792h12.9v108.5h-12.9V792z"/>
+	<path fill="#2CFFF4" d="M251.9,1118.5h22.9V1000h-22.9V1118.5z M256.9,1005h12.9v108.5h-12.9V1005z"/>
+	<rect x="288.1" y="1001.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="355.4" y="1001.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M319.3,1118.5h22.9V1000h-22.9V1118.5z M324.3,1005h12.9v108.5h-12.9V1005z"/>
+	<path fill="#2CFFF4" d="M386.6,1118.5h22.9V1000h-22.9V1118.5z M391.6,1005h12.9v108.5h-12.9V1005z"/>
+	<path fill="#2CFFF4" d="M386.6,706.8h22.9V588.3h-22.9V706.8z M391.6,593.3h12.9v108.5h-12.9V593.3z"/>
+	<rect x="355.4" y="575.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="288.1" y="575.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M319.3,706.8h22.9V588.3h-22.9V706.8z M324.3,593.3h12.9v108.5h-12.9V593.3z"/>
+	<path fill="#2CFFF4" d="M251.9,706.8h22.9V588.3h-22.9V706.8z M256.9,593.3h12.9v108.5h-12.9V593.3z"/>
+	<path fill="#2CFFF4" d="M33,178.6h22.9V60H33V178.6z M38,65h12.9v108.5H38V65z"/>
+	<rect x="69.2" y="61.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="136.6" y="61.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M100.4,178.6h22.9V60h-22.9V178.6z M105.4,65h12.9v108.5h-12.9V65z"/>
+	<path fill="#2CFFF4" d="M167.8,178.6h22.9V60h-22.9V178.6z M172.8,65h12.9v108.5h-12.9V65z"/>
+	<path fill="#2CFFF4" d="M167.8,405.7h22.9V287.2h-22.9V405.7z M172.8,292.2h12.9v108.5h-12.9V292.2z"/>
+	<rect x="136.6" y="274.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="69.2" y="274.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M100.4,405.7h22.9V287.2h-22.9V405.7z M105.4,292.2h12.9v108.5h-12.9V292.2z"/>
+	<path fill="#2CFFF4" d="M33,405.7h22.9V287.2H33V405.7z M38,292.2h12.9v108.5H38V292.2z"/>
+	<path fill="#2CFFF4" d="M33,604.4h22.9V485.9H33V604.4z M38,490.9h12.9v108.5H38V490.9z"/>
+	<rect x="69.2" y="487.2" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="136.6" y="487.2" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M100.4,604.4h22.9V485.9h-22.9V604.4z M105.4,490.9h12.9v108.5h-12.9V490.9z"/>
+	<path fill="#2CFFF4" d="M167.8,604.4h22.9V485.9h-22.9V604.4z M172.8,490.9h12.9v108.5h-12.9V490.9z"/>
+	<path fill="#2CFFF4" d="M33,1030.3h22.9V911.7H33V1030.3z M38,916.7h12.9v108.5H38V916.7z"/>
+	<rect x="69.2" y="913.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="136.6" y="913.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M100.4,1030.3h22.9V911.7h-22.9V1030.3z M105.4,916.7h12.9v108.5h-12.9V916.7z"/>
+	<path fill="#2CFFF4" d="M167.8,1030.3h22.9V911.7h-22.9V1030.3z M172.8,916.7h12.9v108.5h-12.9V916.7z"/>
+	<path fill="#2CFFF4" d="M33,1243.2h22.9v-118.5H33V1243.2z M38,1129.7h12.9v108.5H38V1129.7z"/>
+	<rect x="69.2" y="1126" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="136.6" y="1126" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M100.4,1243.2h22.9v-118.5h-22.9V1243.2z M105.4,1129.7h12.9v108.5h-12.9V1129.7z"/>
+	<path fill="#2CFFF4" d="M167.8,1243.2h22.9v-118.5h-22.9V1243.2z M172.8,1129.7h12.9v108.5h-12.9V1129.7z"/>
+	<path fill="#2CFFF4" d="M167.8,831.5h22.9V713h-22.9V831.5z M172.8,718h12.9v108.5h-12.9V718z"/>
+	<rect x="136.6" y="700.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="69.2" y="700.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M100.4,831.5h22.9V713h-22.9V831.5z M105.4,718h12.9v108.5h-12.9V718z"/>
+	<path fill="#2CFFF4" d="M33,831.5h22.9V713H33V831.5z M38,718h12.9v108.5H38V718z"/>
+	<path fill="#2CFFF4" d="M1346.8,178.6h22.9V60h-22.9V178.6z M1351.8,65h12.9v108.5h-12.9V65z"/>
+	<rect x="1383" y="61.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1450.4" y="61.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1414.2,178.6h22.9V60h-22.9V178.6z M1419.2,65h12.9v108.5h-12.9V65z"/>
+	<path fill="#2CFFF4" d="M1481.6,178.6h22.9V60h-22.9V178.6z M1486.6,65h12.9v108.5h-12.9V65z"/>
+	<path fill="#2CFFF4" d="M1481.6,405.7h22.9V287.2h-22.9V405.7z M1486.6,292.2h12.9v108.5h-12.9V292.2z"/>
+	<rect x="1450.4" y="274.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1383" y="274.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1414.2,405.7h22.9V287.2h-22.9V405.7z M1419.2,292.2h12.9v108.5h-12.9V292.2z"/>
+	<path fill="#2CFFF4" d="M1346.8,405.7h22.9V287.2h-22.9V405.7z M1351.8,292.2h12.9v108.5h-12.9V292.2z"/>
+	<path fill="#2CFFF4" d="M1346.8,604.4h22.9V485.9h-22.9V604.4z M1351.8,490.9h12.9v108.5h-12.9V490.9z"/>
+	<rect x="1383" y="487.2" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1450.4" y="487.2" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1414.2,604.4h22.9V485.9h-22.9V604.4z M1419.2,490.9h12.9v108.5h-12.9V490.9z"/>
+	<path fill="#2CFFF4" d="M1481.6,604.4h22.9V485.9h-22.9V604.4z M1486.6,490.9h12.9v108.5h-12.9V490.9z"/>
+	<path fill="#2CFFF4" d="M1346.8,1030.3h22.9V911.7h-22.9V1030.3z M1351.8,916.7h12.9v108.5h-12.9V916.7z"/>
+	<rect x="1383" y="913.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1450.4" y="913.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1414.2,1030.3h22.9V911.7h-22.9V1030.3z M1419.2,916.7h12.9v108.5h-12.9V916.7z"/>
+	<path fill="#2CFFF4" d="M1481.6,1030.3h22.9V911.7h-22.9V1030.3z M1486.6,916.7h12.9v108.5h-12.9V916.7z"/>
+	<path fill="#2CFFF4" d="M1346.8,1243.2h22.9v-118.5h-22.9V1243.2z M1351.8,1129.7h12.9v108.5h-12.9V1129.7z"/>
+	<rect x="1383" y="1126" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1450.4" y="1126" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1414.2,1243.2h22.9v-118.5h-22.9V1243.2z M1419.2,1129.7h12.9v108.5h-12.9V1129.7z"/>
+	<path fill="#2CFFF4" d="M1481.6,1243.2h22.9v-118.5h-22.9V1243.2z M1486.6,1129.7h12.9v108.5h-12.9V1129.7z"/>
+	<path fill="#2CFFF4" d="M1481.6,831.5h22.9V713h-22.9V831.5z M1486.6,718h12.9v108.5h-12.9V718z"/>
+	<rect x="1450.4" y="700.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1383" y="700.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1414.2,831.5h22.9V713h-22.9V831.5z M1419.2,718h12.9v108.5h-12.9V718z"/>
+	<path fill="#2CFFF4" d="M1346.8,831.5h22.9V713h-22.9V831.5z M1351.8,718h12.9v108.5h-12.9V718z"/>
+	<polygon fill="#2CFFF4" points="1150.8,53.9 1150.8,0 1145.8,0 1145.8,48.9 1132.9,48.9 1132.9,0 1127.9,0 1127.9,53.9 	"/>
+	<rect x="1164.1" fill="#2CFFF4" width="17.9" height="66.7"/>
+	<rect x="1231.5" fill="#2CFFF4" width="17.9" height="66.7"/>
+	<polygon fill="#2CFFF4" points="1218.2,53.9 1218.2,0 1213.2,0 1213.2,48.9 1200.3,48.9 1200.3,0 1195.3,0 1195.3,53.9 	"/>
+	<polygon fill="#2CFFF4" points="1285.6,53.9 1285.6,0 1280.6,0 1280.6,48.9 1267.7,48.9 1267.7,0 1262.7,0 1262.7,53.9 	"/>
+	<path fill="#2CFFF4" d="M1262.7,281h22.9V162.5h-22.9V281z M1267.7,167.5h12.9V276h-12.9V167.5z"/>
+	<rect x="1231.5" y="149.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1164.1" y="149.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1195.3,281h22.9V162.5h-22.9V281z M1200.3,167.5h12.9V276h-12.9V167.5z"/>
+	<path fill="#2CFFF4" d="M1127.9,281h22.9V162.5h-22.9V281z M1132.9,167.5h12.9V276h-12.9V167.5z"/>
+	<path fill="#2CFFF4" d="M1127.9,479.7h22.9V361.2h-22.9V479.7z M1132.9,366.2h12.9v108.5h-12.9V366.2z"/>
+	<rect x="1164.1" y="362.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1231.5" y="362.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1195.3,479.7h22.9V361.2h-22.9V479.7z M1200.3,366.2h12.9v108.5h-12.9V366.2z"/>
+	<path fill="#2CFFF4" d="M1262.7,479.7h22.9V361.2h-22.9V479.7z M1267.7,366.2h12.9v108.5h-12.9V366.2z"/>
+	<path fill="#2CFFF4" d="M1127.9,905.6h22.9V787h-22.9V905.6z M1132.9,792h12.9v108.5h-12.9V792z"/>
+	<rect x="1164.1" y="788.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1231.5" y="788.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1195.3,905.6h22.9V787h-22.9V905.6z M1200.3,792h12.9v108.5h-12.9V792z"/>
+	<path fill="#2CFFF4" d="M1262.7,905.6h22.9V787h-22.9V905.6z M1267.7,792h12.9v108.5h-12.9V792z"/>
+	<path fill="#2CFFF4" d="M1127.9,1118.5h22.9V1000h-22.9V1118.5z M1132.9,1005h12.9v108.5h-12.9V1005z"/>
+	<rect x="1164.1" y="1001.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1231.5" y="1001.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1195.3,1118.5h22.9V1000h-22.9V1118.5z M1200.3,1005h12.9v108.5h-12.9V1005z"/>
+	<path fill="#2CFFF4" d="M1262.7,1118.5h22.9V1000h-22.9V1118.5z M1267.7,1005h12.9v108.5h-12.9V1005z"/>
+	<path fill="#2CFFF4" d="M1262.7,706.8h22.9V588.3h-22.9V706.8z M1267.7,593.3h12.9v108.5h-12.9V593.3z"/>
+	<rect x="1231.5" y="575.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1164.1" y="575.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1195.3,706.8h22.9V588.3h-22.9V706.8z M1200.3,593.3h12.9v108.5h-12.9V593.3z"/>
+	<path fill="#2CFFF4" d="M1127.9,706.8h22.9V588.3h-22.9V706.8z M1132.9,593.3h12.9v108.5h-12.9V593.3z"/>
+	<path fill="#2CFFF4" d="M909.1,178.6H932V60h-22.9V178.6z M914.1,65H927v108.5h-12.9V65z"/>
+	<rect x="945.3" y="61.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1012.7" y="61.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M976.5,178.6h22.9V60h-22.9V178.6z M981.5,65h12.9v108.5h-12.9V65z"/>
+	<path fill="#2CFFF4" d="M1043.9,178.6h22.9V60h-22.9V178.6z M1048.9,65h12.9v108.5h-12.9V65z"/>
+	<path fill="#2CFFF4" d="M1043.9,405.7h22.9V287.2h-22.9V405.7z M1048.9,292.2h12.9v108.5h-12.9V292.2z"/>
+	<rect x="1012.7" y="274.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="945.3" y="274.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M976.5,405.7h22.9V287.2h-22.9V405.7z M981.5,292.2h12.9v108.5h-12.9V292.2z"/>
+	<path fill="#2CFFF4" d="M909.1,405.7H932V287.2h-22.9V405.7z M914.1,292.2H927v108.5h-12.9V292.2z"/>
+	<path fill="#2CFFF4" d="M909.1,604.4H932V485.9h-22.9V604.4z M914.1,490.9H927v108.5h-12.9V490.9z"/>
+	<rect x="945.3" y="487.2" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1012.7" y="487.2" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M976.5,604.4h22.9V485.9h-22.9V604.4z M981.5,490.9h12.9v108.5h-12.9V490.9z"/>
+	<path fill="#2CFFF4" d="M1043.9,604.4h22.9V485.9h-22.9V604.4z M1048.9,490.9h12.9v108.5h-12.9V490.9z"/>
+	<path fill="#2CFFF4" d="M909.1,1030.3H932V911.7h-22.9V1030.3z M914.1,916.7H927v108.5h-12.9V916.7z"/>
+	<rect x="945.3" y="913.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1012.7" y="913.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M976.5,1030.3h22.9V911.7h-22.9V1030.3z M981.5,916.7h12.9v108.5h-12.9V916.7z"/>
+	<path fill="#2CFFF4" d="M1043.9,1030.3h22.9V911.7h-22.9V1030.3z M1048.9,916.7h12.9v108.5h-12.9V916.7z"/>
+	<path fill="#2CFFF4" d="M909.1,1243.2H932v-118.5h-22.9V1243.2z M914.1,1129.7H927v108.5h-12.9V1129.7z"/>
+	<rect x="945.3" y="1126" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1012.7" y="1126" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M976.5,1243.2h22.9v-118.5h-22.9V1243.2z M981.5,1129.7h12.9v108.5h-12.9V1129.7z"/>
+	<path fill="#2CFFF4" d="M1043.9,1243.2h22.9v-118.5h-22.9V1243.2z M1048.9,1129.7h12.9v108.5h-12.9V1129.7z"/>
+	<path fill="#2CFFF4" d="M1043.9,831.5h22.9V713h-22.9V831.5z M1048.9,718h12.9v108.5h-12.9V718z"/>
+	<rect x="1012.7" y="700.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="945.3" y="700.1" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M976.5,831.5h22.9V713h-22.9V831.5z M981.5,718h12.9v108.5h-12.9V718z"/>
+	<path fill="#2CFFF4" d="M909.1,831.5H932V713h-22.9V831.5z M914.1,718H927v108.5h-12.9V718z"/>
+	<path fill="#2CFFF4" d="M689.6,1331h22.9v-118.5h-22.9V1331z M694.6,1217.5h12.9V1326h-12.9V1217.5z"/>
+	<rect x="725.8" y="1213.8" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="793.2" y="1213.8" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M757,1331h22.9v-118.5H757V1331z M762,1217.5h12.9V1326H762V1217.5z"/>
+	<path fill="#2CFFF4" d="M824.4,1331h22.9v-118.5h-22.9V1331z M829.4,1217.5h12.9V1326h-12.9V1217.5z"/>
+	<path fill="#2CFFF4" d="M824.4,1558.1h22.9v-118.5h-22.9V1558.1z M829.4,1444.6h12.9v108.5h-12.9V1444.6z"/>
+	<rect x="793.2" y="1426.7" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="725.8" y="1426.7" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M757,1558.1h22.9v-118.5H757V1558.1z M762,1444.6h12.9v108.5H762V1444.6z"/>
+	<path fill="#2CFFF4" d="M689.6,1558.1h22.9v-118.5h-22.9V1558.1z M694.6,1444.6h12.9v108.5h-12.9V1444.6z"/>
+	<path fill="#2CFFF4" d="M689.6,1756.8h22.9v-118.5h-22.9V1756.8z M694.6,1643.3h12.9v108.5h-12.9V1643.3z"/>
+	<rect x="725.8" y="1639.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="793.2" y="1639.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M757,1756.8h22.9v-118.5H757V1756.8z M762,1643.3h12.9v108.5H762V1643.3z"/>
+	<path fill="#2CFFF4" d="M824.4,1756.8h22.9v-118.5h-22.9V1756.8z M829.4,1643.3h12.9v108.5h-12.9V1643.3z"/>
+	<path fill="#2CFFF4" d="M824.4,1984h22.9v-118.5h-22.9V1984z M829.4,1870.4h12.9V1979h-12.9V1870.4z"/>
+	<rect x="793.2" y="1852.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="725.8" y="1852.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M757,1984h22.9v-118.5H757V1984z M762,1870.4h12.9V1979H762V1870.4z"/>
+	<path fill="#2CFFF4" d="M689.6,1984h22.9v-118.5h-22.9V1984z M694.6,1870.4h12.9V1979h-12.9V1870.4z"/>
+	<path fill="#2CFFF4" d="M470.7,1455.7h22.9v-118.5h-22.9V1455.7z M475.7,1342.2h12.9v108.5h-12.9V1342.2z"/>
+	<rect x="506.9" y="1338.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="574.3" y="1338.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M538.1,1455.7H561v-118.5h-22.9V1455.7z M543.1,1342.2H556v108.5h-12.9V1342.2z"/>
+	<path fill="#2CFFF4" d="M605.5,1455.7h22.9v-118.5h-22.9V1455.7z M610.5,1342.2h12.9v108.5h-12.9V1342.2z"/>
+	<path fill="#2CFFF4" d="M605.5,1682.8h22.9v-118.5h-22.9V1682.8z M610.5,1569.3h12.9v108.5h-12.9V1569.3z"/>
+	<rect x="574.3" y="1551.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="506.9" y="1551.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M538.1,1682.8H561v-118.5h-22.9V1682.8z M543.1,1569.3H556v108.5h-12.9V1569.3z"/>
+	<path fill="#2CFFF4" d="M470.7,1682.8h22.9v-118.5h-22.9V1682.8z M475.7,1569.3h12.9v108.5h-12.9V1569.3z"/>
+	<path fill="#2CFFF4" d="M470.7,1881.5h22.9V1763h-22.9V1881.5z M475.7,1768h12.9v108.5h-12.9V1768z"/>
+	<rect x="506.9" y="1764.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="574.3" y="1764.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M538.1,1881.5H561V1763h-22.9V1881.5z M543.1,1768H556v108.5h-12.9V1768z"/>
+	<path fill="#2CFFF4" d="M605.5,1881.5h22.9V1763h-22.9V1881.5z M610.5,1768h12.9v108.5h-12.9V1768z"/>
+	<polygon fill="#2CFFF4" points="605.5,1990.1 605.5,2048 610.5,2048 610.5,1995.1 623.4,1995.1 623.4,2048 628.4,2048 
+		628.4,1990.1 	"/>
+	<rect x="574.3" y="1977.3" fill="#2CFFF4" width="17.9" height="70.7"/>
+	<rect x="506.9" y="1977.3" fill="#2CFFF4" width="17.9" height="70.7"/>
+	<polygon fill="#2CFFF4" points="538.1,1990.1 538.1,2048 543.1,2048 543.1,1995.1 556,1995.1 556,2048 561,2048 561,1990.1 	"/>
+	<polygon fill="#2CFFF4" points="470.7,1990.1 470.7,2048 475.7,2048 475.7,1995.1 488.6,1995.1 488.6,2048 493.6,2048 
+		493.6,1990.1 	"/>
+	<path fill="#2CFFF4" d="M251.9,1331h22.9v-118.5h-22.9V1331z M256.9,1217.5h12.9V1326h-12.9V1217.5z"/>
+	<rect x="288.1" y="1213.8" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="355.4" y="1213.8" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M319.3,1331h22.9v-118.5h-22.9V1331z M324.3,1217.5h12.9V1326h-12.9V1217.5z"/>
+	<path fill="#2CFFF4" d="M386.6,1331h22.9v-118.5h-22.9V1331z M391.6,1217.5h12.9V1326h-12.9V1217.5z"/>
+	<path fill="#2CFFF4" d="M386.6,1558.1h22.9v-118.5h-22.9V1558.1z M391.6,1444.6h12.9v108.5h-12.9V1444.6z"/>
+	<rect x="355.4" y="1426.7" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="288.1" y="1426.7" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M319.3,1558.1h22.9v-118.5h-22.9V1558.1z M324.3,1444.6h12.9v108.5h-12.9V1444.6z"/>
+	<path fill="#2CFFF4" d="M251.9,1558.1h22.9v-118.5h-22.9V1558.1z M256.9,1444.6h12.9v108.5h-12.9V1444.6z"/>
+	<path fill="#2CFFF4" d="M251.9,1756.8h22.9v-118.5h-22.9V1756.8z M256.9,1643.3h12.9v108.5h-12.9V1643.3z"/>
+	<rect x="288.1" y="1639.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="355.4" y="1639.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M319.3,1756.8h22.9v-118.5h-22.9V1756.8z M324.3,1643.3h12.9v108.5h-12.9V1643.3z"/>
+	<path fill="#2CFFF4" d="M386.6,1756.8h22.9v-118.5h-22.9V1756.8z M391.6,1643.3h12.9v108.5h-12.9V1643.3z"/>
+	<path fill="#2CFFF4" d="M386.6,1984h22.9v-118.5h-22.9V1984z M391.6,1870.4h12.9V1979h-12.9V1870.4z"/>
+	<rect x="355.4" y="1852.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="288.1" y="1852.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M319.3,1984h22.9v-118.5h-22.9V1984z M324.3,1870.4h12.9V1979h-12.9V1870.4z"/>
+	<path fill="#2CFFF4" d="M251.9,1984h22.9v-118.5h-22.9V1984z M256.9,1870.4h12.9V1979h-12.9V1870.4z"/>
+	<path fill="#2CFFF4" d="M33,1455.7h22.9v-118.5H33V1455.7z M38,1342.2h12.9v108.5H38V1342.2z"/>
+	<rect x="69.2" y="1338.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="136.6" y="1338.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M100.4,1455.7h22.9v-118.5h-22.9V1455.7z M105.4,1342.2h12.9v108.5h-12.9V1342.2z"/>
+	<path fill="#2CFFF4" d="M167.8,1455.7h22.9v-118.5h-22.9V1455.7z M172.8,1342.2h12.9v108.5h-12.9V1342.2z"/>
+	<path fill="#2CFFF4" d="M167.8,1682.8h22.9v-118.5h-22.9V1682.8z M172.8,1569.3h12.9v108.5h-12.9V1569.3z"/>
+	<rect x="136.6" y="1551.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="69.2" y="1551.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M100.4,1682.8h22.9v-118.5h-22.9V1682.8z M105.4,1569.3h12.9v108.5h-12.9V1569.3z"/>
+	<path fill="#2CFFF4" d="M33,1682.8h22.9v-118.5H33V1682.8z M38,1569.3h12.9v108.5H38V1569.3z"/>
+	<path fill="#2CFFF4" d="M33,1881.5h22.9V1763H33V1881.5z M38,1768h12.9v108.5H38V1768z"/>
+	<rect x="69.2" y="1764.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="136.6" y="1764.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M100.4,1881.5h22.9V1763h-22.9V1881.5z M105.4,1768h12.9v108.5h-12.9V1768z"/>
+	<path fill="#2CFFF4" d="M167.8,1881.5h22.9V1763h-22.9V1881.5z M172.8,1768h12.9v108.5h-12.9V1768z"/>
+	<polygon fill="#2CFFF4" points="167.8,1990.1 167.8,2048 172.8,2048 172.8,1995.1 185.7,1995.1 185.7,2048 190.7,2048 
+		190.7,1990.1 	"/>
+	<rect x="136.6" y="1977.3" fill="#2CFFF4" width="17.9" height="70.7"/>
+	<rect x="69.2" y="1977.3" fill="#2CFFF4" width="17.9" height="70.7"/>
+	<polygon fill="#2CFFF4" points="100.4,1990.1 100.4,2048 105.4,2048 105.4,1995.1 118.3,1995.1 118.3,2048 123.3,2048 
+		123.3,1990.1 	"/>
+	<polygon fill="#2CFFF4" points="33,1990.1 33,2048 38,2048 38,1995.1 50.9,1995.1 50.9,2048 55.9,2048 55.9,1990.1 	"/>
+	<path fill="#2CFFF4" d="M1346.8,1455.7h22.9v-118.5h-22.9V1455.7z M1351.8,1342.2h12.9v108.5h-12.9V1342.2z"/>
+	<rect x="1383" y="1338.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1450.4" y="1338.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1414.2,1455.7h22.9v-118.5h-22.9V1455.7z M1419.2,1342.2h12.9v108.5h-12.9V1342.2z"/>
+	<path fill="#2CFFF4" d="M1481.6,1455.7h22.9v-118.5h-22.9V1455.7z M1486.6,1342.2h12.9v108.5h-12.9V1342.2z"/>
+	<path fill="#2CFFF4" d="M1481.6,1682.8h22.9v-118.5h-22.9V1682.8z M1486.6,1569.3h12.9v108.5h-12.9V1569.3z"/>
+	<rect x="1450.4" y="1551.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1383" y="1551.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1414.2,1682.8h22.9v-118.5h-22.9V1682.8z M1419.2,1569.3h12.9v108.5h-12.9V1569.3z"/>
+	<path fill="#2CFFF4" d="M1346.8,1682.8h22.9v-118.5h-22.9V1682.8z M1351.8,1569.3h12.9v108.5h-12.9V1569.3z"/>
+	<path fill="#2CFFF4" d="M1346.8,1881.5h22.9V1763h-22.9V1881.5z M1351.8,1768h12.9v108.5h-12.9V1768z"/>
+	<rect x="1383" y="1764.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1450.4" y="1764.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1414.2,1881.5h22.9V1763h-22.9V1881.5z M1419.2,1768h12.9v108.5h-12.9V1768z"/>
+	<path fill="#2CFFF4" d="M1481.6,1881.5h22.9V1763h-22.9V1881.5z M1486.6,1768h12.9v108.5h-12.9V1768z"/>
+	<polygon fill="#2CFFF4" points="1481.6,1990.1 1481.6,2048 1486.6,2048 1486.6,1995.1 1499.5,1995.1 1499.5,2048 1504.5,2048 
+		1504.5,1990.1 	"/>
+	<rect x="1450.4" y="1977.3" fill="#2CFFF4" width="17.9" height="70.7"/>
+	<rect x="1383" y="1977.3" fill="#2CFFF4" width="17.9" height="70.7"/>
+	<polygon fill="#2CFFF4" points="1414.2,1990.1 1414.2,2048 1419.2,2048 1419.2,1995.1 1432.1,1995.1 1432.1,2048 1437.1,2048 
+		1437.1,1990.1 	"/>
+	<polygon fill="#2CFFF4" points="1346.8,1990.1 1346.8,2048 1351.8,2048 1351.8,1995.1 1364.7,1995.1 1364.7,2048 1369.7,2048 
+		1369.7,1990.1 	"/>
+	<path fill="#2CFFF4" d="M1127.9,1331h22.9v-118.5h-22.9V1331z M1132.9,1217.5h12.9V1326h-12.9V1217.5z"/>
+	<rect x="1164.1" y="1213.8" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1231.5" y="1213.8" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1195.3,1331h22.9v-118.5h-22.9V1331z M1200.3,1217.5h12.9V1326h-12.9V1217.5z"/>
+	<path fill="#2CFFF4" d="M1262.7,1331h22.9v-118.5h-22.9V1331z M1267.7,1217.5h12.9V1326h-12.9V1217.5z"/>
+	<path fill="#2CFFF4" d="M1262.7,1558.1h22.9v-118.5h-22.9V1558.1z M1267.7,1444.6h12.9v108.5h-12.9V1444.6z"/>
+	<rect x="1231.5" y="1426.7" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1164.1" y="1426.7" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1195.3,1558.1h22.9v-118.5h-22.9V1558.1z M1200.3,1444.6h12.9v108.5h-12.9V1444.6z"/>
+	<path fill="#2CFFF4" d="M1127.9,1558.1h22.9v-118.5h-22.9V1558.1z M1132.9,1444.6h12.9v108.5h-12.9V1444.6z"/>
+	<path fill="#2CFFF4" d="M1127.9,1756.8h22.9v-118.5h-22.9V1756.8z M1132.9,1643.3h12.9v108.5h-12.9V1643.3z"/>
+	<rect x="1164.1" y="1639.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1231.5" y="1639.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1195.3,1756.8h22.9v-118.5h-22.9V1756.8z M1200.3,1643.3h12.9v108.5h-12.9V1643.3z"/>
+	<path fill="#2CFFF4" d="M1262.7,1756.8h22.9v-118.5h-22.9V1756.8z M1267.7,1643.3h12.9v108.5h-12.9V1643.3z"/>
+	<path fill="#2CFFF4" d="M1262.7,1984h22.9v-118.5h-22.9V1984z M1267.7,1870.4h12.9V1979h-12.9V1870.4z"/>
+	<rect x="1231.5" y="1852.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1164.1" y="1852.6" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M1195.3,1984h22.9v-118.5h-22.9V1984z M1200.3,1870.4h12.9V1979h-12.9V1870.4z"/>
+	<path fill="#2CFFF4" d="M1127.9,1984h22.9v-118.5h-22.9V1984z M1132.9,1870.4h12.9V1979h-12.9V1870.4z"/>
+	<path fill="#2CFFF4" d="M909.1,1455.7H932v-118.5h-22.9V1455.7z M914.1,1342.2H927v108.5h-12.9V1342.2z"/>
+	<rect x="945.3" y="1338.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1012.7" y="1338.5" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M976.5,1455.7h22.9v-118.5h-22.9V1455.7z M981.5,1342.2h12.9v108.5h-12.9V1342.2z"/>
+	<path fill="#2CFFF4" d="M1043.9,1455.7h22.9v-118.5h-22.9V1455.7z M1048.9,1342.2h12.9v108.5h-12.9V1342.2z"/>
+	<path fill="#2CFFF4" d="M1043.9,1682.8h22.9v-118.5h-22.9V1682.8z M1048.9,1569.3h12.9v108.5h-12.9V1569.3z"/>
+	<rect x="1012.7" y="1551.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="945.3" y="1551.4" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M976.5,1682.8h22.9v-118.5h-22.9V1682.8z M981.5,1569.3h12.9v108.5h-12.9V1569.3z"/>
+	<path fill="#2CFFF4" d="M909.1,1682.8H932v-118.5h-22.9V1682.8z M914.1,1569.3H927v108.5h-12.9V1569.3z"/>
+	<path fill="#2CFFF4" d="M909.1,1881.5H932V1763h-22.9V1881.5z M914.1,1768H927v108.5h-12.9V1768z"/>
+	<rect x="945.3" y="1764.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<rect x="1012.7" y="1764.3" fill="#2CFFF4" width="17.9" height="130.1"/>
+	<path fill="#2CFFF4" d="M976.5,1881.5h22.9V1763h-22.9V1881.5z M981.5,1768h12.9v108.5h-12.9V1768z"/>
+	<path fill="#2CFFF4" d="M1043.9,1881.5h22.9V1763h-22.9V1881.5z M1048.9,1768h12.9v108.5h-12.9V1768z"/>
+	<polygon fill="#2CFFF4" points="1043.9,1990.1 1043.9,2048 1048.9,2048 1048.9,1995.1 1061.7,1995.1 1061.7,2048 1066.7,2048 
+		1066.7,1990.1 	"/>
+	<rect x="1012.7" y="1977.3" fill="#2CFFF4" width="17.9" height="70.7"/>
+	<rect x="945.3" y="1977.3" fill="#2CFFF4" width="17.9" height="70.7"/>
+	<polygon fill="#2CFFF4" points="976.5,1990.1 976.5,2048 981.5,2048 981.5,1995.1 994.4,1995.1 994.4,2048 999.4,2048 
+		999.4,1990.1 	"/>
+	<polygon fill="#2CFFF4" points="909.1,1990.1 909.1,2048 914.1,2048 914.1,1995.1 927,1995.1 927,2048 932,2048 932,1990.1 	"/>
+</g>
+</svg>
