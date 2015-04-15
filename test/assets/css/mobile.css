@@ -1,21 +1,38 @@
 html, body {
   font-family: "Lato", sans-serif;
   margin: 0;
-  background: #222;
+  background: #162028;
   font: 13px;
+  font-weight: 300;
+  color: #FFF;
   overflow: hidden;
   height: 100%; }
-  html #logo, body #logo {
-    text-transform: uppercase;
-    color: #FFF; }
-  html #game_controls, body #game_controls {
-    display: none; }
-    html #game_controls #fire_btn, body #game_controls #fire_btn {
-      font-size: 250%;
-      display: block;
-      margin: auto;
-      max-width: 400px;
-      margin-top: 40%;
-      padding: 2%; }
+  html #mobile_body, body #mobile_body {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -45%);
+    -webkit-transform: translate(-50%, -45%);
+    -moz-transform: translate(-50%, -45%);
+    -o-transform: translate(-50%, -45%);
+    min-width: 280px; }
+    html #mobile_body .logo, body #mobile_body .logo {
+      text-transform: uppercase;
+      color: #FFF;
+      font-size: 300%; }
+      html #mobile_body .logo .icon, body #mobile_body .logo .icon {
+        background: url("/img/logo-symbol-2x.png"); }
+    html #mobile_body #game_login, body #mobile_body #game_login {
+      display: none; }
+    html #mobile_body #game_controls, body #mobile_body #game_controls {
+      display: none; }
+      html #mobile_body #game_controls #fire_btn, body #mobile_body #game_controls #fire_btn {
+        font-size: 250%;
+        display: block;
+        margin: auto;
+        max-width: 400px;
+        margin-top: 40%;
+        padding: 2%; }
 
 /*# sourceMappingURL=mobile.css.map */
