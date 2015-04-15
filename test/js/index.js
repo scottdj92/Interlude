@@ -8,6 +8,7 @@ var players = [];
 
 app.use('/js', express.static(path.resolve(__dirname)));
 app.use('/css', express.static(path.resolve(__dirname+'/../css')));
+app.use('/img', express.static(path.resolve(__dirname+'/../img')));
 app.use('/audio', express.static(path.resolve(__dirname+'/../audio')));
 
 app.get('/', function(req, res){
