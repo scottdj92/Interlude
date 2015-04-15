@@ -13,8 +13,8 @@ game.Bubble = function() {
   var Bubble = function(id, color, x, y) {
     this.x = x;
     this.y = y;
-    this.r = 50;//radius
-    this.speed = 1;
+    this.r = .07;//radius
+    this.speed = 0.003;
     this.id = id;
     this.color = color;
   }
@@ -24,7 +24,7 @@ game.Bubble = function() {
    * @param dt : delta time for if we want to cap the frame rate
    */
   b.update = function(dt) {
-    if(this.y < -10) {//if the bubble is off of the screen
+    if(this.y < -1) {//if the bubble is off of the screen
       this.remove = true;//it can be removed
     }
     this.move(0,this.speed);//move the bubble
@@ -41,13 +41,7 @@ game.Bubble = function() {
    * @param ctx : drawing context
    */
   b.render = function(ctx) {
-    ctx.save();//save the draw state
-    ctx.fillStyle = this.color;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();//restore the draw state
+    game.draw.circle(this.x, this.y, this.r, this.color);
   };
 
   return Bubble;
