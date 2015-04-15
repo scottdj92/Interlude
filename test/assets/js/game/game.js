@@ -22,7 +22,7 @@ game.interlude = {
     this.canvas = document.querySelector('#area');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.lineWidth = 5;
-	
+	  game.draw.init(this.canvas, this.ctx);
 	//get passwords
 	this.password = this.generatePassword();
 	console.log(this.password);
@@ -130,7 +130,7 @@ game.interlude = {
     if(this.nextBubble < 0) {
       var bubbleID = Math.floor(Math.random()*this.players.length);
       var bubbleColor = this.players[bubbleID] ? this.players[bubbleID].color : "black";
-      this.bubbles.push(new game.Bubble(0, bubbleColor, this.canvas.width/2, this.canvas.height));//Create a new bubble
+      this.bubbles.push(new game.Bubble(0, bubbleColor, 8/9, 1));//Create a new bubble
       this.nextBubble = ( Math.random() * 100 ) + 100; //Randomly set next bubble spawn interval
     }
   },
