@@ -50,8 +50,11 @@ game.BlackHole = function() {
   /** render function for a blackhole
    * @param ctx : drawing context
    */
-  b.render = function(ctx) {
-    
+  b.render = function() {
+    game.draw.particle(radius/2, this.x, this.y, "black", 1);
+    this.particles.forEach(function(particle){
+      particle.render();
+    });
   };
 
   return BlackHole;

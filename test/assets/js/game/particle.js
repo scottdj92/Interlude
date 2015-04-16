@@ -5,10 +5,10 @@ var game = game || {};
 
 game.Particle = function() {
   /** Particle constructor
-   * @param x : start x position
-   * @param y : start y position
+   * @param theta : postion around the circle of the black hole
    * @param centerX : center of black hole
    * @param centerY : center of black hole
+   * @param radius : radius of the entire black hole
    */
   var Particle = function(theta, centerX, centerY, radius) {
     //Create the slope that this particle moves on
@@ -24,7 +24,7 @@ game.Particle = function() {
     this.centerX = centerX;
     this.centerY = centerY;
     this.size = 0.0001;//radius
-    this.speed = 0.001;
+    this.speed = radius/30;
   }
   //create a reference to the particle prototype
   var p = Particle.prototype;
@@ -32,20 +32,28 @@ game.Particle = function() {
    * @param dt : delta time for if we want to cap the frame rate
    */
   p.update = function(dt) {
-    
+    this.move();
+    this.checkReset();
   };
   /** Move function for the particle
-   * @param x : distance to move in x
-   * @param y : distance to move in y
    */
-  p.move = function(x,y) {
-    
+  p.move = function() {
+    this.currDistance -= this.speed;
+    this.x = currDistance*this.slope.x;
+    this.y = currDistance*this.slope.y;
+  };
+  /** Checks to see if the particle should be moved to the outer ring
+   */
+  p.checkReset = function() {
+    if(this.currDistance <= 0)
+      this.currDistance = this.maxDistance;
   };
   /** render function for a particle
-   * @param ctx : drawing context
    */
   p.render = function() {
-    
+    var size = this.maxDistance/40;
+    var alpha = this.currDistance/this.maxDistance;
+    game.draw.particle(size, this.x, this.y, "black", alpha);
   };
 
   return Particle;
