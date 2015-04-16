@@ -10,13 +10,21 @@ game.Particle = function() {
    * @param centerX : center of black hole
    * @param centerY : center of black hole
    */
-  var Particle = function(x, y, centerX, centerY) {
-    this.x = x;
-    this.y = y;
+  var Particle = function(theta, centerX, centerY, radius) {
+    //Create the slope that this particle moves on
+    var s = {x: 0, y: 0};
+    s.x = Math.cos(theta);
+    s.y = Math.sin(theta);
+    this.slope = s;
+    //Save the max distance from the center of the black hole
+    this.maxDistance = radius;
+    this.currDistance = Math.random()*maxDistance; 
+    this.x = currDistance*s.x;
+    this.y = currDistance*s.y;
     this.centerX = centerX;
     this.centerY = centerY;
     this.size = 0.0001;//radius
-    this.speed = 0.003;
+    this.speed = 0.001;
   }
   //create a reference to the particle prototype
   var p = Particle.prototype;
