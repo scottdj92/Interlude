@@ -16,6 +16,7 @@ game.Particle = function() {
     s.x = Math.cos(theta);
     s.y = Math.sin(theta);
     this.slope = s;
+    this.theta = theta;
     //Save the max distance from the center of the black hole
     this.maxDistance = radius;
     this.currDistance = Math.random()*this.maxDistance; 
@@ -34,6 +35,7 @@ game.Particle = function() {
   p.update = function(dt) {
     this.move();
     this.checkReset();
+    this.updateSlope();
   };
   /** Move function for the particle
    */
@@ -48,10 +50,19 @@ game.Particle = function() {
     if(this.currDistance <= 0)
       this.currDistance = this.maxDistance;
   };
+
+  p.updateSlope = function() {
+    this.theta += this.speed*5 +0.002;
+    this.slope.x = Math.cos(this.theta);
+    this.slope.y = Math.sin(this.theta);
+    if(this.theta >= Math.PI*2)
+      this.theta -= Math.PI*2;
+
+  };
   /** render function for a particle
    */
   p.render = function() {
-    var size = this.maxDistance/5;
+    var size = (this.maxDistance - this.currDistance)/3;
     var alpha = 1 - this.currDistance/this.maxDistance + .25;
     game.draw.particle(size, this.x, this.y, "black", alpha);
   };

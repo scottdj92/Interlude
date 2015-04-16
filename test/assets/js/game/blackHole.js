@@ -51,7 +51,7 @@ game.BlackHole = function() {
    * @param ctx : drawing context
    */
   b.render = function() {
-    game.draw.particle(this.r*3/4, this.x, this.y, "black", 0.7);
+    game.draw.particle(this.r*3/5, this.x, this.y, "black", 0.7);
     this.particles.forEach(function(particle){
       particle.render();
     });

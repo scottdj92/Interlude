@@ -91,7 +91,7 @@ game.interlude = {
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
-    this.blackHole = new game.BlackHole(8/9, 0.5, 0.2, 150);
+    this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
 
     this.loop();
   },
