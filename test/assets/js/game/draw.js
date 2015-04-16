@@ -39,7 +39,14 @@ game.draw = {
    *
    *
    MIGHT NOT WANT THIS HERE
-  particle : function(x, y, color) {
-
-  }*/
+   */
+  particle : function(size, x, y, color, alpha) {
+    this.ctx.save();
+    this.ctx.translate(x, y);
+    this.ctx.rotate(Math.PI/2);
+    this.ctx.fillStyle = color;
+    this.ctx.globalAlpha = alpha;
+    this.ctx.fillRect(-size/2, -size/2, size, size);
+    this.ctx.restore();
+  }
 }
