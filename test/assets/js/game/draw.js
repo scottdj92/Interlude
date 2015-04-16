@@ -34,7 +34,7 @@ game.draw = {
     this.ctx.closePath();
     this.ctx.fill();
     this.ctx.restore();//restore the draw state
-  }
+  },
   /** Draw function for the particle object
    *
    *
@@ -42,10 +42,11 @@ game.draw = {
    */
   particle : function(size, x, y, color, alpha) {
     this.ctx.save();
-    this.ctx.translate(x, y);
-    this.ctx.rotate(Math.PI/2);
+    this.ctx.translate(x*this.canvas.height, y*this.canvas.height);
+    this.ctx.rotate(Math.PI/4);
     this.ctx.fillStyle = color;
     this.ctx.globalAlpha = alpha;
+    size *= this.canvas.height;
     this.ctx.fillRect(-size/2, -size/2, size, size);
     this.ctx.restore();
   }

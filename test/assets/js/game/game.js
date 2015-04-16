@@ -4,6 +4,7 @@ var game = game || {};
 game.interlude = {
   players : [], //array of players in the game
   bubbles : [], //array of bubbles in the game
+  blackHole : undefined,
   canvas : undefined, //canvas for drawing
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
@@ -23,6 +24,7 @@ game.interlude = {
     this.ctx = this.canvas.getContext('2d');
     this.ctx.lineWidth = 5;
 	  game.draw.init(this.canvas, this.ctx);
+
 	//get passwords
 	this.password = this.generatePassword();
 	console.log(this.password);
@@ -89,6 +91,8 @@ game.interlude = {
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
+    this.blackHole = new game.BlackHole(8/9, 0.5, 0.2, 150);
+
     this.loop();
   },
 
@@ -115,6 +119,7 @@ game.interlude = {
   //Function for updating main game loop
   updateGame : function(){
     var dt = 0;
+    this.blackHole.update(dt);
     //Loop through all of the players
     this.players.forEach(function(player) {
       player.update(dt); //call player's update function
@@ -155,7 +160,7 @@ game.interlude = {
   renderGame : function() {
     var self = this;//Save a reference to this
     //this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
-    this.ctx.fillStyle = "#112244";
+    this.ctx.fillStyle = "#235";
     this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
     //loop through bubbles
     this.bubbles.forEach(function(bubble) {
@@ -165,6 +170,7 @@ game.interlude = {
     this.players.forEach(function(player) {
       player.render(self.ctx);//draw each player
     });
+    this.blackHole.render();
   },
   //Main render function
   render : function () {
