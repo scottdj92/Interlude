@@ -8,10 +8,20 @@ var game = game || {};
 game.draw = {
   canvas : undefined,
   ctx : undefined,
+  /** Init function for draw
+   * @param canvas : canvas to draw on
+   * @param ctx : rendering context
+   */
   init : function(canvas, ctx) {
     this.canvas = canvas;
     this.ctx = ctx;
   },
+  /** Fills a circle at the coordinates provided
+   * @param x : X coordinate
+   * @param y : Y coordinate
+   * @param r : radius of circle
+   * @param color : color of circle
+   */
   circle : function(x, y, r, color) {
     var Xscaled = x * this.canvas.height;
     var Yscaled = y * this.canvas.height;
@@ -25,4 +35,11 @@ game.draw = {
     this.ctx.fill();
     this.ctx.restore();//restore the draw state
   }
+  /** Draw function for the particle object
+   *
+   *
+   MIGHT NOT WANT THIS HERE
+  particle : function(x, y, color) {
+
+  }*/
 }
