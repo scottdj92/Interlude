@@ -18,13 +18,13 @@ game.Particle = function() {
     this.slope = s;
     //Save the max distance from the center of the black hole
     this.maxDistance = radius;
-    this.currDistance = Math.random()*maxDistance; 
-    this.x = currDistance*s.x;
-    this.y = currDistance*s.y;
+    this.currDistance = Math.random()*this.maxDistance; 
+    this.x = this.currDistance*s.x;
+    this.y = this.currDistance*s.y;
     this.centerX = centerX;
     this.centerY = centerY;
     this.size = 0.0001;//radius
-    this.speed = radius/30;
+    this.speed = radius/70*(Math.random()+0.1) ;
   }
   //create a reference to the particle prototype
   var p = Particle.prototype;
@@ -39,8 +39,8 @@ game.Particle = function() {
    */
   p.move = function() {
     this.currDistance -= this.speed;
-    this.x = currDistance*this.slope.x;
-    this.y = currDistance*this.slope.y;
+    this.x = this.centerX + this.currDistance*this.slope.x;
+    this.y = this.centerY + this.currDistance*this.slope.y;
   };
   /** Checks to see if the particle should be moved to the outer ring
    */
@@ -51,8 +51,8 @@ game.Particle = function() {
   /** render function for a particle
    */
   p.render = function() {
-    var size = this.maxDistance/40;
-    var alpha = this.currDistance/this.maxDistance;
+    var size = this.maxDistance/5;
+    var alpha = 1 - this.currDistance/this.maxDistance + .25;
     game.draw.particle(size, this.x, this.y, "black", alpha);
   };
 

@@ -44,14 +44,14 @@ game.BlackHole = function() {
    * @param x : distance to move in x
    * @param y : distance to move in y
    */
-  b.move = function(x,y) {
+  b.move = function(x, y) {
     
   };
   /** render function for a blackhole
    * @param ctx : drawing context
    */
   b.render = function() {
-    game.draw.particle(radius/2, this.x, this.y, "black", 1);
+    game.draw.particle(this.r*3/4, this.x, this.y, "black", 0.7);
     this.particles.forEach(function(particle){
       particle.render();
     });
