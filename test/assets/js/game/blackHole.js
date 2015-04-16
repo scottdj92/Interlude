@@ -30,11 +30,13 @@ game.BlackHole = function() {
   };
   /** Generates the array of particles to be used by the blackhole
    *  for rendering
+   * @param numParticle : number of black hole particles
    */
   b.generateParticles = function(numParticles) {
     var particles = [];
+    var deltaTheta = Math.PI*2/numParticles;
     for(var i = 0; i < numParticles; i++) {
-
+      particles[i] = new game.Particle(i*deltaTheta, this.x, this.y, this.r);
     }
     return particles;
   };
