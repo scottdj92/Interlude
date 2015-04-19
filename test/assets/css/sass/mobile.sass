@@ -1,3 +1,8 @@
+$def-font: 'Lato', sans-serif
+	
+@import "loading.css"
+@import "mixins" 
+
 html,body
 	font-family: 'Lato', sans-serif
 	margin: 0
@@ -9,32 +14,140 @@ html,body
 	height: 100%
 	
 	#mobile_body
+		overflow: hidden
+		display: block
+		position: relative
+		height: 100%
 		
-		#intro
+		.button
+			display: block
+			margin: auto
+			border: 1px solid #fff
+			padding: 2%
+			width: 30%
+			min-width: 150px
+			max-width: 230px
+			text-transform: uppercase
+			opacity: 0.4
+			font-size: 80%
+			font-weight: 300
+			font-family: $def-font
+			background: none
+			color: #fff
+			+slideUp(0.8s)
+
+		.button:active
+			opacity: 1
+
+		.center
+			left: 50%
+			top: 42%
+			transform: translate(-50%, -42%)
+			-webkit-transform: translate(-50%, -42%)
+			-moz-transform: translate(-50%, -42%)
+			-o-transform: translate(-50%, -42%)
+	
+		.center-top
+			left: 50%
+			top: 25%
+			transform: translate(-50%, -25%)
+			-webkit-transform: translate(-50%, -25%)
+			-moz-transform: translate(-50%, -25%)
+			-o-transform: translate(-50%, -25%)
+	
+		#pre-game
 			display: block
 			position: absolute
-			left: 50%
-			top: 45%
-			transform: translate(-50%, -45%)
-			-webkit-transform: translate(-50%, -45%)
-			-moz-transform: translate(-50%, -45%)
-			-o-transform: translate(-50%, -45%)
-			min-width: 280px
-	
+			min-width: 300px
+			text-align: center
+			+transition(0.4s)
+			
+			// sect
+			.sect
+				display: none
+				position: absolute
+				margin: auto
+				text-align: center
+				width: 100%
+				+transition(0.4s)		
+				article
+					font-size: 150%
+					width: 120%
+					margin-left: -10%
+		
+			// states
+			.active
+				display: block
+				+slideIn(0.7s)
+			
+			.nonactive
+				display: block
+				+slideOut(0.65s)
+			
+			.initial
+				display: block
+				+slideUp(0.8s)
+			
+			//
 			.logo
 				text-transform: uppercase
 				color: #FFF
-				font-size: 300%
-
+				font-size: 280%
+				+transition(0.4s) //using a mixin
 				.icon
-					background: url("/assets/img/logo-symbol-2x.png")
-
+					background-image: url("/assets/img/logo-symbol-2x.png")
+					background-size: contain
+					background-repeat: no-repeat
+					background-position: center
+					height: 2vh
+					display: block
+					width: 100%
+					margin: auto
+					margin-top: 10px
+				
+			#intro 
+				p
+					margin-bottom: 15%
+			
 			#game_login
-				display: none
-
+				input
+					width: 420px
+					padding-left: 33px
+					letter-spacing: 46px
+					height: 70px
+					background: transparent
+					border: none
+					outline: none
+					font-size: 35px
+					position: absolute
+					margin-top: -78px
+					text-transform: uppercase
+					color: #fff
+					display: block
+				#boxes
+					display: inline-block
+					margin: auto
+					.box
+						display: inline-block
+						float: left
+						height: 67px
+						width: 67px
+						background: #121C24
+						border: 1px solid
+						margin: 2px
+						outline: none
+						opacity: 0.05
+					.filled
+						opacity: 1
+				.button
+					margin-top: 10%
+					+fadeIn(3s)
+			
+			
+		/* IN GAME ****************/
+	
 		#game_controls
 			display: none
-
 			#fire_btn
 				font-size: 250%
 				display: block 

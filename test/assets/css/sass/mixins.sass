@@ -1,0 +1,161 @@
+// MIXINS
+=transition($time)
+	transition: all $time ease
+	-moz-transition: all $time ease
+	-webkit-transition: all $time ease-in-out
+	
+=position($x, $y)
+	transform: translate($x, $y)
+	-webkit-transform: translate($x, $y)
+	-moz-transform: translate($x, $y)
+	-o-transform: translate($x, $y)
+	
+=slideIn($time)
+	-webkit-animation: slidein $time
+	-moz-animation: slidein $time
+	-ms-animation: slidein $time
+	-o-animation: slidein $time
+
+=slideUp($time)
+	-webkit-animation: slideup $time
+	-moz-animation: slideup $time
+	-ms-animation: slideup $time
+	-o-animation: slideup $time
+
+=slideOut($time)
+	-webkit-animation: slideout $time
+	-moz-animation: slideout $time
+	-ms-animation: slideout $time
+	-o-animation: slideout $time
+	
+=fadeIn($time)
+	-webkit-animation: fadein $time
+	-moz-animation: fadein $time
+	-ms-animation: fadein $time
+	-o-animation: fadein $time
+
+		
+/* KEYFRAME ANIMATIONS ****************************/
+
+// SLIDE IN /////
+@-webkit-keyframes slidein 
+	from 
+		opacity: 0
+		margin-left: 200%
+	to
+		opacity: 1
+		margin-left: 0
+@-ms-keyframes slidein
+	from
+		opacity: 0
+		margin-left: 200%
+	to  
+		opacity: 1
+		margin-left: 0
+@keyframes slidein
+	from
+		opacity: 0
+		margin-left: 200%
+	to 
+		opacity: 1
+		margin-left: 0
+@-moz-keyframes slidein
+	from
+		opacity: 0
+		margin-left: 200%
+	to 
+		opacity: 1
+		margin-left: 0
+
+// SLIDE OUT ////
+@-webkit-keyframes slideout
+	from 
+		opacity: 1
+		margin-left: 0
+	to
+		opacity: 0
+		margin-left: -200%
+@-ms-keyframes slideout
+	from
+		opacity: 1
+		margin-left: 0
+	to  
+		opacity: 0
+		margin-left: -200%
+@keyframes slideout
+	from
+		opacity: 1
+		margin-left: 0
+	to 
+		opacity: 0
+		margin-left: -200%
+@-moz-keyframes slideout
+	from
+		opacity: 1
+		margin-left: 0
+	to 
+		opacity: 0
+		margin-left: -200%
+
+// SLIDE UP ////
+@-webkit-keyframes slideup
+	from 
+		opacity: 0
+		margin-top: 200%
+	to
+		opacity: 1
+		margin-top: 0
+@-ms-keyframes slideup
+	from
+		opacity: 0
+		margin-top: 200%
+	to  
+		opacity: 1
+		margin-top: 0
+@keyframes slideup
+	from
+		opacity: 0
+		margin-top: 200%
+	to 
+		opacity: 1
+		margin-top: 0
+@-moz-keyframes slideup
+	from
+		opacity: 0
+		margin-top: 200%
+	to 
+		opacity: 1
+		margin-top: 0
+
+
+// FADE IN ////
+@keyframes fadein 
+	from 
+		opacity: 0
+		transform: scale(0.5)
+	to  
+		pacity: 1
+		transform: scale(1)
+
+@-webkit-keyframes fadein 
+	from
+		opacity: 0
+		-webkit-transform: scale(0.5)
+	to
+		opacity: 1
+		-webkit-transform: scale(1)
+@-moz-keyframes fadein 
+	from
+		opacity: 0
+		-moz-transform: scale(0.5)
+	to
+		opacity: 1
+		-moz-transform: scale(1)
+@-ms-keyframes fadein 
+	from 
+		opacity: 0
+		-ms-transform: scale(0.5)
+	to
+		opacity: 1
+		-ms-transform: scale(1)
+	

@@ -1,0 +1,33 @@
+.loading-spinning-bubbles {
+  position: relative;
+  margin: auto; }
+  .loading-spinning-bubbles .bubble-container {
+    position: absolute;
+    top: calc(50% - 10px/2);
+    left: calc(50% - 10px/2);
+    transform-origin: -450% 50%; }
+  .loading-spinning-bubbles .bubble {
+    background: #FFF;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: bubble 1s infinite;
+    animation-delay: inherit;
+    transform: translateX(500%) rotate(-90deg);
+    animation-delay: -1.5s;
+    transform: translateX(500%) rotate(-45deg);
+    animation-delay: -1.375s;
+    transform: translateX(500%);
+    animation-delay: -1.25s;
+    transform: translateX(500%) rotate(45deg);
+    animation-delay: -1.125s;
+    transform: translateX(500%) rotate(90deg);
+    animation-delay: -1s;
+    transform: translateX(500%) rotate(135deg);
+    animation-delay: -0.875s;
+    transform: translateX(500%) rotate(180deg);
+    animation-delay: -0.75s;
+    transform: translateX(500%) rotate(225deg);
+    animation-delay: -0.625s; }
+
+/*# sourceMappingURL=loading.css.map */

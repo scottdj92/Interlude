@@ -6,6 +6,7 @@ mobileClient = {
 	name: null,
 	id: null,
 	col: null,
+	state: 0,
 	init : function () {
 
 		// create new instance of socket.io
@@ -31,6 +32,8 @@ mobileClient = {
 
 		// start general page interaction listeners
 		this.initListeners();
+		
+		setTimeout(function(){mobileClient.changeState();}, 2000);
 	},
 
 
@@ -85,10 +88,59 @@ mobileClient = {
 
 		}
 	},
-
+	
+	// MOBILE STATES   //////////////////////////////////////////////////////
+	changeState: function(){
+		//increment state
+		this.state += 1;
+		//check current state and take corresponding actions
+		switch(this.state){
+			case 1:
+				this.showIntro();
+				break;
+			case 2:
+				this.showLogin();
+				break;
+		}
+	},
+	
+	// STATE-CHANGE METHODS
+	showIntro: function(){
+		$("#pre-game").removeClass('center').addClass('center-top');
+		$("#intro").addClass('initial');
+		
+		var m = this;
+		$("#join_btn").on("click touchend", function(){ m.changeState(); });
+	},
+	
+	showLogin: function(){
+		$("#intro").removeClass("initial").addClass("nonactive").fadeOut(600);
+		$("#game_login").addClass("active");
+		
+		//input bar interaction (boxes will fill with each letter inputed)
+		var m = this;
+		$("#pw_input").on('keyup change', function(){
+			m.clearInputFill();
+			var chars = $('#pw_input').val().length;
+			console.log($('#pw_input').val());
+			var boxes = document.getElementsByClassName('box');
+			for(var i=0; i<chars; i++){
+				$(boxes[i]).addClass('filled');
+			}
+		});
+	},
+	
 	showGameControls : function(){
 		$('#game_login').fadeOut(200);
 		$('#game_controls').show();
+	},
+	
+	// HELPER
+	clearInputFill: function(){
+		var boxes = document.getElementsByClassName('box');
+		for(var i=0; i<5; i++){
+				$(boxes[i]).removeClass('filled');
+			}
 	},
 
 }
