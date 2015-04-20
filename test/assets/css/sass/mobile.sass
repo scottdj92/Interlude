@@ -18,6 +18,10 @@ html,body
 		display: block
 		position: relative
 		height: 100%
+		background-image: url("/assets/img/ipad-background.jpg")
+		background-size: cover
+		background-repeat: no-repeat
+		background-position: center
 		
 		.button
 			display: block
@@ -34,7 +38,6 @@ html,body
 			font-family: $def-font
 			background: none
 			color: #fff
-			+slideUp(0.8s)
 
 		.button:active
 			opacity: 1
@@ -113,14 +116,16 @@ html,body
 				input
 					width: 420px
 					padding-left: 33px
-					letter-spacing: 46px
+					letter-spacing: 59px
+					overflow: hidden
 					height: 70px
 					background: transparent
 					border: none
 					outline: none
 					font-size: 35px
+					font-family: 'Inconsolata'
 					position: absolute
-					margin-top: -78px
+					margin-top: -80px
 					text-transform: uppercase
 					color: #fff
 					display: block
@@ -130,9 +135,9 @@ html,body
 					.box
 						display: inline-block
 						float: left
-						height: 67px
-						width: 67px
-						background: #121C24
+						height: 70px
+						width: 70px
+						background: #080827
 						border: 1px solid
 						margin: 2px
 						outline: none
@@ -141,7 +146,8 @@ html,body
 						opacity: 1
 				.button
 					margin-top: 10%
-					+fadeIn(3s)
+					margin-bottom: 7%
+					
 			
 			
 		/* IN GAME ****************/

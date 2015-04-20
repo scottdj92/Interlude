@@ -7,6 +7,7 @@ mobileClient = {
 	id: null,
 	col: null,
 	state: 0,
+	
 	init : function () {
 
 		// create new instance of socket.io
@@ -59,11 +60,13 @@ mobileClient = {
 
 		/** FORM ACTIONS **/
 		$('#submit').on('click', function(e){
-			var input = document.getElementsByName('pw_input')[0].value.toUpperCase();
+			var input = $("#pw_input").val().toUpperCase();
 			self.connectData.password = input;
-			document.getElementsByName('pw_input').value = "";
+			// clear onscreen input
+			$("#pw_input").val('');
+			self.clearInputFill();
+			// emit through socket
 			self.socket.emit('player join', self.connectData);
-
 		});
 
 		/** GAME CONTROLS **/

@@ -126,6 +126,10 @@ html, body {
     display: block;
     position: relative;
     height: 100%;
+    background-image: url("/assets/img/ipad-background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     /* IN GAME *************** */ }
     html #mobile_body .button, body #mobile_body .button {
       display: block;
@@ -141,11 +145,7 @@ html, body {
       font-weight: 300;
       font-family: "Lato", sans-serif;
       background: none;
-      color: #fff;
-      -webkit-animation: slideup 0.8s;
-      -moz-animation: slideup 0.8s;
-      -ms-animation: slideup 0.8s;
-      -o-animation: slideup 0.8s; }
+      color: #fff; }
     html #mobile_body .button:active, body #mobile_body .button:active {
       opacity: 1; }
     html #mobile_body .center, body #mobile_body .center {
@@ -223,14 +223,16 @@ html, body {
       html #mobile_body #pre-game #game_login input, body #mobile_body #pre-game #game_login input {
         width: 420px;
         padding-left: 33px;
-        letter-spacing: 46px;
+        letter-spacing: 59px;
+        overflow: hidden;
         height: 70px;
         background: transparent;
         border: none;
         outline: none;
         font-size: 35px;
+        font-family: "Inconsolata";
         position: absolute;
-        margin-top: -78px;
+        margin-top: -80px;
         text-transform: uppercase;
         color: #fff;
         display: block; }
@@ -240,9 +242,9 @@ html, body {
         html #mobile_body #pre-game #game_login #boxes .box, body #mobile_body #pre-game #game_login #boxes .box {
           display: inline-block;
           float: left;
-          height: 67px;
-          width: 67px;
-          background: #121C24;
+          height: 70px;
+          width: 70px;
+          background: #080827;
           border: 1px solid;
           margin: 2px;
           outline: none;
@@ -251,10 +253,7 @@ html, body {
           opacity: 1; }
       html #mobile_body #pre-game #game_login .button, body #mobile_body #pre-game #game_login .button {
         margin-top: 10%;
-        -webkit-animation: fadein 3s;
-        -moz-animation: fadein 3s;
-        -ms-animation: fadein 3s;
-        -o-animation: fadein 3s; }
+        margin-bottom: 7%; }
     html #mobile_body #game_controls, body #mobile_body #game_controls {
       display: none; }
       html #mobile_body #game_controls #fire_btn, body #mobile_body #game_controls #fire_btn {
