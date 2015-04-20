@@ -248,12 +248,15 @@ html, body {
           border: 1px solid;
           margin: 2px;
           outline: none;
-          opacity: 0.05; }
+          opacity: 0.2; }
         html #mobile_body #pre-game #game_login #boxes .filled, body #mobile_body #pre-game #game_login #boxes .filled {
           opacity: 1; }
       html #mobile_body #pre-game #game_login .button, body #mobile_body #pre-game #game_login .button {
         margin-top: 10%;
         margin-bottom: 7%; }
+      html #mobile_body #pre-game #game_login #status, body #mobile_body #pre-game #game_login #status {
+        color: #FF2F47;
+        font-weight: 400; }
     html #mobile_body #game_controls, body #mobile_body #game_controls {
       display: none; }
       html #mobile_body #game_controls #fire_btn, body #mobile_body #game_controls #fire_btn {
