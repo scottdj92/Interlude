@@ -1,4 +1,6 @@
 @import url(loading.css);
+/* Properties */
+/* Animation */
 /* KEYFRAME ANIMATIONS *************************** */
 @-webkit-keyframes slidein {
   from {
@@ -25,6 +27,34 @@
   from {
     opacity: 0;
     margin-left: 200%; }
+  to {
+    opacity: 1;
+    margin-left: 0; } }
+@-webkit-keyframes slideinright {
+  from {
+    opacity: 0;
+    margin-left: -200%; }
+  to {
+    opacity: 1;
+    margin-left: 0; } }
+@-ms-keyframes slideinright {
+  from {
+    opacity: 0;
+    margin-left: -200%; }
+  to {
+    opacity: 1;
+    margin-left: 0; } }
+@keyframes slideinright {
+  from {
+    opacity: 0;
+    margin-left: -200%; }
+  to {
+    opacity: 1;
+    margin-left: 0; } }
+@-moz-keyframes slideinright {
+  from {
+    opacity: 0;
+    margin-left: -200%; }
   to {
     opacity: 1;
     margin-left: 0; } }
@@ -84,38 +114,144 @@
   to {
     opacity: 1;
     margin-top: 0; } }
+@-webkit-keyframes rotate {
+  from {
+    opacity: 0;
+    margin-left: 200%;
+    margin-top: -30%;
+    -webkit-transform: rotate(100deg); }
+  to {
+    opacity: 1;
+    margin-left: 0;
+    margin-top: 0;
+    -webkit-transform: rotate(0deg); } }
+@-ms-keyframes rotate {
+  from {
+    opacity: 0;
+    margin-left: 200%;
+    margin-top: -30%;
+    -ms-transform: rotate(100deg); }
+  to {
+    opacity: 1;
+    margin-left: 0;
+    margin-top: 0;
+    -ms-transform: rotate(0deg); } }
+@-keyframes rotate {
+  from {
+    opacity: 0;
+    margin-left: 200%;
+    margin-top: -30%;
+    transform: rotate(100deg); }
+
+  to {
+    opacity: 1;
+    margin-left: 0;
+    margin-top: 0;
+    transform: rotate(0deg); } }
+@-moz-keyframes rotate {
+  from {
+    opacity: 0;
+    margin-left: 200%;
+    margin-top: -30%;
+    -moz-transform: rotate(100deg); }
+  to {
+    opacity: 1;
+    margin-left: 0;
+    margin-top: 0;
+    -moz-transform: rotate(0deg); } }
+@-webkit-keyframes rotateright {
+  from {
+    opacity: 0;
+    margin-left: -200%;
+    margin-top: -30%;
+    -webkit-transform: rotate(-100deg); }
+  to {
+    opacity: 1;
+    margin-left: 0;
+    margin-top: 0;
+    -webkit-transform: rotate(0deg); } }
+@-ms-keyframes rotate {
+  from {
+    opacity: 0;
+    margin-left: -200%;
+    margin-top: -30%;
+    -ms-transform: rotate(-100deg); }
+  to {
+    opacity: 1;
+    margin-left: 0;
+    margin-top: 0;
+    -ms-transform: rotate(0deg); } }
+@-keyframes rotate {
+  from {
+    opacity: 0;
+    margin-left: -200%;
+    margin-top: -30%;
+    transform: rotate(-100deg); }
+
+  to {
+    opacity: 1;
+    margin-left: 0;
+    margin-top: 0;
+    transform: rotate(0deg); } }
+@-moz-keyframes rotate {
+  from {
+    opacity: 0;
+    margin-left: -200%;
+    margin-top: -30%;
+    -moz-transform: rotate(-100deg); }
+  to {
+    opacity: 1;
+    margin-left: 0;
+    margin-top: 0;
+    -moz-transform: rotate(0deg); } }
 @keyframes fadein {
   from {
-    opacity: 0;
-    transform: scale(0.5); }
+    opacity: 0; }
   to {
-    pacity: 1;
-    transform: scale(1); } }
+    opacity: 1; } }
 @-webkit-keyframes fadein {
   from {
-    opacity: 0;
-    -webkit-transform: scale(0.5); }
+    opacity: 0; }
   to {
-    opacity: 1;
-    -webkit-transform: scale(1); } }
+    opacity: 1; } }
 @-moz-keyframes fadein {
   from {
-    opacity: 0;
-    -moz-transform: scale(0.5); }
+    opacity: 0; }
   to {
-    opacity: 1;
-    -moz-transform: scale(1); } }
+    opacity: 1; } }
 @-ms-keyframes fadein {
   from {
-    opacity: 0;
-    -ms-transform: scale(0.5); }
+    opacity: 0; }
   to {
-    opacity: 1;
-    -ms-transform: scale(1); } }
+    opacity: 1; } }
+@keyframes fadeout {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+@-webkit-keyframes fadeout {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+@-moz-keyframes fadeout {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+@-ms-keyframes fadeout {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
 html, body {
-  font-family: "Lato", sans-serif;
+  font-family: "proxima-nova-condensed", "Lato", sans-serif;
   margin: 0;
   background: #162028;
+  background-image: url("/assets/img/ipad-background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   font: 90%;
   font-weight: 300;
   color: #FFF;
@@ -125,86 +261,91 @@ html, body {
     overflow: hidden;
     display: block;
     position: relative;
+    width: 100%;
     height: 100%;
-    background-image: url("/assets/img/ipad-background.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
     /* IN GAME *************** */ }
     html #mobile_body .button, body #mobile_body .button {
-      display: block;
+      display: inline-block;
       margin: auto;
       border: 1px solid #fff;
-      padding: 2%;
-      width: 30%;
+      padding: 4% 5%;
       min-width: 150px;
-      max-width: 230px;
+      max-width: 240px;
       text-transform: uppercase;
-      opacity: 0.4;
-      font-size: 80%;
+      opacity: 0.8;
+      font-size: 75%;
       font-weight: 300;
-      font-family: "Lato", sans-serif;
+      font-family: "proxima-nova-condensed", "Lato", sans-serif;
       background: none;
-      color: #fff; }
+      color: #fff;
+      box-shadow: inset 0px 0px 25px 15px rgba(255, 255, 255, 0.1); }
     html #mobile_body .button:active, body #mobile_body .button:active {
-      opacity: 1; }
+      opacity: 1;
+      background: #FFF;
+      color: #162028;
+      font-weight: 300; }
     html #mobile_body .center, body #mobile_body .center {
+      position: absolute;
       left: 50%;
-      top: 42%;
-      transform: translate(-50%, -42%);
-      -webkit-transform: translate(-50%, -42%);
-      -moz-transform: translate(-50%, -42%);
-      -o-transform: translate(-50%, -42%); }
+      top: 45%;
+      transform: translate(-50%, -45%);
+      -webkit-transform: translate(-50%, -45%);
+      -moz-transform: translate(-50%, -45%);
+      -o-transform: translate(-50%, -45%); }
     html #mobile_body .center-top, body #mobile_body .center-top {
+      position: absolute;
       left: 50%;
-      top: 25%;
-      transform: translate(-50%, -25%);
-      -webkit-transform: translate(-50%, -25%);
-      -moz-transform: translate(-50%, -25%);
-      -o-transform: translate(-50%, -25%); }
+      top: 28%;
+      transform: translate(-50%, -28%);
+      -webkit-transform: translate(-50%, -28%);
+      -moz-transform: translate(-50%, -28%);
+      -o-transform: translate(-50%, -28%); }
+    html #mobile_body .sect, body #mobile_body .sect {
+      display: none;
+      position: absolute;
+      margin: auto;
+      text-align: center;
+      width: 100%; }
+      html #mobile_body .sect article, body #mobile_body .sect article {
+        font-size: 150%;
+        width: 120%;
+        margin-left: -10%; }
+    html #mobile_body .active, body #mobile_body .active {
+      display: block; }
+    html #mobile_body .nonactive, body #mobile_body .nonactive {
+      display: block;
+      -webkit-animation: slideout 0.65s;
+      -moz-animation: slideout 0.65s;
+      -ms-animation: slideout 0.65s;
+      -o-animation: slideout 0.65s; }
+    html #mobile_body .finished, body #mobile_body .finished {
+      opacity: 0; }
+    html #mobile_body .initial, body #mobile_body .initial {
+      display: block;
+      -webkit-animation: slideup 0.8s;
+      -moz-animation: slideup 0.8s;
+      -ms-animation: slideup 0.8s;
+      -o-animation: slideup 0.8s; }
     html #mobile_body #pre-game, body #mobile_body #pre-game {
       display: block;
-      position: absolute;
-      min-width: 300px;
+      min-width: 320px;
       text-align: center;
-      transition: all 0.4s ease;
-      -moz-transition: all 0.4s ease;
-      -webkit-transition: all 0.4s ease-in-out; }
-      html #mobile_body #pre-game .sect, body #mobile_body #pre-game .sect {
-        display: none;
-        position: absolute;
-        margin: auto;
-        text-align: center;
-        width: 100%;
-        transition: all 0.4s ease;
-        -moz-transition: all 0.4s ease;
-        -webkit-transition: all 0.4s ease-in-out; }
-        html #mobile_body #pre-game .sect article, body #mobile_body #pre-game .sect article {
-          font-size: 150%;
-          width: 120%;
-          margin-left: -10%; }
-      html #mobile_body #pre-game .active, body #mobile_body #pre-game .active {
-        display: block;
-        -webkit-animation: slidein 0.7s;
-        -moz-animation: slidein 0.7s;
-        -ms-animation: slidein 0.7s;
-        -o-animation: slidein 0.7s; }
-      html #mobile_body #pre-game .nonactive, body #mobile_body #pre-game .nonactive {
-        display: block;
-        -webkit-animation: slideout 0.65s;
-        -moz-animation: slideout 0.65s;
-        -ms-animation: slideout 0.65s;
-        -o-animation: slideout 0.65s; }
-      html #mobile_body #pre-game .initial, body #mobile_body #pre-game .initial {
-        display: block;
-        -webkit-animation: slideup 0.8s;
-        -moz-animation: slideup 0.8s;
-        -ms-animation: slideup 0.8s;
-        -o-animation: slideup 0.8s; }
+      transition: all 0.5s ease;
+      -moz-transition: all 0.5s ease;
+      -webkit-transition: all 0.5s ease-in-out; }
       html #mobile_body #pre-game .logo, body #mobile_body #pre-game .logo {
         text-transform: uppercase;
         color: #FFF;
         font-size: 280%;
+        background-image: url("/assets/img/logo.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 150px;
+        width: 300px;
+        margin: auto;
         transition: all 0.4s ease;
         -moz-transition: all 0.4s ease;
         -webkit-transition: all 0.4s ease-in-out; }
@@ -219,52 +360,238 @@ html, body {
           margin: auto;
           margin-top: 10px; }
       html #mobile_body #pre-game #intro p, body #mobile_body #pre-game #intro p {
-        margin-bottom: 15%; }
-      html #mobile_body #pre-game #game_login input, body #mobile_body #pre-game #game_login input {
-        width: 420px;
-        padding-left: 33px;
-        letter-spacing: 59px;
-        overflow: hidden;
-        height: 70px;
-        background: transparent;
-        border: none;
-        outline: none;
-        font-size: 35px;
-        font-family: "Inconsolata";
-        position: absolute;
-        margin-top: -80px;
-        text-transform: uppercase;
-        color: #fff;
-        display: block; }
-      html #mobile_body #pre-game #game_login #boxes, body #mobile_body #pre-game #game_login #boxes {
-        display: inline-block;
-        margin: auto; }
-        html #mobile_body #pre-game #game_login #boxes .box, body #mobile_body #pre-game #game_login #boxes .box {
-          display: inline-block;
-          float: left;
+        margin-bottom: 15%;
+        font-size: 110%;
+        font-weight: 100; }
+      html #mobile_body #pre-game #game_login, body #mobile_body #pre-game #game_login {
+        font-weight: 100;
+        -webkit-animation: slidein 0.7s;
+        -moz-animation: slidein 0.7s;
+        -ms-animation: slidein 0.7s;
+        -o-animation: slidein 0.7s; }
+        html #mobile_body #pre-game #game_login input, body #mobile_body #pre-game #game_login input {
+          width: 420px;
+          padding-left: 30px;
+          letter-spacing: 56px;
+          overflow: hidden;
           height: 70px;
-          width: 70px;
-          background: #080827;
-          border: 1px solid;
-          margin: 2px;
+          background: transparent;
+          border: none;
           outline: none;
-          opacity: 0.2; }
-        html #mobile_body #pre-game #game_login #boxes .filled, body #mobile_body #pre-game #game_login #boxes .filled {
-          opacity: 1; }
-      html #mobile_body #pre-game #game_login .button, body #mobile_body #pre-game #game_login .button {
-        margin-top: 10%;
-        margin-bottom: 7%; }
-      html #mobile_body #pre-game #game_login #status, body #mobile_body #pre-game #game_login #status {
-        color: #FF2F47;
-        font-weight: 400; }
-    html #mobile_body #game_controls, body #mobile_body #game_controls {
-      display: none; }
-      html #mobile_body #game_controls #fire_btn, body #mobile_body #game_controls #fire_btn {
-        font-size: 250%;
-        display: block;
-        margin: auto;
-        max-width: 400px;
-        margin-top: 40%;
-        padding: 2%; }
+          font-size: 40px;
+          font-family: "Inconsolata";
+          position: absolute;
+          margin-top: -85px;
+          text-transform: uppercase;
+          color: #fff;
+          display: block; }
+        html #mobile_body #pre-game #game_login #boxes, body #mobile_body #pre-game #game_login #boxes {
+          display: inline-block;
+          margin: auto; }
+          html #mobile_body #pre-game #game_login #boxes .box, body #mobile_body #pre-game #game_login #boxes .box {
+            display: inline-block;
+            float: left;
+            height: 70px;
+            width: 70px;
+            background: #080827;
+            border: 1px solid;
+            margin: 2px;
+            outline: none;
+            opacity: 0.2; }
+          html #mobile_body #pre-game #game_login #boxes .filled, body #mobile_body #pre-game #game_login #boxes .filled {
+            opacity: 1; }
+        html #mobile_body #pre-game #game_login .button, body #mobile_body #pre-game #game_login .button {
+          margin-top: 10%;
+          margin-bottom: 7%; }
+        html #mobile_body #pre-game #game_login #status, body #mobile_body #pre-game #game_login #status {
+          color: #FF2F47;
+          font-weight: 400; }
+    html #mobile_body #in-game, body #mobile_body #in-game {
+      display: block;
+      height: 100%; }
+      html #mobile_body #in-game #game_prep, body #mobile_body #in-game #game_prep {
+        height: 100%; }
+        html #mobile_body #in-game #game_prep .instructions, body #mobile_body #in-game #game_prep .instructions {
+          display: block;
+          position: relative;
+          height: 20%;
+          -webkit-animation: fadein 0.5s;
+          -moz-animation: fadein 0.5s;
+          -ms-animation: fadein 0.5s;
+          -o-animation: fadein 0.5s; }
+          html #mobile_body #in-game #game_prep .instructions #name_instr, body #mobile_body #in-game #game_prep .instructions #name_instr {
+            display: none;
+            font-size: 175%;
+            margin-top: 60%; }
+            html #mobile_body #in-game #game_prep .instructions #name_instr input, body #mobile_body #in-game #game_prep .instructions #name_instr input {
+              display: block;
+              margin: auto;
+              color: #fff;
+              font-family: "proxima-nova-condensed", "Lato", sans-serif;
+              font-size: 110%;
+              text-align: center;
+              text-transform: uppercase;
+              letter-spacing: 5px;
+              margin-bottom: 15%;
+              background: transparent;
+              border: none;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+              padding: 1%;
+              outline: none; }
+          html #mobile_body #in-game #game_prep .instructions #colors_instr, body #mobile_body #in-game #game_prep .instructions #colors_instr {
+            font-size: 175%;
+            font-weight: 100; }
+        html #mobile_body #in-game #game_prep #colors.down, body #mobile_body #in-game #game_prep #colors.down {
+          margin-top: 30%;
+          transition: all 0.4s ease;
+          -moz-transition: all 0.4s ease;
+          -webkit-transition: all 0.4s ease-in-out; }
+        html #mobile_body #in-game #game_prep #colors, body #mobile_body #in-game #game_prep #colors {
+          display: block;
+          height: 80%;
+          -webkit-transform: translate3d(0, 0, 0);
+          -webkit-timing-function: cubic-bezier(0.42, 0, 0.58, 1); }
+          html #mobile_body #in-game #game_prep #colors .color, body #mobile_body #in-game #game_prep #colors .color {
+            display: none;
+            height: 20%;
+            width: 100%;
+            background-size: 100%;
+            overflow: hidden;
+            -webkit-transform: translate3d(0, 0, 0);
+            -webkit-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+            transition: all 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            -webkit-transition: all 0.4s ease-in-out; }
+          html #mobile_body #in-game #game_prep #colors .color.white:before, body #mobile_body #in-game #game_prep #colors .color.white:before {
+            display: block;
+            background-size: 100%;
+            background-image: url("/assets/img/pattern-white-strings-2x.svg");
+            background-position: center;
+            position: relative;
+            height: 130%;
+            left: 0;
+            top: -5%;
+            width: 108%;
+            transform: rotate(-12deg);
+            -moz-transform: rotate(-12deg);
+            -o-transform: rotate(-12deg);
+            -webkit-transform: rotate(-12deg);
+            transform-origin: right center;
+            -moz-transform-origin: right center;
+            -webkit-transform-origin: right center;
+            content: ""; }
+          html #mobile_body #in-game #game_prep #colors .white, body #mobile_body #in-game #game_prep #colors .white {
+            background-color: #fff; }
+          html #mobile_body #in-game #game_prep #colors .color.pink:before, body #mobile_body #in-game #game_prep #colors .color.pink:before {
+            display: block;
+            background-size: 100%;
+            background-image: url("/assets/img/pattern-pink-brass-2x.svg");
+            background-position: center;
+            position: relative;
+            height: 130%;
+            left: 0;
+            top: -5%;
+            width: 108%;
+            transform: rotate(-12deg);
+            -moz-transform: rotate(-12deg);
+            -o-transform: rotate(-12deg);
+            -webkit-transform: rotate(-12deg);
+            transform-origin: right center;
+            -moz-transform-origin: right center;
+            -webkit-transform-origin: right center;
+            content: ""; }
+          html #mobile_body #in-game #game_prep #colors .pink, body #mobile_body #in-game #game_prep #colors .pink {
+            background-color: #ff4399; }
+          html #mobile_body #in-game #game_prep #colors .color.blue:before, body #mobile_body #in-game #game_prep #colors .color.blue:before {
+            display: block;
+            background-size: 100%;
+            background-image: url("/assets/img/pattern-blue-keyboards-2x.svg");
+            background-position: center;
+            position: relative;
+            height: 130%;
+            left: 0;
+            top: -5%;
+            width: 108%;
+            transform: rotate(-12deg);
+            -moz-transform: rotate(-12deg);
+            -o-transform: rotate(-12deg);
+            -webkit-transform: rotate(-12deg);
+            transform-origin: right center;
+            -moz-transform-origin: right center;
+            -webkit-transform-origin: right center;
+            content: ""; }
+          html #mobile_body #in-game #game_prep #colors .blue, body #mobile_body #in-game #game_prep #colors .blue {
+            background-color: #2cfff4; }
+          html #mobile_body #in-game #game_prep #colors .color.purple:before, body #mobile_body #in-game #game_prep #colors .color.purple:before {
+            display: block;
+            background-size: 100%;
+            background-image: url("/assets/img/pattern-purple-percussion-2x.svg");
+            background-position: center;
+            position: relative;
+            height: 130%;
+            left: 0;
+            top: -5%;
+            width: 108%;
+            transform: rotate(-12deg);
+            -moz-transform: rotate(-12deg);
+            -o-transform: rotate(-12deg);
+            -webkit-transform: rotate(-12deg);
+            transform-origin: right center;
+            -moz-transform-origin: right center;
+            -webkit-transform-origin: right center;
+            content: ""; }
+          html #mobile_body #in-game #game_prep #colors .purple, body #mobile_body #in-game #game_prep #colors .purple {
+            background-color: #6c7cff; }
+          html #mobile_body #in-game #game_prep #colors .color.green:before, body #mobile_body #in-game #game_prep #colors .color.green:before {
+            display: block;
+            background-size: 100%;
+            background-image: url("/assets/img/pattern-green-woodwinds-2x.svg");
+            background-position: center;
+            position: relative;
+            height: 130%;
+            left: 0;
+            top: -5%;
+            width: 108%;
+            transform: rotate(-12deg);
+            -moz-transform: rotate(-12deg);
+            -o-transform: rotate(-12deg);
+            -webkit-transform: rotate(-12deg);
+            transform-origin: right center;
+            -moz-transform-origin: right center;
+            -webkit-transform-origin: right center;
+            content: ""; }
+          html #mobile_body #in-game #game_prep #colors .green, body #mobile_body #in-game #game_prep #colors .green {
+            background-color: #29ff7f; }
+          html #mobile_body #in-game #game_prep #colors .color.selected, body #mobile_body #in-game #game_prep #colors .color.selected {
+            height: 100%;
+            z-index: 1; }
+          html #mobile_body #in-game #game_prep #colors .color.selected:before, body #mobile_body #in-game #game_prep #colors .color.selected:before {
+            top: -21%;
+            width: 152%;
+            transform: rotate(-42deg);
+            -moz-transform: rotate(-42deg);
+            -o-transform: rotate(-42deg);
+            -webkit-transform: rotate(-42deg); }
+          html #mobile_body #in-game #game_prep #colors .color.nonactive, body #mobile_body #in-game #game_prep #colors .color.nonactive {
+            height: 0%; }
+          html #mobile_body #in-game #game_prep #colors .color:nth-child(odd), body #mobile_body #in-game #game_prep #colors .color:nth-child(odd) {
+            -webkit-animation: slideinright 0.6s;
+            -moz-animation: slideinright 0.6s;
+            -ms-animation: slideinright 0.6s;
+            -o-animation: slideinright 0.6s; }
+          html #mobile_body #in-game #game_prep #colors .color:nth-child(even), body #mobile_body #in-game #game_prep #colors .color:nth-child(even) {
+            -webkit-animation: slidein 0.5s;
+            -moz-animation: slidein 0.5s;
+            -ms-animation: slidein 0.5s;
+            -o-animation: slidein 0.5s; }
+      html #mobile_body #in-game #game_controls, body #mobile_body #in-game #game_controls {
+        display: none; }
+        html #mobile_body #in-game #game_controls #fire_btn, body #mobile_body #in-game #game_controls #fire_btn {
+          font-size: 250%;
+          display: block;
+          margin: auto;
+          max-width: 400px;
+          margin-top: 40%;
+          padding: 2%; }
 
 /*# sourceMappingURL=mobile.css.map */
