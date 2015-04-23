@@ -52,6 +52,7 @@ game.draw = {
   },
   //image draw function
   img : function(image, imgX, imgY, imgW, imgH, x, y, w, h) {
-    this.ctx.drawImage(image, imgX, imgY, imgW, imgH, x, y, w*this.canvas.height, h*this.canvas.height);
+    this.ctx.drawImage(image, imgX, imgY, imgW, imgH, 
+      x*this.canvas.height, y*this.canvas.height, w*this.canvas.height, h*this.canvas.height);
   }
 }
