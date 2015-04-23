@@ -20,7 +20,7 @@ game.interlude = {
     var num = Math.floor(Math.random()*10);
     var name ='user'+num;
     //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
-    var socket = io.connect( window.location.origin, {query: 'user='+name, type: 'desktop'});
+    
     //set inital canvas variables
     this.canvas = document.querySelector('#area');
     this.ctx = this.canvas.getContext('2d');
