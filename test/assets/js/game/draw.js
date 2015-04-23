@@ -49,5 +49,9 @@ game.draw = {
     size *= this.canvas.height;
     this.ctx.fillRect(-size/2, -size/2, size, size);
     this.ctx.restore();
+  },
+  //image draw function
+  img : function(image, imgX, imgY, imgW, imgH, x, y, w, h) {
+    this.ctx.drawImage(image, imgX, imgY, imgW, imgH, x, y, w*this.canvas.height, h*this.canvas.height);
   }
 }

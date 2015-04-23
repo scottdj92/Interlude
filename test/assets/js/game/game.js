@@ -9,7 +9,8 @@ game.interlude = {
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
-  state : "GAME", //current game state
+  state : "START", //current game state
+  backgroundImg : undefined,
 
   init : function() {
     console.log(this);
@@ -24,6 +25,9 @@ game.interlude = {
     this.ctx = this.canvas.getContext('2d');
     this.ctx.lineWidth = 5;
 	  game.draw.init(this.canvas, this.ctx);
+
+    this.backgroundImg = new Image();
+    this.backgroundImg.src = "assets/img/background1.png";
 
 	//get passwords
 	this.password = this.generatePassword();
@@ -172,10 +176,15 @@ game.interlude = {
     });
     this.blackHole.render();
   },
+  //render function for start screen
+  renderStart : function() {
+    game.draw.img(this.backgroundImg, 0,7545,1920,1080, 0,0,16/9,1)
+  },
   //Main render function
   render : function () {
     switch(this.state) {
       case "START" :
+        this.renderStart();
         break;
       case "GAME" :
         this.renderGame();//render in game screen
