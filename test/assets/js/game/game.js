@@ -32,74 +32,65 @@ game.interlude = {
 	this.password = this.generatePassword();
 	console.log(this.password);
 	
-	/** PLAYER CONNECTING TO GAME ****************************************/
-	//
-    //Set up socket events 
-    socket.on('player join', function(data){
-	  // check password
-	  console.log(data);
-	  // if password is correct, create new player
-	  if( data.password == self.password ){	
-		// emit successful join
-		socket.emit('player joined', data.sockID);
-        // create new player
-		self.createPlayer(data);
-	  } 
-	  else {
-	  	//emit rejection
-		socket.emit('player reject', data.sockID);
-	  }
-    });
+	// /** PLAYER CONNECTING TO GAME ****************************************/
+	// //
+ //    //Set up socket events 
+ //    socket.on('player join', function(data){
+	//   // check password
+	//   console.log(data);
+	//   // if password is correct, create new player
+	//   if( data.password == self.password ){	
+	// 	// emit successful join
+	// 	socket.emit('player joined', data.sockID);
+ //        // create new player
+	// 	self.createPlayer(data);
+	//   } 
+	//   else {
+	//   	//emit rejection
+	// 	socket.emit('player reject', data.sockID);
+	//   }
+ //    });
 	
-	/** HANDLING PLAYER ACTIONS ****************************************/
-	//
-	// Firing on phone
-    socket.on('game fire', function(data){
-      self.bubbles.forEach(function(bubble, index, array){
-        //If there is a collision and the colors match
-        if(self.circleCollison(bubble, self.players[data.id]) &&
-            bubble.color === self.players[data.id].color ) {
-          array.splice(index, 1);
-        }
-      });
-    });
-
+	// /** HANDLING PLAYER ACTIONS ****************************************/
+	// //
+	// // Firing on phone
+ //    socket.on('game fire', function(data){
+ //      self.bubbles.forEach(function(bubble, index, array){
+ //        //If there is a collision and the colors match
+ //        if(self.circleCollison(bubble, self.players[data.id]) &&
+ //            bubble.color === self.players[data.id].color ) {
+ //          array.splice(index, 1);
+ //        }
+ //      });
+ //    });
 	  
-    socket.on('phone tilt', function(data) {
-      //console.log(players);
-      //console.log(data);
-      if(self.players[data.id]) {
-        //Begin rotation nonsense
-      /*  if(self.players[data.id].startRotation === undefined)
-          self.players[data.id].startRotation = data.rot;
-        var angle = data.rot - self.players[data.id].startRotation;
-        angle = self.mod(angle + 180, 360) -180;*/
-        //var newRot = data.rot - self.players[data.id].startRotation;
-        //end rotation nonesense
-        //console.log(self.players[data.id].startRotation);
-		    //console.log(angle);
-        self.players[data.id].setTarget(data.xAcc*20 + self.canvas.width/2, 250 - data.yAcc * 20);
-      }
-    });
+ //    socket.on('phone tilt', function(data) {
+ //      //console.log(players);
+ //      //console.log(data);
+ //      if(self.players[data.id]) {
+ //        self.players[data.id].setTarget(data.xAcc*20 + self.canvas.width/2, 250 - data.yAcc * 20);
+ //      }
+ //    });
     
-    socket.on('player leave', function(sockID) {
-      // data only contains the play id
-      console.log("PLAYER LEAVE:");
-      var target = self.findPlayer(sockID);
-      if(target){
-        console.log("Player "+target.id+" has left");
-        self.players.splice(self.players.indexOf(target),1); // removes player from players array
-      }
-    });
+ //    socket.on('player leave', function(sockID) {
+ //      // data only contains the play id
+ //      console.log("PLAYER LEAVE:");
+ //      var target = self.findPlayer(sockID);
+ //      if(target){
+ //        console.log("Player "+target.id+" has left");
+ //        self.players.splice(self.players.indexOf(target),1); // removes player from players array
+ //      }
+ //    });
+    game.sockets.init();
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
     this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
-
     this.loop();
   },
 
   /** HELPER FUNCTIONS ****************************************/
+  //Loads all image assets
   loadImages : function() {
     this.backgroundImg = this.loadImg("assets/img/background1.png");
     this.bubbleAssets['cyan'] = this.loadImg("assets/img/cyan-sprite.png"); 
@@ -108,7 +99,7 @@ game.interlude = {
     this.bubbleAssets['white'] = this.loadImg("assets/img/white-sprite.png");
     this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
   },
-
+  //retune the image object with the source passed in
   loadImg : function(src) {
     var asset = new Image();
     asset.src = src;
