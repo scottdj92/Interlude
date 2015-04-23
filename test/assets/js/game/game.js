@@ -11,6 +11,7 @@ game.interlude = {
   nextBubble: 0, //time until next bubble spawn
   state : "START", //current game state
   backgroundImg : undefined,
+  bubbleAssets : {},
 
   init : function() {
     console.log(this);
@@ -26,9 +27,7 @@ game.interlude = {
     this.ctx.lineWidth = 5;
 	  game.draw.init(this.canvas, this.ctx);
 
-    this.backgroundImg = new Image();
-    this.backgroundImg.src = "assets/img/background1.png";
-
+    this.loadImages();
 	//get passwords
 	this.password = this.generatePassword();
 	console.log(this.password);
@@ -101,6 +100,20 @@ game.interlude = {
   },
 
   /** HELPER FUNCTIONS ****************************************/
+  loadImages : function() {
+    this.backgroundImg = this.loadImg("assets/img/background1.png");
+    this.bubbleAssets['cyan'] = this.loadImg("assets/img/cyan-sprite.png"); 
+    this.bubbleAssets['pink'] = this.loadImg("assets/img/pink-sprite.png");
+    this.bubbleAssets['purple'] = this.loadImg("assets/img/purple-sprite.png");
+    this.bubbleAssets['white'] = this.loadImg("assets/img/white-sprite.png");
+    this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
+  },
+
+  loadImg : function(src) {
+    var asset = new Image();
+    asset.src = src;
+    return asset;
+  },
   //Main loop that gets called on each frame
   loop : function () {
     requestAnimationFrame(this.loop.bind(this));//Set up next loop call
