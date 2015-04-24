@@ -48,8 +48,12 @@ audio = {
 		if (!createjs.Sound.registerPlugins([createjs.WebAudioPlugin])) {
 			document.getElementById("#area").style.display = 'block';
 			console.log('sound failed');
+
+			createjs.Sound.addEventListener("fileload", createjs.proxy(audio.handleLoad, this)); //add event listener for when load is completed
+			createjs.Sound.registerSound(this.src); //register sound
 			return;
 		};
+
 
 		/*
 		//create new stage and point it at canvas
@@ -74,8 +78,7 @@ audio = {
 		stage.update(); //update stage to show preload
 		*/
 
-		createjs.Sound.addEventListener("fileload", createjs.proxy(audio.handleLoad, this)); //add event listener for when load is completed
-		createjs.Sound.registerSound(this.src); //register sound
+		
 		//console.log('sound has loaded');
 		//console.log(audio.assetsPath);
 		//console.log(audio.src);
@@ -138,7 +141,7 @@ audio = {
 		//stage.removeChild(messageField);
 
 		//start playing the sound we loaded, looping.
-		audio.soundInstance = createjs.Sound.play(audio.src, {loop: -1}); //we can change loop to 1 to play only once.
+		audio.soundInstance = createjs.Sound.play(audio.src, {loop: 1}); //we can change loop to 1 to play only once.
 
 		// test function that allows quick stop
 		/*stage.addEventListener('stagemousedown', function(){
@@ -162,8 +165,8 @@ audio = {
 		*/
 
 		//start tick function so we can "move" before updating the stage
-		createjs.Ticker.addEventListener('tick', tick);
-		createjs.Ticker.setInterval(TICK_FREQ);
+		createjs.Ticker.addEventListener(this, audio.tick);
+		createjs.Ticker.setInterval(audio.TICK_FREQ);
 	},
 
 	tick:function(evt)
@@ -219,6 +222,6 @@ audio = {
 		}*/
 
 		//update stage
-		stage.update();
+		$('#area').update();
 	}
 }
