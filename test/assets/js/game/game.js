@@ -28,9 +28,9 @@ game.interlude = {
 	  game.draw.init(this.canvas, this.ctx);
 
     this.loadImages();
-	//get passwords
-	this.password = this.generatePassword();
-	console.log(this.password);
+  	//get passwords
+  	this.password = this.generatePassword();
+  	console.log(this.password);
 	
 	// /** PLAYER CONNECTING TO GAME ****************************************/
 	// //

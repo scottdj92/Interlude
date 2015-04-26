@@ -21,19 +21,16 @@ game.sockets = {
         this.socket.emit('player reject', data.sockID);
       } 
     });
+
+    //recieves event once a player has typed in the code and selected a color
+    this.socket.on('player ready', function(data){
+      app.players[data.id].ready = true;
+    });
   
     /** HANDLING PLAYER ACTIONS ****************************************/
     //
     // Firing on phone
     this.socket.on('game fire', function(data){
-      /*app.bubbles.forEach(function(bubble, index, array){
-        //If there is a collision and the colors match
-        if(app.circleCollison(bubble, app.players[data.id]) &&
-            bubble.color === app.players[data.id].color ) {
-          array.splice(index, 1);
-        }
-      });*/
-
       //just make this add a projectile
     });
     
