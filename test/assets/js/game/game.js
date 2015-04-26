@@ -4,6 +4,10 @@ var game = game || {};
 game.interlude = {
   players : [], //array of players in the game
   bubbles : [], //array of bubbles in the game
+  projectiles : { //Holds all projectiles in the game so we dont make extra
+    active : [], //currently active projectiles
+    inactive : [] //inactive projectiles
+  },
   blackHole : undefined,
   canvas : undefined, //canvas for drawing
   ctx : undefined, //drawing context
@@ -86,6 +90,11 @@ game.interlude = {
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
     this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
+
+    for(var i = 0; i < 50; i++){
+      this.projectiles.inactive.push(new game.Projectile());
+    }
+
     this.loop();
   },
 

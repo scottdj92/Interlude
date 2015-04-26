@@ -32,6 +32,7 @@ game.sockets = {
     // Firing on phone
     this.socket.on('game fire', function(data){
       //just make this add a projectile
+      
     });
     
     this.socket.on('phone tilt', function(data) {
