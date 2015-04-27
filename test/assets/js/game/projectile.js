@@ -39,11 +39,11 @@ game.Projectile = function() {
     this.pow = pow;
     this.canHit = false;
     this.dead = false;
-    this.color = color;
+    this.color = "black";
     this.id = id;
   };
 
   p.render = function() {
-    game.draw.circle(this.x,this.y, 100-z/100 * 0.3, this.color);
+    game.draw.circle(this.x,this.y, 100-this.z/100 * 0.004, this.color);
   };
 }

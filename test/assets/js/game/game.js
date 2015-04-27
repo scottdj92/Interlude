@@ -175,6 +175,10 @@ game.interlude = {
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);//draw each bubble
     });
+    this.projectiles.active.forEach(function(proj){
+      proj.render();
+    });
+
     //loop through players
     this.players.forEach(function(player) {
       player.render(self.ctx);//draw each player

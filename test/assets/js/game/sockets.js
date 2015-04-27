@@ -34,17 +34,14 @@ game.sockets = {
     this.socket.on('game fire', function(data){
       //just make this add a projectile
       var player = app.players[data.id];
-      console.log(data);
-      app.projectiles.inactive[0].reset(player.x, player.y, data.id, data.power, player.color);
+      app.projectiles.inactive[0].reset(player.x, player.y, data.id, data.dist, player.color);
       app.projectiles.active.push(app.projectiles.inactive[0]);
       app.projectiles.inactive.splice(0,1);
     });
     
     this.socket.on('phone tilt', function(data) {
-      //console.log(players);
-      //console.log(data);
       if(app.players[data.id]) {
-        app.players[data.id].setTarget(data.xAcc*20 + app.canvas.width/2, 250 - data.yAcc * 20);
+        app.players[data.id].setTarget((data.xAcc/90) + 8/9, -1*(data.yAcc/90) + .5);
       }
     });
     
