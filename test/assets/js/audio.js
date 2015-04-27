@@ -37,7 +37,9 @@ audio = {
 	circleHue : 300, //base color hue
 	//var waves = new createjs.Container(); //container used to store waves when we draw them
 	circleFreqChunk, //chunk of freqByteData array that is computed per circle
-	var dataAverage = [42, 42, 42, 42]; //array recording data for the 4 most recent ticks
+	*/
+	dataAverage : [42, 42, 42, 42], //array recording data for the 4 most recent ticks
+	/*
 	var waveImg = []; //array of wave images with varying stroke thickness
 	*/
 	//console.log('audio.js loaded');
@@ -166,23 +168,25 @@ audio = {
 		*/
 
 		//start tick function so we can "move" before updating the stage
-		//createjs.Ticker.init();
-		createjs.Ticker.addEventListener('tick' audio.tick);
+		createjs.Ticker.addEventListener('tick', this.tick);
 		createjs.Ticker.setInterval(audio.TICK_FREQ);
 	},
 
 	tick:function(evt)
 	{
-		this.analyzerNode.getFloatFrequencyData(freqFloatData); //gives us dB
-		this.analyzerNode.getByteFrequencyData(freqByteData); //gives us frequency
-		this.analyzerNode.getByteTimeDomainData(timeByteData); //gives us waveform
+		audio.analyzerNode.getFloatFrequencyData(audio.freqFloatData); //gives us dB
+		audio.analyzerNode.getByteFrequencyData(audio.freqByteData); //gives us frequency
+		audio.analyzerNode.getByteTimeDomainData(audio.timeByteData); //gives us waveform
 
+		/*
 		console.log(audio.freqFloatData);
 		console.log(audio.freqByteData);
 		console.log(audio.timeByteData);
+		*/
 
 		var lastRadius = 0; //used to store the radius of the last circle. This makes each circle relative to the last one
 
+		/*
 		for (var i = 0; i < CIRCLES; i++)
 		{
 			var freqSum = 0;
@@ -204,28 +208,30 @@ audio = {
 			var color = createjs.Graphics.getHSL((i / CIRCLES *HUE_VARIANCE + circleHue) % 360, 100, 50);
 			var g = new createjs.Graphics().beginFill(color).drawCircle(centerX, centerY, lastRadius).endFill();
 			circles[i].graphics = g;
-		}
+		}*/
 
 		//update dataAverage, by popping first element and pushing
-		dataAverage.shift();
-		dataAverage.push(lastRadius);
+		audio.dataAverage.shift();
+		//audio.dataAverage.push(lastRadius);
 
 		//get average data for the last 3 ticks
 		var dataSum = 0;
-		for (var i = dataAverage.length - 1; i; i--)
+		for (var i = audio.dataAverage.length - 1; i; i--)
 		{
-			dataSum += dataAverage[i - 1];
+			dataSum += audio.dataAverage[i - 1];
 		}
-		dataSum = dataSum / (dataAverage.length - 1);
+		dataSum = dataSum / (audio.dataAverage.length - 1);
 
 		//calculate latest change
-		var dataDiff = dataAverage[dataAverage.length - 1] - dataSum;
+		var dataDiff = audio.dataAverage[audio.dataAverage.length - 1] - dataSum;
 
 		//change color (not necessary unless we want to implement this)
 		/*if (dataDiff > COLOR_CHANGE_THRESHOLD || dataDiff < COLOR_CHANGE_THRESHOLD)
 		{
 			circleHue = circleHue + dataDiff;
 		}*/
+
+		//console.log(audio.dataAverage);
 
 		//update stage
 		$('#area').update();
