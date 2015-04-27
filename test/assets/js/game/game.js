@@ -126,8 +126,10 @@ game.interlude = {
     this.projectiles.active.forEach(function(proj, index, array){
       proj.update(dt);
 
-      if(self.checkBubbleCollison(proj))
-        proj.dead = true;
+      if(&& proj.canHit ) {
+        if(self.checkBubbleCollison(proj) )
+          proj.dead = true;
+      }
 
       if(proj.dead){
         self.projectiles.inactive.push(proj);
@@ -175,6 +177,10 @@ game.interlude = {
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);//draw each bubble
     });
+    this.projectiles.active.forEach(function(proj){
+      proj.render();
+    });
+
     //loop through players
     this.players.forEach(function(player) {
       player.render(self.ctx);//draw each player
