@@ -5,7 +5,7 @@ audio = {
 	/** CREDIT TO http://www.createjs.com/Demos/SoundJS/MusicVisualizer **/
 	/** CONSTANTS **/
 	FFTSIZE : 32, //number of samples for Fourier Transform
-	TICK_FREQ : 20, //how often to run tick, in ms
+	TICK_FREQ : 1000, //how often to run tick, in ms
 	CIRCLES : 8, //number of circles to draw. this is also the amount to break the files into. so FFTSIZE/2 has to be even.
 	RADIUS_FACTOR : 40, //radius of circles
 	MIN_RADIUS : 1, //minumum radii
@@ -125,9 +125,14 @@ audio = {
 
 		//wrap our sound player in a click event, so it can play on mobile
 		//stage.addEventListener("stagemousedown", this.startPlayback);
-		audio.startPlayback();
 		
 	},
+
+	changeVolume: function(float)
+	{
+		//volume is a set range between 0-1 where 0 is no sound and 1 is the loudest.
+		audio.setVolume(float);
+	}
 
 	//start playback in response to user click
 	startPlayback: function(evt)
@@ -178,11 +183,11 @@ audio = {
 		audio.analyzerNode.getByteFrequencyData(audio.freqByteData); //gives us frequency
 		audio.analyzerNode.getByteTimeDomainData(audio.timeByteData); //gives us waveform
 
-		/*
+		
 		console.log(audio.freqFloatData);
 		console.log(audio.freqByteData);
 		console.log(audio.timeByteData);
-		*/
+		
 
 		var lastRadius = 0; //used to store the radius of the last circle. This makes each circle relative to the last one
 
@@ -212,7 +217,7 @@ audio = {
 
 		//update dataAverage, by popping first element and pushing
 		audio.dataAverage.shift();
-		//audio.dataAverage.push(lastRadius);
+		audio.dataAverage.push(lastRadius);
 
 		//get average data for the last 3 ticks
 		var dataSum = 0;
@@ -234,6 +239,6 @@ audio = {
 		//console.log(audio.dataAverage);
 
 		//update stage
-		$('#area').update();
+		//$('#area').update();
 	}
 }
