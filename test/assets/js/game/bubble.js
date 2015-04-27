@@ -13,7 +13,7 @@ game.Bubble = function() {
   var Bubble = function(id, color, x, y, xVel, yVel) {
     this.x = x;
     this.y = y;
-    this.r = .07;//radius
+    this.r = .1;//radius
     this.velocity = { x : xVel, y : yVel};
     this.id = id;
     this.color = color;
@@ -80,7 +80,7 @@ game.Bubble = function() {
    */
   b.applyImpulse = function(impulse) {
     this.velocity.x = impulse.x/this.mass;
-    this.velocity.y = impulse.y/this.mass;
+    this.velocity.y -= impulse.y/this.mass;
   };
   /** Move function for the bubble
    */

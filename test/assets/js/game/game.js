@@ -16,6 +16,7 @@ game.interlude = {
   state : "GAME", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
+  bubbleIDCounter : 0,
 
   init : function() {
     console.log(this);
@@ -40,14 +41,14 @@ game.interlude = {
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
-    this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
+    //this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
 
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
     //test bubbles
-    this.bubbles.push(new game.Bubble(0, "red", 10/9, 1, -.001, .0001));//Create a new bubble
-    this.bubbles.push(new game.Bubble(1, "green", 6/9, 1, .001, .0001));//Create a new bubble
+    //this.bubbles.push(new game.Bubble(0, "cyan", 10/9, 1, -.001, .0001));//Create a new bubble
+    //this.bubbles.push(new game.Bubble(1, "purple", 6/9, 1, .001, .0001));//Create a new bubble
 
     this.loop();
   },
@@ -56,7 +57,7 @@ game.interlude = {
   //Loads all image assets
   loadImages : function() {
     this.backgroundImg = this.loadImg("assets/img/background1.png");
-    this.bubbleAssets['cyan'] = this.loadImg("assets/img/cyan-sprite.png"); 
+    this.bubbleAssets['blue'] = this.loadImg("assets/img/cyan-sprite.png"); 
     this.bubbleAssets['pink'] = this.loadImg("assets/img/pink-sprite.png");
     this.bubbleAssets['purple'] = this.loadImg("assets/img/purple-sprite.png");
     this.bubbleAssets['white'] = this.loadImg("assets/img/white-sprite.png");
@@ -96,14 +97,27 @@ game.interlude = {
         return true;
       }
     });
-
     return false;
+  },
+  //spawns bubbles for the game
+  spawnBubbles : function(){
+    this.nextBubble--;
+    if(this.nextBubble < 0) {
+      var x = Math.random()*12/9 + 2/9;
+      var y = 1;
+      var xVel = .001 - Math.random()*.002;
+      var yVel = Math.random()*.0008; 
+
+      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, "red", x, y, xVel, yVel));
+      this.nextBubble = 100;
+      this.bubbleIDCounter++;
+    }
   },
   //Function for updating main game loop
   updateGame : function(){
     var dt = 0;
     var self = this;
-    this.blackHole.update(dt);
+    //this.blackHole.update(dt);
     //Loop through all of the players
     this.players.forEach(function(player) {
       player.update(dt); //call player's update function
@@ -126,15 +140,7 @@ game.interlude = {
         array.splice(index, 1); //Remove a bubble
     });
 
-    //BUBBLE SPAWING CODE
-    /*this.nextBubble -= 1; //Tick down time for next bubble
-    //check to see if next bubble should be spawned
-    if(this.nextBubble < 0) {
-      var bubbleID = Math.floor(Math.random()*this.players.length);
-      var bubbleColor = this.players[bubbleID] ? this.players[bubbleID].color : "#aaa";
-      this.bubbles.push(new game.Bubble(0, bubbleColor, 8/9, 1));//Create a new bubble
-      this.nextBubble = ( Math.random() * 100 ) + 100; //Randomly set next bubble spawn interval
-    }*/
+    this.spawnBubbles();
   },
   //Main update function
   update : function () {
@@ -167,7 +173,7 @@ game.interlude = {
     this.players.forEach(function(player) {
       player.render(self.ctx);//draw each player
     });
-    this.blackHole.render();
+    //this.blackHole.render();
   },
   //render function for start screen
   renderStart : function() {
