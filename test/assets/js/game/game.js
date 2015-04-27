@@ -123,10 +123,16 @@ game.interlude = {
       player.update(dt); //call player's update function
     });
     //loop through all of the projectiles
-    this.projectiles.active.forEach(function(proj){
+    this.projectiles.active.forEach(function(proj, index, array){
       proj.update(dt);
+
       if(self.checkBubbleCollison(proj))
         proj.dead = true;
+
+      if(proj.dead){
+        self.projectiles.inactive.push(proj);
+        array.splice(index,1);
+      }
     });
 
     //Loop through all of the bubbles
