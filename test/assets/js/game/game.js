@@ -4,12 +4,18 @@ var game = game || {};
 game.interlude = {
   players : [], //array of players in the game
   bubbles : [], //array of bubbles in the game
+  projectiles : { //Holds all projectiles in the game so we dont make extra
+    active : [], //currently active projectiles
+    inactive : [] //inactive projectiles
+  },
   blackHole : undefined,
   canvas : undefined, //canvas for drawing
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
   state : "GAME", //current game state
+  backgroundImg : undefined,
+  bubbleAssets : {},
 
   init : function() {
     console.log(this);
@@ -18,85 +24,101 @@ game.interlude = {
     var num = Math.floor(Math.random()*10);
     var name ='user'+num;
     //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
-    var socket = io.connect( window.location.origin, {query: 'user='+name, type: 'desktop'});
+    
     //set inital canvas variables
     this.canvas = document.querySelector('#area');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.lineWidth = 5;
 	  game.draw.init(this.canvas, this.ctx);
 
-	//get passwords
-	this.password = this.generatePassword();
-	console.log(this.password);
+    this.loadImages();
+  	//get passwords
+  	this.password = this.generatePassword();
+  	console.log(this.password);
 	
-	/** PLAYER CONNECTING TO GAME ****************************************/
-	//
-    //Set up socket events 
-    socket.on('player join', function(data){
-	  // check password
-	  console.log(data);
-	  // if password is correct, create new player
-	  if( data.password == self.password ){	
-		// emit successful join
-		socket.emit('player joined', data.sockID);
-        // create new player
-		self.createPlayer(data);
-	  } 
-	  else {
-	  	//emit rejection
-		socket.emit('player reject', data.sockID);
-	  }
-    });
+	// /** PLAYER CONNECTING TO GAME ****************************************/
+	// //
+ //    //Set up socket events 
+ //    socket.on('player join', function(data){
+	//   // check password
+	//   console.log(data);
+	//   // if password is correct, create new player
+	//   if( data.password == self.password ){	
+	// 	// emit successful join
+	// 	socket.emit('player joined', data.sockID);
+ //        // create new player
+	// 	self.createPlayer(data);
+	//   } 
+	//   else {
+	//   	//emit rejection
+	// 	socket.emit('player reject', data.sockID);
+	//   }
+ //    });
 	
-	/** HANDLING PLAYER ACTIONS ****************************************/
-	//
-	// Firing on phone
-    socket.on('game fire', function(data){
-      self.bubbles.forEach(function(bubble, index, array){
-        //If there is a collision and the colors match
-        if(self.circleCollison(bubble, self.players[data.id]) &&
-            bubble.color === self.players[data.id].color ) {
-          array.splice(index, 1);
-        }
-      });
-    });
-
+	// /** HANDLING PLAYER ACTIONS ****************************************/
+	// //
+	// // Firing on phone
+ //    socket.on('game fire', function(data){
+ //      self.bubbles.forEach(function(bubble, index, array){
+ //        //If there is a collision and the colors match
+ //        if(self.circleCollison(bubble, self.players[data.id]) &&
+ //            bubble.color === self.players[data.id].color ) {
+ //          array.splice(index, 1);
+ //        }
+ //      });
+ //    });
 	  
-    socket.on('phone tilt', function(data) {
-      //console.log(players);
-      //console.log(data);
-      if(self.players[data.id]) {
-        //Begin rotation nonsense
-      /*  if(self.players[data.id].startRotation === undefined)
-          self.players[data.id].startRotation = data.rot;
-        var angle = data.rot - self.players[data.id].startRotation;
-        angle = self.mod(angle + 180, 360) -180;*/
-        //var newRot = data.rot - self.players[data.id].startRotation;
-        //end rotation nonesense
-        //console.log(self.players[data.id].startRotation);
-		    //console.log(angle);
-        self.players[data.id].setTarget(data.xAcc*20 + self.canvas.width/2, 250 - data.yAcc * 20);
-      }
-    });
+ //    socket.on('phone tilt', function(data) {
+ //      //console.log(players);
+ //      //console.log(data);
+ //      if(self.players[data.id]) {
+ //        self.players[data.id].setTarget(data.xAcc*20 + self.canvas.width/2, 250 - data.yAcc * 20);
+ //      }
+ //    });
     
-    socket.on('player leave', function(sockID) {
-      // data only contains the play id
-      console.log("PLAYER LEAVE:");
-      var target = self.findPlayer(sockID);
-      if(target){
-        console.log("Player "+target.id+" has left");
-        self.players.splice(self.players.indexOf(target),1); // removes player from players array
-      }
-    });
+ //    socket.on('player leave', function(sockID) {
+ //      // data only contains the play id
+ //      console.log("PLAYER LEAVE:");
+ //      var target = self.findPlayer(sockID);
+ //      if(target){
+ //        console.log("Player "+target.id+" has left");
+ //        self.players.splice(self.players.indexOf(target),1); // removes player from players array
+ //      }
+ //    });
+    game.sockets.init();
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
     this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
 
+    for(var i = 0; i < 50; i++){
+      this.projectiles.inactive.push(new game.Projectile());
+    }
+
+    //test bubbles
+
+    this.bubbles.push(new game.Bubble(0, "red", 10/9, 1, -.001, .0001));//Create a new bubble
+    this.bubbles.push(new game.Bubble(1, "green", 6/9, 1, .001, .0001));//Create a new bubble
+
     this.loop();
   },
 
   /** HELPER FUNCTIONS ****************************************/
+  //Loads all image assets
+  loadImages : function() {
+    this.backgroundImg = this.loadImg("assets/img/background1.png");
+    this.bubbleAssets['cyan'] = this.loadImg("assets/img/cyan-sprite.png"); 
+    this.bubbleAssets['pink'] = this.loadImg("assets/img/pink-sprite.png");
+    this.bubbleAssets['purple'] = this.loadImg("assets/img/purple-sprite.png");
+    this.bubbleAssets['white'] = this.loadImg("assets/img/white-sprite.png");
+    this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
+  },
+  //retune the image object with the source passed in
+  loadImg : function(src) {
+    var asset = new Image();
+    asset.src = src;
+    return asset;
+  },
   //Main loop that gets called on each frame
   loop : function () {
     requestAnimationFrame(this.loop.bind(this));//Set up next loop call
@@ -116,28 +138,54 @@ game.interlude = {
     var distSq = this.sq(c2.x - c1.x) + this.sq(c2.y - c1.y);
     return (radSq >= distSq);
   },
+  //function for checking a collsion against all bubbles
+  checkBubbleCollison : function(c1) {
+    var self = this;
+    this.bubbles.forEach(function(bubble){
+      if(self.circleCollison(bubble, c1)) {
+        bubble.remove = true;
+        return true;
+      }
+    });
+
+    return false;
+  },
   //Function for updating main game loop
   updateGame : function(){
     var dt = 0;
+    var self = this;
     this.blackHole.update(dt);
     //Loop through all of the players
     this.players.forEach(function(player) {
       player.update(dt); //call player's update function
     });
+    //loop through all of the projectiles
+    this.projectiles.active.forEach(function(proj){
+      proj.update(dt);
+      if(self.checkBubbleCollison(proj))
+        proj.dead = true;
+    });
+
     //Loop through all of the bubbles
     this.bubbles.forEach(function(bubble, index, array) {
+      //do bubble bounce physics - I'm sorry you all have to see this
+      for(var i = index + 1; i < array.length; i++){
+        bubble.collideWith(self.bubbles[i]);
+      }
       bubble.update(dt); //call bubble's update function
       if(bubble.remove) //Check to see if the bubble should be removed
         array.splice(index, 1); //Remove a bubble
     });
-    this.nextBubble -= 1; //Tick down time for next bubble
+
+    //BUBBLE SPAWING CODE
+    /*this.nextBubble -= 1; //Tick down time for next bubble
     //check to see if next bubble should be spawned
     if(this.nextBubble < 0) {
       var bubbleID = Math.floor(Math.random()*this.players.length);
       var bubbleColor = this.players[bubbleID] ? this.players[bubbleID].color : "#aaa";
       this.bubbles.push(new game.Bubble(0, bubbleColor, 8/9, 1));//Create a new bubble
       this.nextBubble = ( Math.random() * 100 ) + 100; //Randomly set next bubble spawn interval
-    }
+    }*/
   },
   //Main update function
   update : function () {
@@ -172,10 +220,15 @@ game.interlude = {
     });
     this.blackHole.render();
   },
+  //render function for start screen
+  renderStart : function() {
+    game.draw.img(this.backgroundImg, 0,7545,1920,1080, 0,0,16/9,1)
+  },
   //Main render function
   render : function () {
     switch(this.state) {
       case "START" :
+        this.renderStart();
         break;
       case "GAME" :
         this.renderGame();//render in game screen

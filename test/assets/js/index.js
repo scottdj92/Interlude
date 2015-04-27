@@ -5,7 +5,7 @@ var path = require('path');
 var io = require('socket.io')(http);
 var MobileDetect = require('mobile-detect');
 var players = [];
-
+var port = process.env.PORT || process.env.NODE_PORT || 3000; 
 app.use('/assets', express.static(path.resolve(__dirname+"/..")));
 
 app.get('/', function(req, res){
@@ -84,6 +84,6 @@ io.on('connection', function(socket){
 });
 
 
-http.listen(3000, function(){
+http.listen(port, function(){
 	console.log('listening on *:3000');
 });
