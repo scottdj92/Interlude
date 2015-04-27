@@ -5,11 +5,11 @@ mobileClient = {
 	socket: null,
 	name: null,
 	id: null,
-	col: null,
+	color: null,
 	state: 0,
 	
+	// INITIALIZER 
 	init : function () {
-
 		// create new instance of socket.io
 		this.id = Math.floor(Math.random()*10);
 		this.name ='user'+this.id;
@@ -17,34 +17,36 @@ mobileClient = {
 		var red = Math.floor(Math.random() * 255);
 		var green = Math.floor(Math.random() * 255);
 		var blue = Math.floor(Math.random() * 255);
-		this.col = 'rgb('+red+','+green+','+blue+')';
+		this.color = 'rgb('+red+','+green+','+blue+')';
 
 		//setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 		this.socket = io.connect( window.location.origin);
 
 		// initial data sent by socket
-		this.connectData = { id: this.id, color: this.col};
+		this.connectData = { id: this.id, color: this.color};
 
 		// JOIN GAME
 		// this.socket.emit('player join', connectData);
 
 		// start socket listeners
 		this.initSocket();
-
-		// start general page interaction listeners
+		
 		this.initListeners();
+
 		var self = this;
 		setTimeout(function(){mobileClient.changeState();}, 1500);
-	},
-
-	// INITIATE SOCKET ******************************************//
-	initSocket : function() {
+	},// end
+	
+	/**
+	// INITIATE SOCKET 
+	**/
+	initSocket : function( callback ) {
 		var socket = this.socket;
-		var m = this;
+		var self = this;
 		socket.on('response joined', function(msg){
 			//when player has successfully joined
 			$("#status").html(msg);
-			m.changeState();
+			self.changeState();
 		});
 
 		socket.on('response reject', function(msg){
@@ -57,19 +59,18 @@ mobileClient = {
 			// if color available
 			// if not available 
 		});
+		
+		if(jQuery.isFunction(callback)){
+			callback();
+		}
 	},
-
+	
+	/**
 	// GENERAL LISTENERS
+	**/
 	initListeners : function() {
 		var self = this;
-
-		/** GAME CONTROLS **/
-		$("#fire_btn").on('touchstart click', function(){
-			var data = {id: self.id};
-			self.socket.emit('game fire', data);
-		});
-
-		/** MOVEMENT **/
+		// MOVEMENT
 		if (window.DeviceOrientationEvent) {
 			window.addEventListener('deviceorientation', function(e) {
 				// gamma is the left-to-right tilt in degrees, where right is positive
@@ -83,7 +84,7 @@ mobileClient = {
 			}, false);
 		}
 		
-		/** Prevent Page Drag **/
+		// PREVENT PAGE DRAG
 		var xStart, yStart = 0;
 		document.addEventListener('touchstart',function(e) {
 				xStart = e.touches[0].screenX;
@@ -97,30 +98,54 @@ mobileClient = {
 				}
 		});
 		
-	},
-	//
-	// MOBILE STATES   //////////////////////////////////////////////////////
+	}, // end
+	
+	/**
+	// MOBILE STATES 
+	// check current state and take corresponding actions
+	
+			- Intro
+			- Login
+			- Color
+			- Name
+			- Game Controls (Wait for game to start)
+			- Game Start (In-game)
+	**/
 	changeState: function(){
 		//increment state
 		this.state += 1;
-		//check current state and take corresponding actions
 		switch(this.state){
 			case 1:
+				// Introduction
 				this.showIntro();
 				break;
 			case 2:
+				// Login (enter password)
 				this.showLogin();
 				break;
 			case 3:
+				// Enter Game and Select Color
 				this.showColorSelection();
 				break;
 			case 4:
+				// Enter Name (Complete preparation process)
 				this.showNameInput();
+				break;
+			case 5:
+				// Show Game Controls and wait for game to start
+				this.showGameControls();
+				break;
+			case 6:
+				// Game is in session
+				this.gameStart();
 				break;
 		}
 	},
 	
-	// STATE-CHANGE METHODS *****************************************/
+	/**
+	// STATE-CHANGE METHODS 
+	// These functions are used to show different screens for each state
+	**/
 	
 	// 1
 	showIntro: function(){
@@ -139,7 +164,7 @@ mobileClient = {
 		$("#intro").removeClass("initial").addClass("nonactive").fadeOut(600);
 		$("#game_login").addClass("active");
 		
-		//input bar interaction (boxes will fill with each letter inputed)
+		// input bar interaction (boxes will fill with each letter inputed)
 		var self = this;
 		$("#pw_input").on('keyup change', function(){
 			self.clearInputFill();
@@ -153,7 +178,7 @@ mobileClient = {
 		/** FORM ACTIONS **/
 		$('#submit').on('click touchend', function(e){
 			e.preventDefault();
-			/*
+			
 			var input = $("#pw_input").val().toUpperCase();
 			self.connectData.password = input;
 			// clear onscreen input
@@ -161,9 +186,10 @@ mobileClient = {
 			self.clearInputFill();
 			// emit through socket
 			self.socket.emit('player join', self.connectData);
-			*/
+			
 			$("#pw_input").blur();
-			self.changeState();
+			
+			//self.changeState();
 		});
 	},
 	
@@ -196,18 +222,84 @@ mobileClient = {
 	// 4
 	showNameInput: function(){
 		$("#colors_instr").fadeOut(300);
-		$("#name_instr").fadeIn(700);
+		setTimeout(function(){ $("#name_instr").fadeIn(300); }, 300);
 		
+		var self = this;
+		$("#submit_name").on("touchend click", function(e){
+			e.preventDefault();
+			
+			if($("#name_input").val().trim() != "") {
+				self.name = $("#name_input").val().toUpperCase();
+				console.log(self.name);
+				//change state
+				//send ready to game
+				self.sendReady();
+				$("#name_input").blur();
+				$(this).off();
+			}
+		});
 	},
 	
 	// 5
 	showGameControls : function(){
-		$('#game_controls').show();
+		var self = this;
+		$("#colors").removeClass("down").addClass("inactive").fadeOut(600);
+		$("#name_instr").addClass("inactive");
+		
+		$("#game_prep .instructions").fadeOut(500, function(){
+			//hide game_prep content
+			$("#game_prep").removeClass("active").hide();
+			$('#game_controls').addClass("active").fadeIn(500);
+			// fire btn
+			$("#fire_btn").on('touchstart click', function(e){
+				e.preventDefault();
+				console.log("shoot");
+				var data = {id: self.id};
+				self.socket.emit('game fire', data);
+			});
+			
+			// Creating slingshot
+			var R = Raphael(0, 0, window.innerWidth, window.innerHeight);
+			// Parameters
+			var cWidth = 20;
+			var cXpos = window.innerWidth/2;
+			var cYpos = window.innerHeight/2 - cWidth/2;
+			// Line
+			var l = R.path("M0 502L502 502L768 502");
+			l.attr({
+					stroke: 'red',
+					'stroke-width': 4
+			});
+			// Circle (draggable)
+			var c = R.circle(cXpos, cYpos, 20).attr({
+					fill: 'white',
+					stroke: 'red',
+					'stroke-width': 4
+			});
+			var move = function(dx, dy) {
+					var x = cXpos + dx, y = cYpos + dy; 
+					this.attr({cx: x, cy: y});
+					l.attr({path: "M0 502L"+x+" "+y+"L768 502"});
+			}
+			var start = function() {
+					c.stop();
+					l.stop();
+			}
+			var end = function() {
+					//console.log(this.attr(cx));
+					this.animate({cx: cXpos, cy: cYpos}, 2000, "elastic");
+					//this.animate({cx: cXpos, cy: -100}, 200);
+					l.animate({path: "M0 502L384 512L768 502"},
+									 2000, "elastic");
+			}
+			c.drag(move, start, end);
+		});
 	},
 
 	
-
+	/**
 	// HELPER ///////////////////////////////////////////////////////////////
+	**/
 	clearInputFill: function(){
 		var boxes = document.getElementsByClassName('box');
 		for(var i=0; i<5; i++){
@@ -217,22 +309,31 @@ mobileClient = {
 	
 	selectColor: function(color){
 		//make sure to check color
-		// if( available )
-		$(document.getElementsByClassName(color)[0]).addClass("selected");
-		//clear unselected colors
-		$(".color").each(function(index){
-			if(!$(this).hasClass('selected')){
-				$(this).addClass('nonactive');
-				$(this).fadeOut(500);
-			}
-		});
-		$(".color").off();
-		var self = this;
-		setTimeout(function(){
-			$("#colors").addClass('down');
-			self.changeState();
-		}, 500);
-		
+		//if( available ){
+			this.color = color; //set client's color
+			$(document.getElementsByClassName(color)[0]).addClass("selected");
+			//clear unselected colors
+			$(".color").each(function(index){
+				if(!$(this).hasClass('selected')){
+					$(this).addClass('nonactive');
+					$(this).fadeOut(500);
+				}
+			});
+			$(".color").off();
+
+			var self = this;
+			setTimeout(function(){
+				$("#colors").addClass('down');
+				self.changeState();
+			}, 500);
+		//}
+	},
+	
+	// Notify Game that Player is ready
+	sendReady: function(){
+		var data = { id:this.id, name:this.name };
+		this.socket.emit("player ready", data);
+		this.changeState(); 
 	},
 
 }
