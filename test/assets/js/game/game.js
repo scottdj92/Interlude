@@ -35,14 +35,14 @@ game.interlude = {
 	  console.log(data);
 	  // if password is correct, create new player
 	  if( data.password == self.password ){	
-		// emit successful join
-		socket.emit('player joined', data.sockID);
-        // create new player
-		self.createPlayer(data);
+			// emit successful join
+			socket.emit('player joined', data.sockID);
+					// create new player
+			self.createPlayer(data);
 	  } 
 	  else {
 	  	//emit rejection
-		socket.emit('player reject', data.sockID);
+			socket.emit('player reject', data.sockID);
 	  }
     });
 	

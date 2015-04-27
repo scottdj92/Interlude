@@ -6,6 +6,7 @@ mobileClient = {
 	name: null,
 	id: null,
 	color: null,
+	hex: null,
 	state: 0,
 	
 	// INITIALIZER 
@@ -261,36 +262,42 @@ mobileClient = {
 			// Creating slingshot
 			var R = Raphael(0, 0, window.innerWidth, window.innerHeight);
 			// Parameters
-			var cWidth = 20;
+			var cWidth = 30;
 			var cXpos = window.innerWidth/2;
-			var cYpos = window.innerHeight/2 - cWidth/2;
+			var cYpos = window.innerHeight/2 - 40 - cWidth/2+10;
+			var lYpos = window.innerHeight/2 - 40;
+			var lXpos = window.innerWidth;
 			// Line
-			var l = R.path("M0 502L502 502L768 502");
+			var l = R.path("M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos);
 			l.attr({
-					stroke: 'red',
-					'stroke-width': 4
+					stroke: self.hex,
+					'stroke-width': 7
 			});
 			// Circle (draggable)
-			var c = R.circle(cXpos, cYpos, 20).attr({
-					fill: 'white',
-					stroke: 'red',
-					'stroke-width': 4
+			var c = R.circle(cXpos, cYpos, cWidth).attr({
+					fill: 'rgba(10,12,46,0.95)',
+					stroke: self.hex,
+					'stroke-width': 5
 			});
 			var move = function(dx, dy) {
 					var x = cXpos + dx, y = cYpos + dy; 
 					this.attr({cx: x, cy: y});
-					l.attr({path: "M0 502L"+x+" "+y+"L768 502"});
+					l.attr({path: "M0 "+lYpos+"L"+x+" "+y+"L"+lXpos+" "+lYpos});
 			}
 			var start = function() {
 					c.stop();
 					l.stop();
 			}
 			var end = function() {
-					//console.log(this.attr(cx));
+					var endY = this.getPointAtLength(0).y;
+					var Ychange =  (endY - cYpos)/(window.innerHeight - cYpos);
 					this.animate({cx: cXpos, cy: cYpos}, 2000, "elastic");
 					//this.animate({cx: cXpos, cy: -100}, 200);
-					l.animate({path: "M0 502L384 512L768 502"},
+					l.animate({path: "M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos},
 									 2000, "elastic");
+					var data = {id: self.id, dist: Ychange};
+					console.log(Ychange);
+					self.socket.emit('game fire', data);
 			}
 			c.drag(move, start, end);
 		});
@@ -312,6 +319,7 @@ mobileClient = {
 		//if( available ){
 			this.color = color; //set client's color
 			$(document.getElementsByClassName(color)[0]).addClass("selected");
+			this.hex = $(".color.selected").css("background-color");
 			//clear unselected colors
 			$(".color").each(function(index){
 				if(!$(this).hasClass('selected')){
