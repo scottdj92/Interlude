@@ -6,6 +6,7 @@ game.sockets = {
     this.socket = io.connect( window.location.origin, {query: 'user='+name, type: 'desktop'});
     /** PLAYER CONNECTING TO GAME ****************************************/
     //
+    var self = this;
     //Set up socket events 
     this.socket.on('player join', function(data){
       // check password
@@ -13,12 +14,12 @@ game.sockets = {
       // if password is correct, create new player
       if( data.password === app.password ){ 
         // emit successful join
-        this.socket.emit('player joined', data.sockID);
+        self.socket.emit('player joined', data.sockID);
         // create new player
         app.createPlayer(data);
       } else {
         //emit rejection
-        this.socket.emit('player reject', data.sockID);
+        self.socket.emit('player reject', data.sockID);
       } 
     });
 
@@ -32,7 +33,11 @@ game.sockets = {
     // Firing on phone
     this.socket.on('game fire', function(data){
       //just make this add a projectile
-      
+      var player = app.players[data.id];
+
+      app.projectiles.inactive[0].reset(player.x, player.y, data.id, data.power, player.color);
+      app.projectiles.active.push(app.projectiles.inactive[0]);
+      app.projectiles.inactive.splice(0,1);
     });
     
     this.socket.on('phone tilt', function(data) {
