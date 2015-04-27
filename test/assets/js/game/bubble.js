@@ -14,7 +14,7 @@ game.Bubble = function() {
     this.x = x;
     this.y = y;
     this.r = .07;//radius
-    this.speed = 0.003;
+    this.velocity = { x : 0, y : 0};
     this.id = id;
     this.color = color;
   }
@@ -27,15 +27,28 @@ game.Bubble = function() {
     if(this.y < -1) {//if the bubble is off of the screen
       this.remove = true;//it can be removed
     }
-    this.move(0,this.speed);//move the bubble
+    this.move();
+  };
+
+  b.collideWith = function(bub){
+    if(bub.id === this.id || 
+      !game.physicsUtils.circleCollision(this,bub)) {
+
+      return false;
+    } else {
+      var impulse = game.physicsUtils.getImpulse(this, bub, 1);
+      this.applyImpulse(impulse);
+
+      impulse.x *= -1;
+      impulse.y *= -1;
+      bub.applyImpulse(impulse);
+    }
   };
   /** Move function for the bubble
-   * @param x : distance to move in x
-   * @param y : distance to move in y
    */
-  b.move = function(x,y) {
-    this.y -= y;
-    this.x += x;
+  b.move = function() {
+    this.y -= this.velocity.y;
+    this.x += this.velocity.x;
   };
   /** render function for a bubble
    * @param ctx : drawing context
