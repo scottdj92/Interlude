@@ -22,6 +22,7 @@ game.Player = function() {
     this.mu = 0.95;
     this.target = {x:0,y:0}; //target position for the cursor
     this.startRotation = undefined;
+    this.ready = false;
   }
   //create a reference to the player prototype
   var p = Player.prototype;
