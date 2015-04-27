@@ -43,16 +43,18 @@ audio = {
 	//console.log('audio.js loaded');
 
 	init: function(){
-		console.log('audio.js loaded');
+		//console.log('audio.js loaded');
 		//web audio handler. if this fails, show a message
 		if (!createjs.Sound.registerPlugins([createjs.WebAudioPlugin])) {
 			document.getElementById("#area").style.display = 'block';
 			console.log('sound failed');
 
-			createjs.Sound.addEventListener("fileload", createjs.proxy(audio.handleLoad, this)); //add event listener for when load is completed
-			createjs.Sound.registerSound(this.src); //register sound
+			
 			return;
 		};
+
+		createjs.Sound.addEventListener("fileload", createjs.proxy(audio.handleLoad, this)); //add event listener for when load is completed
+		createjs.Sound.registerSound(audio.src); //register sound
 
 
 		/*
@@ -77,17 +79,14 @@ audio = {
 		stage.addChild(messageField);
 		stage.update(); //update stage to show preload
 		*/
-
-		
-		//console.log('sound has loaded');
-		//console.log(audio.assetsPath);
-		//console.log(audio.src);
 	},
-	//console.log('init() loaded');
 
 	handleLoad: function(evt)
 	{
 		//console.log('handleLoad fired');
+
+		//play audio before everything else
+		//audio.startPlayback();
 		//get context. NOTE: to connect to existing nodes, we need to work in the same context
 
 		var context = createjs.Sound.activePlugin.context;
@@ -104,9 +103,10 @@ audio = {
 		dynamicsNode.connect(this.analyzerNode);
 
 		//set up arrays that we use to retrieve analyzerNode data
-		this.freqFloatData = new Float32Array(this.analyzerNode.frequencyBinCount);
-		this.freqByteData = new Uint8Array(this.analyzerNode.frequencyBinCount);
-		this.timeByteData = new Uint8Array(this.analyzerNode.frequencyBinCount);
+		audio.freqFloatData = new Float32Array(this.analyzerNode.frequencyBinCount);
+		audio.freqByteData = new Uint8Array(this.analyzerNode.frequencyBinCount);
+		audio.timeByteData = new Uint8Array(this.analyzerNode.frequencyBinCount);
+		console.log('bytedata created');
 
 		//calculate number of array elements
 		this.circleFreqChunk = this.analyzerNode.frequencyBinCount / this.CIRCLES;
@@ -123,7 +123,8 @@ audio = {
 
 		//wrap our sound player in a click event, so it can play on mobile
 		//stage.addEventListener("stagemousedown", this.startPlayback);
-		$('#area').click(audio.startPlayback);
+		audio.startPlayback();
+		
 	},
 
 	//start playback in response to user click
@@ -165,7 +166,8 @@ audio = {
 		*/
 
 		//start tick function so we can "move" before updating the stage
-		createjs.Ticker.addEventListener(this, audio.tick);
+		//createjs.Ticker.init();
+		createjs.Ticker.addEventListener('tick' audio.tick);
 		createjs.Ticker.setInterval(audio.TICK_FREQ);
 	},
 
@@ -174,6 +176,10 @@ audio = {
 		this.analyzerNode.getFloatFrequencyData(freqFloatData); //gives us dB
 		this.analyzerNode.getByteFrequencyData(freqByteData); //gives us frequency
 		this.analyzerNode.getByteTimeDomainData(timeByteData); //gives us waveform
+
+		console.log(audio.freqFloatData);
+		console.log(audio.freqByteData);
+		console.log(audio.timeByteData);
 
 		var lastRadius = 0; //used to store the radius of the last circle. This makes each circle relative to the last one
 
