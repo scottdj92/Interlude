@@ -22,7 +22,9 @@ game.Projectile = function() {
     if(this.dead)
       return;
 
-    this.z -= this.pow;
+    this.z--;
+
+    //this.z -= this.pow;
     if(this.z < 20) 
       this.canHit = true;
 

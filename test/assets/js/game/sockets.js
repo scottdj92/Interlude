@@ -34,7 +34,7 @@ game.sockets = {
     this.socket.on('game fire', function(data){
       //just make this add a projectile
       var player = app.players[data.id];
-
+      console.log(data);
       app.projectiles.inactive[0].reset(player.x, player.y, data.id, data.power, player.color);
       app.projectiles.active.push(app.projectiles.inactive[0]);
       app.projectiles.inactive.splice(0,1);
