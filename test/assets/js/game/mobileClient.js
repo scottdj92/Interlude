@@ -148,7 +148,7 @@ mobileClient = {
 	// These functions are used to show different screens for each state
 	**/
 	
-	// 1
+	// 1 //
 	showIntro: function(){
 		$("#pre-game").removeClass('center').addClass('center-top');
 		$("#intro").addClass('initial');
@@ -160,7 +160,7 @@ mobileClient = {
 		});
 	},
 	
-	// 2
+	// 2 //
 	showLogin: function(){
 		$("#intro").removeClass("initial").addClass("nonactive").fadeOut(600);
 		$("#game_login").addClass("active");
@@ -194,7 +194,7 @@ mobileClient = {
 		});
 	},
 	
-	// 3
+	// 3 //
 	showColorSelection: function(){
 		// remove pre game content
 		$("#pre-game").addClass("finished");
@@ -220,7 +220,7 @@ mobileClient = {
 		
 	},
 	
-	// 4
+	// 4 //
 	showNameInput: function(){
 		$("#colors_instr").fadeOut(300);
 		setTimeout(function(){ $("#name_instr").fadeIn(300); }, 300);
@@ -241,7 +241,7 @@ mobileClient = {
 		});
 	},
 	
-	// 5
+	// 5 //
 	showGameControls : function(){
 		var self = this;
 		$("#colors").removeClass("down").addClass("inactive").fadeOut(600);
@@ -251,21 +251,14 @@ mobileClient = {
 			//hide game_prep content
 			$("#game_prep").removeClass("active").hide();
 			$('#game_controls').addClass("active").fadeIn(500);
-			// fire btn
-			$("#fire_btn").on('touchstart click', function(e){
-				e.preventDefault();
-				console.log("shoot");
-				var data = {id: self.id};
-				self.socket.emit('game fire', data);
-			});
-			
+	
 			// Creating slingshot
 			var R = Raphael(0, 0, window.innerWidth, window.innerHeight);
 			// Parameters
 			var cWidth = 30;
 			var cXpos = window.innerWidth/2;
-			var cYpos = window.innerHeight/2 - 40 - cWidth/2+10;
-			var lYpos = window.innerHeight/2 - 40;
+			var cYpos = window.innerHeight*(1.07/2) - cWidth/2+10;
+			var lYpos = window.innerHeight*(1.07/2);
 			var lXpos = window.innerWidth;
 			// Line
 			var l = R.path("M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos);
@@ -290,7 +283,7 @@ mobileClient = {
 			}
 			var end = function() {
 					var endY = this.getPointAtLength(0).y;
-					var Ychange =  (endY - cYpos)/(window.innerHeight - cYpos);
+					var Ychange =  Math.abs((endY - cYpos)/(window.innerHeight - cYpos));
 					this.animate({cx: cXpos, cy: cYpos}, 1000, "elastic");
 					//this.animate({cx: cXpos, cy: -100}, 200);
 					l.animate({path: "M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos},
