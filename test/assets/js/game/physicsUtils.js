@@ -14,7 +14,7 @@ game.physicsUtils = {
    * @param c2 : second circle in collision check
    */
   circleCollision : function(c1, c2) {
-    var radSq = this.sq(c1.radius+ c2.radius);
+    var radSq = this.sq(c1.r+ c2.r);
     var distSq = this.sq(c2.x - c1.x) + this.sq(c2.y - c1.y);
     return (radSq >= distSq);
   },

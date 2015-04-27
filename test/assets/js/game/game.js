@@ -133,20 +133,45 @@ game.interlude = {
     var distSq = this.sq(c2.x - c1.x) + this.sq(c2.y - c1.y);
     return (radSq >= distSq);
   },
+  //function for checking a collsion against all bubbles
+  checkBubbleCollison : function(c1) {
+    var self = this;
+    this.bubbles.forEach(function(bubble){
+      if(self.circleCollison(bubble, c1)) {
+        bubble.remove = true;
+        return true;
+      }
+    });
+
+    return false;
+  },
   //Function for updating main game loop
   updateGame : function(){
     var dt = 0;
+    var self = this;
     this.blackHole.update(dt);
     //Loop through all of the players
     this.players.forEach(function(player) {
       player.update(dt); //call player's update function
     });
+    //loop through all of the projectiles
+    this.projectiles.active(function(proj){
+      proj.update(dt);
+      if(self.checkBubbleCollison(proj))
+        proj.dead = true;
+    });
     //Loop through all of the bubbles
     this.bubbles.forEach(function(bubble, index, array) {
+      //do bubble bounce physics - I'm sorry you all have to see this
+      for(var i = index + 1; i < array.length; i++){
+        bubble.collideWith(self.bubbles[i]);
+      }
       bubble.update(dt); //call bubble's update function
       if(bubble.remove) //Check to see if the bubble should be removed
         array.splice(index, 1); //Remove a bubble
     });
+
+    //BUBBLE SPAWING CODE
     this.nextBubble -= 1; //Tick down time for next bubble
     //check to see if next bubble should be spawned
     if(this.nextBubble < 0) {
