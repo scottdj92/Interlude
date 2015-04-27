@@ -291,10 +291,10 @@ mobileClient = {
 			var end = function() {
 					var endY = this.getPointAtLength(0).y;
 					var Ychange =  (endY - cYpos)/(window.innerHeight - cYpos);
-					this.animate({cx: cXpos, cy: cYpos}, 2000, "elastic");
+					this.animate({cx: cXpos, cy: cYpos}, 1000, "elastic");
 					//this.animate({cx: cXpos, cy: -100}, 200);
 					l.animate({path: "M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos},
-									 2000, "elastic");
+									 1000, "elastic");
 					var data = {id: self.id, dist: Ychange};
 					console.log(Ychange);
 					self.socket.emit('game fire', data);
