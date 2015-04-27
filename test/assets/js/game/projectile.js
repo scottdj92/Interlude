@@ -46,4 +46,6 @@ game.Projectile = function() {
   p.render = function() {
     game.draw.circle(this.x,this.y, 100-this.z/100 * 0.004, this.color);
   };
-}
+
+  return Projectile;
+}();
