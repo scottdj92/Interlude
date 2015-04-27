@@ -188,6 +188,8 @@ mobileClient = {
 			self.socket.emit('player join', self.connectData);
 			
 			$("#pw_input").blur();
+			
+			//self.changeState();
 		});
 	},
 	
@@ -255,6 +257,42 @@ mobileClient = {
 				var data = {id: self.id};
 				self.socket.emit('game fire', data);
 			});
+			
+			// Creating slingshot
+			var R = Raphael(0, 0, window.innerWidth, window.innerHeight);
+			// Parameters
+			var cWidth = 20;
+			var cXpos = window.innerWidth/2;
+			var cYpos = window.innerHeight/2 - cWidth/2;
+			// Line
+			var l = R.path("M0 502L502 502L768 502");
+			l.attr({
+					stroke: 'red',
+					'stroke-width': 4
+			});
+			// Circle (draggable)
+			var c = R.circle(cXpos, cYpos, 20).attr({
+					fill: 'white',
+					stroke: 'red',
+					'stroke-width': 4
+			});
+			var move = function(dx, dy) {
+					var x = cXpos + dx, y = cYpos + dy; 
+					this.attr({cx: x, cy: y});
+					l.attr({path: "M0 502L"+x+" "+y+"L768 502"});
+			}
+			var start = function() {
+					c.stop();
+					l.stop();
+			}
+			var end = function() {
+					//console.log(this.attr(cx));
+					this.animate({cx: cXpos, cy: cYpos}, 2000, "elastic");
+					//this.animate({cx: cXpos, cy: -100}, 200);
+					l.animate({path: "M0 502L384 512L768 502"},
+									 2000, "elastic");
+			}
+			c.drag(move, start, end);
 		});
 	},
 
