@@ -26,9 +26,12 @@ game.Bubble = function() {
    * @param dt : delta time for if we want to cap the frame rate
    */
   b.update = function(dt) {
-    if(this.y < -1) {//if the bubble is off of the screen
+    if(this.y < -1) //if the bubble is off of the screen
       this.remove = true;//it can be removed
-    }
+    
+    if(this.x > 16/9 - this.r || this.x < this.r)
+      this.velocity.x *= -1;
+
     this.move();
     this.updateCollisions();
     this.velocity.y += .000005;//accelerate upward
