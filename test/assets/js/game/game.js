@@ -36,56 +36,7 @@ game.interlude = {
   	this.password = this.generatePassword();
   	console.log(this.password);
 	
-	// /** PLAYER CONNECTING TO GAME ****************************************/
-	// //
- //    //Set up socket events 
- //    socket.on('player join', function(data){
-	//   // check password
-	//   console.log(data);
-	//   // if password is correct, create new player
-	//   if( data.password == self.password ){	
-	// 	// emit successful join
-	// 	socket.emit('player joined', data.sockID);
- //        // create new player
-	// 	self.createPlayer(data);
-	//   } 
-	//   else {
-	//   	//emit rejection
-	// 	socket.emit('player reject', data.sockID);
-	//   }
- //    });
-	
-	// /** HANDLING PLAYER ACTIONS ****************************************/
-	// //
-	// // Firing on phone
- //    socket.on('game fire', function(data){
- //      self.bubbles.forEach(function(bubble, index, array){
- //        //If there is a collision and the colors match
- //        if(self.circleCollison(bubble, self.players[data.id]) &&
- //            bubble.color === self.players[data.id].color ) {
- //          array.splice(index, 1);
- //        }
- //      });
- //    });
-	  
- //    socket.on('phone tilt', function(data) {
- //      //console.log(players);
- //      //console.log(data);
- //      if(self.players[data.id]) {
- //        self.players[data.id].setTarget(data.xAcc*20 + self.canvas.width/2, 250 - data.yAcc * 20);
- //      }
- //    });
-    
- //    socket.on('player leave', function(sockID) {
- //      // data only contains the play id
- //      console.log("PLAYER LEAVE:");
- //      var target = self.findPlayer(sockID);
- //      if(target){
- //        console.log("Player "+target.id+" has left");
- //        self.players.splice(self.players.indexOf(target),1); // removes player from players array
- //      }
- //    });
-    game.sockets.init();
+    game.sockets.init(this);
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
@@ -94,9 +45,7 @@ game.interlude = {
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
-
     //test bubbles
-
     this.bubbles.push(new game.Bubble(0, "red", 10/9, 1, -.001, .0001));//Create a new bubble
     this.bubbles.push(new game.Bubble(1, "green", 6/9, 1, .001, .0001));//Create a new bubble
 
@@ -256,7 +205,7 @@ game.interlude = {
   */
   generatePassword : function(){
   	var pw = "";
-	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	var string_length = 5;
 	for (var i=0; i<string_length; i++) {
 		var rnum = Math.floor(Math.random() * chars.length);
