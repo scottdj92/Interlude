@@ -13,7 +13,7 @@ game.interlude = {
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
-  state : "START", //current game state
+  state : "GAME", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
 
@@ -95,6 +95,11 @@ game.interlude = {
       this.projectiles.inactive.push(new game.Projectile());
     }
 
+    //test bubbles
+
+    this.bubbles.push(new game.Bubble(0, "red", 10/9, 1, -.001, .0001));//Create a new bubble
+    this.bubbles.push(new game.Bubble(1, "green", 6/9, 1, .001, .0001));//Create a new bubble
+
     this.loop();
   },
 
@@ -155,11 +160,12 @@ game.interlude = {
       player.update(dt); //call player's update function
     });
     //loop through all of the projectiles
-    this.projectiles.active(function(proj){
+    this.projectiles.active.forEach(function(proj){
       proj.update(dt);
       if(self.checkBubbleCollison(proj))
         proj.dead = true;
     });
+
     //Loop through all of the bubbles
     this.bubbles.forEach(function(bubble, index, array) {
       //do bubble bounce physics - I'm sorry you all have to see this
@@ -172,14 +178,14 @@ game.interlude = {
     });
 
     //BUBBLE SPAWING CODE
-    this.nextBubble -= 1; //Tick down time for next bubble
+    /*this.nextBubble -= 1; //Tick down time for next bubble
     //check to see if next bubble should be spawned
     if(this.nextBubble < 0) {
       var bubbleID = Math.floor(Math.random()*this.players.length);
       var bubbleColor = this.players[bubbleID] ? this.players[bubbleID].color : "#aaa";
       this.bubbles.push(new game.Bubble(0, bubbleColor, 8/9, 1));//Create a new bubble
       this.nextBubble = ( Math.random() * 100 ) + 100; //Randomly set next bubble spawn interval
-    }
+    }*/
   },
   //Main update function
   update : function () {
