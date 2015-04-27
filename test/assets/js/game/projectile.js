@@ -13,6 +13,7 @@ game.Projectile = function() {
     this.dead = false;
     this.color = "black";
     this.id = 0;
+    this.r = 0.01;
   };
 
   var p = Projectile.prototype;
