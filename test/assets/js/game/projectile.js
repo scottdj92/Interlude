@@ -22,13 +22,13 @@ game.Projectile = function() {
     if(this.dead)
       return;
 
-    this.z--;
+    this.z-=5;
 
     //this.z -= this.pow;
-    if(this.z < 20) 
+    if(this.z < 5) 
       this.canHit = true;
 
-    if(this.z < -10)
+    if(this.z < -1)
       this.dead = true;
   };
 
@@ -44,7 +44,7 @@ game.Projectile = function() {
   };
 
   p.render = function() {
-    game.draw.circle(this.x,this.y, 100-this.z/100 * 0.004, this.color);
+    game.draw.circle(this.x,this.y, (this.z/100) * 0.04, this.color);
   };
 
   return Projectile;

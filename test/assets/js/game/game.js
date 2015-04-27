@@ -126,8 +126,10 @@ game.interlude = {
     this.projectiles.active.forEach(function(proj, index, array){
       proj.update(dt);
 
-      if(self.checkBubbleCollison(proj))
-        proj.dead = true;
+      if(&& proj.canHit ) {
+        if(self.checkBubbleCollison(proj) )
+          proj.dead = true;
+      }
 
       if(proj.dead){
         self.projectiles.inactive.push(proj);
