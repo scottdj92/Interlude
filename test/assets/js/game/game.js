@@ -19,6 +19,8 @@ game.interlude = {
   bubbleIDCounter : 0,
   canstart: false,
   playersReady : 0,
+  backgroundPos: 0,
+  bgIterator: 2,
 
   init : function() {
     console.log(this);
@@ -38,19 +40,16 @@ game.interlude = {
   	//get passwords
   	this.password = this.generatePassword();
   	console.log(this.password);
+    document.querySelector('#password').innerHTML = this.password;
 	
     game.sockets.init(this);
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
     //this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
-
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
-    //test bubbles
-    //this.bubbles.push(new game.Bubble(0, "cyan", 10/9, 1, -.001, .0001));//Create a new bubble
-    //this.bubbles.push(new game.Bubble(1, "purple", 6/9, 1, .001, .0001));//Create a new bubble
 
     this.loop();
   },
@@ -155,6 +154,9 @@ game.interlude = {
     //Call different update function depending on the state
     switch (this.state){
       case "START" :
+        this.backgroundPos += this.bgIterator;
+        if(this.backgroundPos <= 0 || this.backgroundPos >= 7000)
+          this.bgIterator *= -1;
         if(this.canStart)
           this.state = "GAME";
         break;
@@ -191,7 +193,7 @@ game.interlude = {
   },
   //render function for start screen
   renderStart : function() {
-    game.draw.img(this.backgroundImg, 0,7545,1920,1080, 0,0,16/9,1)
+    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1)
   },
   //Main render function
   render : function () {
