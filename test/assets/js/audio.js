@@ -5,7 +5,7 @@ audio = {
 	/** CREDIT TO http://www.createjs.com/Demos/SoundJS/MusicVisualizer **/
 	/** CONSTANTS **/
 	FFTSIZE : 32, //number of samples for Fourier Transform
-	TICK_FREQ : 20, //how often to run tick, in ms
+	TICK_FREQ : 1000, //how often to run tick, in ms
 	CIRCLES : 8, //number of circles to draw. this is also the amount to break the files into. so FFTSIZE/2 has to be even.
 	RADIUS_FACTOR : 40, //radius of circles
 	MIN_RADIUS : 1, //minumum radii
@@ -20,30 +20,48 @@ audio = {
 	var h, w; //width and height of canvas
 	var centerX, centerY; //holds the center point
 	var messageField; //message display
-	var assetsPath : '../audio'; //folder path
-	var src = assetsPath + 'Loop.wav'; //select single item to load
-	var soundInstance; //sound instance we create
-	var analyzerNode; //allows us to visualize the audio
-	var freqFloatData, freqByteData, timeByteData; //arrays to retrieve data from analyzerNode
+	*/
+
+	//THIS FILE PATH MUST BE HARD CODED TO FUNCTION IN A LOCAL ENVIRONMENT
+	//assetsPath : '/scottjones/Desktop/Interlude/test/assets/audio/', //folder path
+	assetsPath : '/../audio/',
+	songName : 'The Clash-Rock The Casbah/',
+	trackName : 'Keys.mp3',
+	src : assetsPath + songName + trackName, //select single item to load
+	
+	soundInstance : null, //sound instance we create
+	analyzerNode : null, //allows us to visualize the audio
+	freqFloatData : null, 
+	freqByteData : null, 
+	timeByteData : null, //arrays to retrieve data from analyzerNode
 	/* SAMPLE TESTING VARS
 	circles : {}, //object has of circle shapes
 	circleHue : 300, //base color hue
 	//var waves = new createjs.Container(); //container used to store waves when we draw them
 	circleFreqChunk, //chunk of freqByteData array that is computed per circle
-	var dataAverage = [42, 42, 42, 42]; //array recording data for the 4 most recent ticks
+	*/
+	dataAverage : [42, 42, 42, 42], //array recording data for the 4 most recent ticks
+	/*
 	var waveImg = []; //array of wave images with varying stroke thickness
 	*/
 	//console.log('audio.js loaded');
 
 	init: function(){
-		console.log('audio.js loaded');
+		//console.log('audio.js loaded');
 		//web audio handler. if this fails, show a message
 		if (!createjs.Sound.registerPlugins([createjs.WebAudioPlugin])) {
 			document.getElementById("#area").style.display = 'block';
 			console.log('sound failed');
+
+			
 			return;
 		};
 
+		createjs.Sound.addEventListener("fileload", createjs.proxy(audio.handleLoad, this)); //add event listener for when load is completed
+		createjs.Sound.registerSound(audio.src); //register sound
+
+
+		/*
 		//create new stage and point it at canvas
 		var canvas = document.getElementById('#area');
 		//stage = new createjs.Stage(canvas);
@@ -64,48 +82,58 @@ audio = {
 		messageField.y = centerY;
 		stage.addChild(messageField);
 		stage.update(); //update stage to show preload
-
-		createjs.Sound.addEventListener("fileload", createjs.proxy(handleLoad, this)); //add event listener for when load is completed
-		createjs.Sound.registerSound(src); //register sound
-		console.log('sound has loaded');
+		*/
 	},
-	//console.log('init() loaded');
 
 	handleLoad: function(evt)
 	{
+		//console.log('handleLoad fired');
+
+		//play audio before everything else
+		//audio.startPlayback();
 		//get context. NOTE: to connect to existing nodes, we need to work in the same context
 
 		var context = createjs.Sound.activePlugin.context;
 
 		//create analyzer node
-		analyzerNode = context.createAnalyzer();
-		analyzerNode.fftSize = FFTSIZE; //Fast Fourier Transform size
-		analyzerNode.smoothingTimeConstant = 0.85; //a value between 0->1 where 0 represents no time average with the last "frame"
-		analyzerNode.connect(context.destination); //connects to the destination, which is our output
+		this.analyzerNode = context.createAnalyser();
+		this.analyzerNode.fftSize = this.FFTSIZE; //Fast Fourier Transform size
+		this.analyzerNode.smoothingTimeConstant = 0.85; //a value between 0->1 where 0 represents no time average with the last "frame"
+		this.analyzerNode.connect(context.destination); //connects to the destination, which is our output
 
 		//attach visualizer node to existing dynamicsCompressorNode, which exists in destination
 		var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;
 		dynamicsNode.disconnect(); //disconnect from destination
-		dynamicsNode.connect(analyzerNode);
+		dynamicsNode.connect(this.analyzerNode);
 
 		//set up arrays that we use to retrieve analyzerNode data
-		freqFloatData = new Float32Array(analyzerNode.frequencyBinCount);
-		freqByteData = new Uint8Array(analyzerNode.frequencyBinCount);
-		timeByteData = new Uint8Array(analyzerNode.frequencyBinCount);
+		audio.freqFloatData = new Float32Array(this.analyzerNode.frequencyBinCount);
+		audio.freqByteData = new Uint8Array(this.analyzerNode.frequencyBinCount);
+		audio.timeByteData = new Uint8Array(this.analyzerNode.frequencyBinCount);
+		//console.log('bytedata created');
 
 		//calculate number of array elements
-		circleFreqChunk = analyzerNode.frequencyBinCount / CIRCLES;
+		this.circleFreqChunk = this.analyzerNode.frequencyBinCount / this.CIRCLES;
 
 		//enable touch if supported
+		/*
 		if (createjs.Touch.enable(stage)){
 			messageField.text = 'Touch to Start';
 		} else {
 			messageField.text = "Click to start";
 		}
 		stage.update(); //update to show text
+		*/
 
 		//wrap our sound player in a click event, so it can play on mobile
-		stage.addEventListener("stagemousedown", startPlayback);
+		//stage.addEventListener("stagemousedown", this.startPlayback);
+		
+	},
+
+	changeVolume: function(float)
+	{
+		//volume is a set range between 0-1 where 0 is no sound and 1 is the loudest.
+		audio.setVolume(float);
 	},
 
 	//start playback in response to user click
@@ -113,17 +141,17 @@ audio = {
 	{
 		//we will start the song once, so remove the listener
 		//this prevents accidental reptition
-		stage.removeEventListener('stagemousedown', startPlayback);
+		//stage.removeEventListener('stagemousedown', startPlayback);
 
-		if (soundInstance) {
+		if (audio.soundInstance) {
 			return;
 		} //if this is defined, we've started playing. 
 
 		//starting, so we can remove the message
-		stage.removeChild(messageField);
+		//stage.removeChild(messageField);
 
 		//start playing the sound we loaded, looping.
-		soundInstance = createjs.Sound.play(src, {loop: -1}); //we can change loop to 1 to play only once.
+		audio.soundInstance = createjs.Sound.play(audio.src, {loop: 1}); //we can change loop to 1 to play only once.
 
 		// test function that allows quick stop
 		/*stage.addEventListener('stagemousedown', function(){
@@ -131,7 +159,9 @@ audio = {
 			createjs.Sound.stop();
 		}); */
 		
+
 		/* CREATE VISUAL OBJECTS HERE */
+		/*
 		//create circles so they are persistent
 		for (var i = 0; i < CIRCLES.length; i++) {
 			var circle = CIRCLES[i] = new createjs.Shape();
@@ -142,20 +172,28 @@ audio = {
 
 		//add waves container to stage
 		stage.addChild(waves);
+		*/
 
 		//start tick function so we can "move" before updating the stage
-		createjs.Ticker.addEventListener('tick', tick);
-		createjs.Ticker.setInterval(TICK_FREQ);
+		createjs.Ticker.addEventListener('tick', this.tick);
+		createjs.Ticker.setInterval(audio.TICK_FREQ);
 	},
 
 	tick:function(evt)
 	{
-		analyzerNode.getFloatFrequencyData(freqFloatData); //gives us dB
-		analyzerNode.getByteFrequencyData(freqByteData); //gives us frequency
-		analyzerNode.getByteTimeDomainData(timeByteData); //gives us waveform
+		audio.analyzerNode.getFloatFrequencyData(audio.freqFloatData); //gives us dB
+		audio.analyzerNode.getByteFrequencyData(audio.freqByteData); //gives us frequency
+		audio.analyzerNode.getByteTimeDomainData(audio.timeByteData); //gives us waveform
+
+		
+		console.log(audio.freqFloatData);
+		console.log(audio.freqByteData);
+		console.log(audio.timeByteData);
+		
 
 		var lastRadius = 0; //used to store the radius of the last circle. This makes each circle relative to the last one
 
+		/*
 		for (var i = 0; i < CIRCLES; i++)
 		{
 			var freqSum = 0;
@@ -177,22 +215,22 @@ audio = {
 			var color = createjs.Graphics.getHSL((i / CIRCLES *HUE_VARIANCE + circleHue) % 360, 100, 50);
 			var g = new createjs.Graphics().beginFill(color).drawCircle(centerX, centerY, lastRadius).endFill();
 			circles[i].graphics = g;
-		}
+		}*/
 
 		//update dataAverage, by popping first element and pushing
-		dataAverage.shift();
-		dataAverage.push(lastRadius);
+		audio.dataAverage.shift();
+		audio.dataAverage.push(lastRadius);
 
 		//get average data for the last 3 ticks
 		var dataSum = 0;
-		for (var i = dataAverage.length - 1; i; i--)
+		for (var i = audio.dataAverage.length - 1; i; i--)
 		{
-			dataSum += dataAverage[i - 1];
+			dataSum += audio.dataAverage[i - 1];
 		}
-		dataSum = dataSum / (dataAverage.length - 1);
+		dataSum = dataSum / (audio.dataAverage.length - 1);
 
 		//calculate latest change
-		var dataDiff = dataAverage[dataAverage.length - 1] - dataSum;
+		var dataDiff = audio.dataAverage[audio.dataAverage.length - 1] - dataSum;
 
 		//change color (not necessary unless we want to implement this)
 		/*if (dataDiff > COLOR_CHANGE_THRESHOLD || dataDiff < COLOR_CHANGE_THRESHOLD)
@@ -200,7 +238,9 @@ audio = {
 			circleHue = circleHue + dataDiff;
 		}*/
 
+		//console.log(audio.dataAverage);
+
 		//update stage
-		stage.update();
+		//$('#area').update();
 	}
 }
