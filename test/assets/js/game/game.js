@@ -307,13 +307,10 @@ game.interlude = {
   findPlayer : function (socketID) {
       var target;
       this.players.every(function(player){
-        console.log("search: "+player.sockID);
         if(player.sockID == socketID){
           target = player;
-          console.log('match');
         }
-      });
-      
+      }); 
       return target;
     }
 }
