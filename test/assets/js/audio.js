@@ -1,7 +1,6 @@
 "use strict";
-var audio = audio || {};
 
-audio = {
+var audio = {
 	/** CREDIT TO http://www.createjs.com/Demos/SoundJS/MusicVisualizer **/
 	/** CONSTANTS **/
 	FFTSIZE : 32, //number of samples for Fourier Transform
@@ -57,32 +56,8 @@ audio = {
 			return;
 		};
 
-		createjs.Sound.addEventListener("fileload", createjs.proxy(audio.handleLoad, this)); //add event listener for when load is completed
-		createjs.Sound.registerSound(audio.src); //register sound
-
-
-		/*
-		//create new stage and point it at canvas
-		var canvas = document.getElementById('#area');
-		//stage = new createjs.Stage(canvas);
-
-		//set width and height so we can access this quicker
-		h = canvas.height;
-		w = canvas.width;
-
-		//calculate center point
-		centerX = w >> 1;
-		centerY = h >> 1;
-
-		//pre-load message
-		messageField = new createjs.Text("Loading Audio", "bold 24px Arial", "#000000");
-		messageField.maxWidth = w;
-		messageField.textAlign = 'center'; //NOTE: this changes the registration point of the message box to the center
-		messageField.x = centerX;
-		messageField.y = centerY;
-		stage.addChild(messageField);
-		stage.update(); //update stage to show preload
-		*/
+		createjs.Sound.addEventListener("fileload", createjs.proxy(this.handleLoad, this)); //add event listener for when load is completed
+		createjs.Sound.registerSound(this.src); //register sound
 	},
 
 	handleLoad: function(evt)
@@ -151,7 +126,7 @@ audio = {
 		//stage.removeChild(messageField);
 
 		//start playing the sound we loaded, looping.
-		audio.soundInstance = createjs.Sound.play(audio.src, {loop: 1}); //we can change loop to 1 to play only once.
+		audio.soundInstance = createjs.Sound.play(this.src, {loop: 1}); //we can change loop to 1 to play only once.
 
 		// test function that allows quick stop
 		/*stage.addEventListener('stagemousedown', function(){
@@ -176,61 +151,34 @@ audio = {
 
 		//start tick function so we can "move" before updating the stage
 		createjs.Ticker.addEventListener('tick', this.tick);
-		createjs.Ticker.setInterval(audio.TICK_FREQ);
+		createjs.Ticker.setInterval(this.TICK_FREQ);
 	},
 
 	tick:function(evt)
 	{
-		audio.analyzerNode.getFloatFrequencyData(audio.freqFloatData); //gives us dB
-		audio.analyzerNode.getByteFrequencyData(audio.freqByteData); //gives us frequency
-		audio.analyzerNode.getByteTimeDomainData(audio.timeByteData); //gives us waveform
+		this.analyzerNode.getFloatFrequencyData(audio.freqFloatData); //gives us dB
+		this.analyzerNode.getByteFrequencyData(audio.freqByteData); //gives us frequency
+		this.analyzerNode.getByteTimeDomainData(audio.timeByteData); //gives us waveform
 
 		
-		console.log(audio.freqFloatData);
-		console.log(audio.freqByteData);
-		console.log(audio.timeByteData);
-		
-
-		var lastRadius = 0; //used to store the radius of the last circle. This makes each circle relative to the last one
-
-		/*
-		for (var i = 0; i < CIRCLES; i++)
-		{
-			var freqSum = 0;
-			var timeSum = 0;
-
-			for (var x = circleFreqChunk; x; x--)
-			{
-				var index = (CIRCLES - i) * circleFreqChunk - x;
-				freqsum += freqByteData[index];
-				timeSum += timeByteData[index];
-			}
-
-			freqSum = freqsum / circleFreqChunk / 255; //gives percentage of total value
-			timeSum = timeSum / circleFreqChunk / 255; //also gives a percentage
-			//index 1-4 generally stays between 1-4
-
-			//draw circle
-			lastRadius += freqSum *RADIUS_FACTOR + MIN_RADIUS;
-			var color = createjs.Graphics.getHSL((i / CIRCLES *HUE_VARIANCE + circleHue) % 360, 100, 50);
-			var g = new createjs.Graphics().beginFill(color).drawCircle(centerX, centerY, lastRadius).endFill();
-			circles[i].graphics = g;
-		}*/
+		console.log(this.freqFloatData);
+		console.log(this.freqByteData);
+		console.log(this.timeByteData);
 
 		//update dataAverage, by popping first element and pushing
-		audio.dataAverage.shift();
-		audio.dataAverage.push(lastRadius);
+		this.dataAverage.shift();
+		this.dataAverage.push(lastRadius);
 
 		//get average data for the last 3 ticks
 		var dataSum = 0;
-		for (var i = audio.dataAverage.length - 1; i; i--)
+		for (var i = this.dataAverage.length - 1; i; i--)
 		{
-			dataSum += audio.dataAverage[i - 1];
+			dataSum += this.dataAverage[i - 1];
 		}
-		dataSum = dataSum / (audio.dataAverage.length - 1);
+		dataSum = dataSum / (this.dataAverage.length - 1);
 
 		//calculate latest change
-		var dataDiff = audio.dataAverage[audio.dataAverage.length - 1] - dataSum;
+		var dataDiff = this.dataAverage[audio.dataAverage.length - 1] - dataSum;
 
 		//change color (not necessary unless we want to implement this)
 		/*if (dataDiff > COLOR_CHANGE_THRESHOLD || dataDiff < COLOR_CHANGE_THRESHOLD)
