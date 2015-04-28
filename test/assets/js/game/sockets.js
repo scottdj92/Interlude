@@ -26,6 +26,9 @@ game.sockets = {
     //recieves event once a player has typed in the code and selected a color
     this.socket.on('player ready', function(data){
       app.players[data.id].ready = true;
+      app.playersReady ++;
+      if(app.playersReady >= 5)
+        app.canStart = true;
     });
   
     /** HANDLING PLAYER ACTIONS ****************************************/
