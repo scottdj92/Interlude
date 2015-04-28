@@ -256,6 +256,9 @@ html,body
 					+colorSelectedBG() 
 				.color.nonactive
 					height: 0%
+				.color.unavailable
+					opacity: 0.15
+					+transition(0.8s)
 				// transition
 				.color:nth-child(odd)
 					+slideInRight(0.6s)

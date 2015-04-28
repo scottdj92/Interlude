@@ -580,6 +580,11 @@ html, body {
           -webkit-transform: rotate(-42deg); }
         #mobile_body #in-game #game_prep #colors .color.nonactive {
           height: 0%; }
+        #mobile_body #in-game #game_prep #colors .color.unavailable {
+          opacity: 0.15;
+          transition: all 0.8s ease;
+          -moz-transition: all 0.8s ease;
+          -webkit-transition: all 0.8s ease-in-out; }
         #mobile_body #in-game #game_prep #colors .color:nth-child(odd) {
           -webkit-animation: slideinright 0.6s;
           -moz-animation: slideinright 0.6s;

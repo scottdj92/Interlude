@@ -11,14 +11,14 @@ game.Player = function() {
    * @param x : start x position
    * @param y : start y position
    */
-  var Player = function(id, color, sockID, x, y){
+  var Player = function(id, sockID, x, y){
     this.x = x;
     this.y = y;
     this.r = .02; //radius
     this.speed = .01; 
     this.id = id;
 	  this.sockID = sockID;
-    this.color = color;
+    //this.color = color;
     this.mu = 0.95;
     this.target = {x:0,y:0}; //target position for the cursor
     this.startRotation = undefined;
@@ -100,6 +100,16 @@ game.Player = function() {
   	this.x = x;
 	  this.y = y;
   };
+	/** sets the player's chosen color
+	 * @param color: color
+	 */
+	p.setColor = function(color){
+		this.color = color;
+	};
+	
+	p.setName = function(name){
+		this.name = name;
+	}
 	
   return Player;
 }();
