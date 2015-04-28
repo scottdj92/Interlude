@@ -132,7 +132,7 @@ audio = {
 	{
 		//volume is a set range between 0-1 where 0 is no sound and 1 is the loudest.
 		audio.setVolume(float);
-	}
+	},
 
 	//start playback in response to user click
 	startPlayback: function(evt)
