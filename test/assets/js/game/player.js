@@ -11,14 +11,14 @@ game.Player = function() {
    * @param x : start x position
    * @param y : start y position
    */
-  var Player = function(id, color, sockID, x, y){
+  var Player = function(id, sockID, x, y){
     this.x = x;
     this.y = y;
-    this.r = 20; //radius
-    this.speed = 20; 
+    this.r = .02; //radius
+    this.speed = .01; 
     this.id = id;
 	  this.sockID = sockID;
-    this.color = color;
+    //this.color = color;
     this.mu = 0.95;
     this.target = {x:0,y:0}; //target position for the cursor
     this.startRotation = undefined;
@@ -38,7 +38,7 @@ game.Player = function() {
   p.move = function(dt) {
     var self = this;//save a reference to this
     //make a vector with the x and y distance
-    var dist = {
+    /*var dist = {
         x:self.x - self.target.x, 
         y: self.y - self.target.y
       };
@@ -46,10 +46,14 @@ game.Player = function() {
     var yMag = Math.abs(dist.y);//get the magnitude of x distance
     var xMag = Math.abs(dist.x);//get the magnitude of y distance
 
-    if(dist.x > 2 || dist.x < -2)//if far enough away in the x direction
+    if(dist.x > .01 || dist.x < -.01)//if far enough away in the x direction
       this.x -= normal.x * (this.speed * xMag/40);//move to the target loaction
-    if(dist.y > 2 || dist.y < -2)
+    if(dist.y > .01 || dist.y < -.01)
       this.y -= normal.y * (this.speed * yMag/40);  
+    //console.log(this.x + ".." +this.y);
+    //console.log(this.target);*/
+    this.x =this.target.x;
+    this.y =this.target.y;
   };
   /** Returns a normalized vector
    * @param vec : vector to be normalized
@@ -71,13 +75,14 @@ game.Player = function() {
    * @param ctx : drawing context
    */
   p.render = function(ctx) {
-    ctx.save();//save the draw state
-    ctx.fillStyle = this.color;//set the color
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);//draw the player circle
-    ctx.closePath();
-    ctx.fill();//fill the path
-    ctx.restore();//restore the draw state
+    // ctx.save();//save the draw state
+    // ctx.fillStyle = this.color;//set the color
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);//draw the player circle
+    // ctx.closePath();
+    // ctx.fill();//fill the path
+    // ctx.restore();//restore the draw state
+    game.draw.circle(this.x,this.y, this.r, this.color);
   };
   /** sets the player's target positon
    * @param x : target x coord
@@ -95,6 +100,16 @@ game.Player = function() {
   	this.x = x;
 	  this.y = y;
   };
+	/** sets the player's chosen color
+	 * @param color: color
+	 */
+	p.setColor = function(color){
+		this.color = color;
+	};
+	
+	p.setName = function(name){
+		this.name = name;
+	}
 	
   return Player;
 }();

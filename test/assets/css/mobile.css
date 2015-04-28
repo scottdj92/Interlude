@@ -281,7 +281,7 @@ html, body {
     font-family: "proxima-nova-condensed", "Lato", sans-serif;
     background: none;
     color: #fff;
-    box-shadow: inset 0px 0px 25px 15px rgba(255, 255, 255, 0.1); }
+    box-shadow: inset 0px 0px 25px 15px rgba(255, 255, 255, 0.16); }
   #mobile_body .button:active {
     opacity: 1;
     background: #FFF;
@@ -580,6 +580,11 @@ html, body {
           -webkit-transform: rotate(-42deg); }
         #mobile_body #in-game #game_prep #colors .color.nonactive {
           height: 0%; }
+        #mobile_body #in-game #game_prep #colors .color.unavailable {
+          opacity: 0.15;
+          transition: all 0.8s ease;
+          -moz-transition: all 0.8s ease;
+          -webkit-transition: all 0.8s ease-in-out; }
         #mobile_body #in-game #game_prep #colors .color:nth-child(odd) {
           -webkit-animation: slideinright 0.6s;
           -moz-animation: slideinright 0.6s;
@@ -592,12 +597,25 @@ html, body {
           -o-animation: slidein 0.5s; }
     #mobile_body #in-game #game_controls {
       display: none; }
-      #mobile_body #in-game #game_controls #fire_btn {
-        font-size: 250%;
+      #mobile_body #in-game #game_controls .instructions {
+        font-size: 180%;
+        font-weight: 300;
         display: block;
         margin: auto;
         max-width: 400px;
-        margin-top: 40%;
-        padding: 2%; }
+        margin-top: 10%;
+        padding: 2%;
+        text-align: center;
+        opacity: 0.7; }
+      #mobile_body #in-game #game_controls #status {
+        font-size: 200%;
+        font-weight: 400;
+        display: block;
+        margin: auto;
+        max-width: 400px;
+        margin-top: 15%;
+        padding: 2%;
+        text-align: center;
+        text-transform: uppercase; }
 
 /*# sourceMappingURL=mobile.css.map */
