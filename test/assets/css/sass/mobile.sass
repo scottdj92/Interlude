@@ -40,7 +40,7 @@ html,body
 		font-family: $def-font
 		background: none
 		color: #fff
-		box-shadow: inset 0px 0px 25px 15px rgba(255,255,255,0.1)
+		box-shadow: inset 0px 0px 25px 15px rgba(255,255,255,0.16)
 
 	.button:active
 		opacity: 1
@@ -256,6 +256,9 @@ html,body
 					+colorSelectedBG() 
 				.color.nonactive
 					height: 0%
+				.color.unavailable
+					opacity: 0.15
+					+transition(0.8s)
 				// transition
 				.color:nth-child(odd)
 					+slideInRight(0.6s)
@@ -266,10 +269,23 @@ html,body
 				
 		#game_controls
 			display: none
-			#fire_btn
-				font-size: 250%
+			.instructions
+				font-size: 180%
+				font-weight: 300
 				display: block 
 				margin: auto 
 				max-width: 400px 
-				margin-top: 40% 
+				margin-top: 10% 
 				padding: 2%
+				text-align: center
+				opacity: 0.7
+			#status
+				font-size: 200%
+				font-weight: 400
+				display: block 
+				margin: auto 
+				max-width: 400px 
+				margin-top: 15% 
+				padding: 2%
+				text-align: center
+				text-transform: uppercase

@@ -227,13 +227,13 @@ game.interlude = {
   */
   generatePassword : function(){
   	var pw = "";
-	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	var string_length = 5;
-	for (var i=0; i<string_length; i++) {
-		var rnum = Math.floor(Math.random() * chars.length);
-		pw += chars.substring(rnum,rnum+1);
-	}
-	return pw;
+		var chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		var string_length = 5;
+		for (var i=0; i<string_length; i++) {
+			var rnum = Math.floor(Math.random() * chars.length);
+			pw += chars.substring(rnum,rnum+1);
+		}
+		return pw;
   },
 	
   /** 
@@ -243,9 +243,63 @@ game.interlude = {
   */
   createPlayer : function(data){
   	var x = 200, y = 200;
-    this.players[data.id] = new game.Player(data.id, data.color, data.sockID, x, y);
+    this.players[data.id] = new game.Player(data.id, data.sockID, x, y);
     var i = parseInt(data.id);
   },
+	
+	/** 
+  	* setPlayerColor():
+	* creates and adds a new player in game
+	* parameter [data object from socket]
+  */
+	setPlayerColor: function(data){
+		//check available colors
+		var used = false;
+		var self = this;
+		var players = this.players;
+		var sockID = self.players[data.id].sockID;
+		var response = { id: data.id, sockID: sockID };
+		for( var p in players ){
+			if(players[p].color == data.color){
+				//if color is already used
+				used = true;
+				response.color = null;
+				game.sockets.socket.emit("player colorcheck", response);
+				break;
+			}
+		}
+		//if color availabe
+		if(!used){
+			self.players[data.id].setColor(data.color);
+			response.color = data.color;
+			game.sockets.socket.emit("player colorcheck", response);
+			self.getSelectedColors();
+		}
+	},
+	
+	/** 
+  	* checkSelectedColors():
+	* sends to players array of taken colors
+  */
+	getSelectedColors: function(){
+		var colors = [];
+		for( var p in this.players ){
+			colors.push(this.players[p].color);
+		}
+		game.sockets.socket.emit("color selected", colors);
+	},
+	
+	/** 
+  	* setPlayerName():
+	* adds player name
+	* parameter [data object from socket]
+  */
+	setPlayerReady: function(data){
+		this.players[data.id].ready = true;
+		this.players[data.id].setName(data.name);
+		this.playersReady ++;
+		console.log(this.playersReady);
+	},
 	
   /** 
   	* findPlayer():
@@ -253,16 +307,12 @@ game.interlude = {
 	* parameter [socketID]
   */
   findPlayer : function (socketID) {
-      console.log('Find player: '+socketID);
       var target;
       this.players.every(function(player){
-        console.log("search: "+player.sockID);
         if(player.sockID == socketID){
           target = player;
-          console.log('match');
         }
-      });
-      
+      }); 
       return target;
     }
 }

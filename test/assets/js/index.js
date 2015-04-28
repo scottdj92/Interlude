@@ -53,30 +53,66 @@ io.on('connection', function(socket){
 	}
   });
   
-  /** PLAYER JOINED **/
+  /** 
+		PLAYER JOINED 
+	**/
   // Sent from game to notify that player has been accepted
   socket.on('player joined', function(data){
   	players.push(data); //add new player's socketID
-	  
-	//emit to individual player that they hve just joined the game
-	var msg = "Successfully joined :)";
-	io.to(data).emit('response joined', msg);
+		//emit to individual player that they hve just joined the game
+		var msg = "Successfully joined :)";
+		io.to(data).emit('response joined', msg);
   });
 	
-  /** PLAYER REJECT **/
+  /** 
+		PLAYER REJECT 
+	**/
   // Sent from game to notify that player has been rejected
   socket.on('player reject', function(data){
-	//data should be socket id of client
-	var msg = "Unable to join game :(";
+		//data should be socket id of client
+		var msg = "Unable to join game :(";
   	io.to(data).emit('response reject', msg);
   });
 
-  /** PHONE TILT **/
+  /** 
+		PHONE TILT 
+	**/
   socket.on('phone tilt', function(data){
     io.emit('phone tilt', data);
   });
-
-  /** GAME FIRE **/
+	
+	/** 
+		COLOR SELECTION 
+	**/
+	// mobile -> game
+	socket.on('player color', function(data){
+		io.emit('player color', data);
+	});
+	// game -> mobile
+	socket.on('player colorcheck', function(data){
+		io.to(data.sockID).emit('color check', data);
+	});
+	//mobile -> game
+	// request what colors are available
+	socket.on("color getAvail", function(data){
+		io.emit('color checkAvail', data);
+	});
+	// game -> mobile
+	// let all mobile clients know that a color is taken (return response)
+	socket.on("color selected", function(data){
+		io.emit('color selected', data);
+	});
+	
+	/** 
+		PLAYER READY 
+	**/
+	socket.on('player ready', function(data){
+		io.emit("player ready", data);
+	});
+	
+  /** 
+		GAME FIRE 
+	**/
   socket.on('game fire', function(data){
     io.emit('game fire', data);
   });

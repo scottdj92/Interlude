@@ -10,7 +10,6 @@ game.sockets = {
     //Set up socket events 
     this.socket.on('player join', function(data){
       // check password
-      console.log(data);
       // if password is correct, create new player
       if( data.password === app.password ){ 
         // emit successful join
@@ -22,17 +21,26 @@ game.sockets = {
         self.socket.emit('player reject', data.sockID);
       } 
     });
-
+		
+		//color selection
+		this.socket.on("player color", function(data){
+			app.setPlayerColor(data);
+		});
+		
+		//send available colors
+		this.socket.on("color checkAvail", function(data){
+			app.getSelectedColors();
+		});
+		
     //recieves event once a player has typed in the code and selected a color
     this.socket.on('player ready', function(data){
-      app.players[data.id].ready = true;
-      app.playersReady ++;
+			app.setPlayerReady(data);
       if(app.playersReady >= 5)
         app.canStart = true;
     });
   
     /** HANDLING PLAYER ACTIONS ****************************************/
-    //
+   
     // Firing on phone
     this.socket.on('game fire', function(data){
       //just make this add a projectile
@@ -50,11 +58,12 @@ game.sockets = {
     
     this.socket.on('player leave', function(sockID) {
       // data only contains the play id
-      console.log("PLAYER LEAVE:");
       var target = app.findPlayer(sockID);
       if(target){
         console.log("Player "+target.id+" has left");
-        app.players.splice(app.players.indexOf(target),1); // removes player from players array
+        //var color = target.color; /* delete color player has chosen */
+				app.players.splice(app.players.indexOf(target),1); // removes player from players array
+				app.playersReady --;
       }
     });
   }
