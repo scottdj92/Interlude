@@ -13,10 +13,12 @@ game.interlude = {
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
-  state : "GAME", //current game state
+  state : "START", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
   bubbleIDCounter : 0,
+  canstart: false,
+  playersReady : 0,
 
   init : function() {
     console.log(this);
@@ -125,12 +127,10 @@ game.interlude = {
     //loop through all of the projectiles
     this.projectiles.active.forEach(function(proj, index, array){
       proj.update(dt);
-
-      if(&& proj.canHit ) {
+      if( proj.canHit ) {
         if(self.checkBubbleCollison(proj) )
           proj.dead = true;
       }
-
       if(proj.dead){
         self.projectiles.inactive.push(proj);
         array.splice(index,1);
@@ -155,6 +155,8 @@ game.interlude = {
     //Call different update function depending on the state
     switch (this.state){
       case "START" :
+        if(this.canStart)
+          this.state = "GAME";
         break;
       case "GAME" :
         this.updateGame();//call game update function
