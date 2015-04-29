@@ -168,7 +168,7 @@ game.interlude = {
     });
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
-    console.log(this.players);
+   //console.log(this.players);
     //if all bubbles are popped switch to countdown
     if(this.bubbles.length < 1)
       this.initCountdown();
@@ -339,7 +339,7 @@ game.interlude = {
 		var self = this;
 		var players = this.players;
 		console.log(data);
-		var sockID = self.players[data.id].sockID;
+		var sockID = players[data.id].sockID;
 		var response = { id: data.id, sockID: sockID };
 		for( var p in players ){
 			if(players[p].color == data.color){
@@ -352,7 +352,7 @@ game.interlude = {
 		}
 		//if color availabe
 		if(!used){
-			self.players[data.id].setColor(data.color);
+			players[data.id].setColor(data.color);
 			response.color = data.color;
 			game.sockets.socket.emit("player colorcheck", response);
 			self.updateLobbyPlayerColor(data);

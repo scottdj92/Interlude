@@ -378,7 +378,8 @@ html {
           font-weight: 500;
           color: #fff;
           background: none;
-          padding: 0 5px 0 5px; }
+          padding: 0 5px 0 5px;
+          letter-spacing: 3px; }
       html .container #lobby #players {
         width: 60%;
         height: 20%;
