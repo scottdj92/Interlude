@@ -1,0 +1,79 @@
+$def-font: "proxima-nova-condensed", "Lato", sans-serif 
+@import "loading.css"
+@import "mixins"
+
+html
+	margin: 0
+	padding: 0
+	background-color: #000
+	box-sizing: border-box 
+	height: 100%
+	.center 
+		position: absolute 
+		left: 50% 
+		top: 45%  
+		transform: translate(-50%, -45%) 
+		-webkit-transform: translate(-50%, -45%) 
+		-moz-transform: translate(-50%, -45%) 
+		-o-transform: translate(-50%, -45%)
+		
+	.container:after 
+		padding-top: 56.25% 
+		display: block 
+		content: '' 
+	.container 
+		width: 85%
+		margin-left: 7.5%
+		margin-top: 2%
+		display: inline-block
+		position: relative
+		font-family: $def-font
+	
+		#lobby
+			height: 100% 
+			width: 100% 
+			display: block 
+			.pwd-sect.down
+				margin-top: 10%
+			.pwd-sect
+				top: 55% 
+				background: none 
+				border: 1px solid rgba(255,255,255,0.5)
+				padding: 2% 
+				padding-left: 2.5% 
+				background: none 
+				position: absolute 
+				font-weight: 100 
+				font-size: 1.5em 
+				color: #eee 
+				text-transform: uppercase
+				+transition(0.4s)
+				#password
+					font-weight: 500
+					color: #fff 
+					background: none 
+					padding: 0 5px 0 5px
+			#players
+				width: 75%
+				height: 25%
+				.player.join
+					display: inline-block
+				.player
+					text-align: center
+					width: 20%
+					height: 100%
+					display: none
+					float: left
+					background: red
+				.player:nth-child(odd)
+					+slideUp(0.6s)
+					//+rotateRight(0.8s)
+				.player:nth-child(even)
+					+slideDown(0.5s)
+			
+	#canvas-holder 
+		position: absolute 
+		top: 0 
+		bottom: 0 
+		right: 0 
+		left: 0 

@@ -220,13 +220,15 @@ game.interlude = {
   },
   /********TRANSITION FUNCTIONS****************/
 	initLoginState : function() {
-    if(this.state === "LOGIN") 
-      return;
+    if(this.state === "LOGIN") return;
     //switch state
     this.state = "LOGIN";
-    //trasition screens
-    
+    //transition screens
+    $("#lobby .pwd-sect").addClass("down");
   },
+	transitionPlayer: function(){
+		
+	},
   //Resize function for keeping canvas at the right ratio
   resizeCanvas : function() {
     //get reference to canvas holder
@@ -257,6 +259,7 @@ game.interlude = {
 	* parameter [data object from socket]
   */
   createPlayer : function(data){
+		console.log(data);
   	var x = 200, y = 200;
     this.players[data.id] = new game.Player(data.id, data.sockID, x, y);
     var i = parseInt(data.id);
@@ -272,6 +275,7 @@ game.interlude = {
 		var used = false;
 		var self = this;
 		var players = this.players;
+		console.log(data);
 		var sockID = self.players[data.id].sockID;
 		var response = { id: data.id, sockID: sockID };
 		for( var p in players ){

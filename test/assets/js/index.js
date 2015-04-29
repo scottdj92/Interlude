@@ -43,9 +43,11 @@ io.on('connection', function(socket){
   // player joining request
   socket.on('player join', function(data){
 	data.sockID = socket.id;
+	data.id = socket.id;
 	// check if total players have maxed
 	if( players.length < 5 ){
     	io.emit('player join', data);
+			io.emit('player id', socket.id);
 	}
 	else {
 		var msg = "Game is full :(";

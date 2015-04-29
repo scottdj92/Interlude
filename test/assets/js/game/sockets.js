@@ -17,7 +17,7 @@ game.sockets = {
         // create new player
         app.createPlayer(data);
         //Add player name to screen
-
+				
         //transition to next state
         app.initLoginState();
       } else {

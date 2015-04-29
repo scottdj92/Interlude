@@ -58,6 +58,12 @@
 	-ms-animation: slideup $time
 	-o-animation: slideup $time
 
+=slideDown($time)
+	-webkit-animation: slidedown $time
+	-moz-animation: slidedown $time
+	-ms-animation: slidedown $time
+	-o-animation: slidedown $time
+	
 =slideOut($time)
 	-webkit-animation: slideout $time
 	-moz-animation: slideout $time
@@ -207,6 +213,36 @@
 	from
 		opacity: 0
 		margin-top: 200%
+	to 
+		opacity: 1
+		margin-top: 0
+
+// SLIDE DOWN *******************////
+@-webkit-keyframes slidedown
+	from 
+		opacity: 0
+		margin-top: -200%
+	to
+		opacity: 1
+		margin-top: 0
+@-ms-keyframes slidedown
+	from
+		opacity: 0
+		margin-top: -200%
+	to  
+		opacity: 1
+		margin-top: 0
+@keyframes slidedown
+	from
+		opacity: 0
+		margin-top: -200%
+	to 
+		opacity: 1
+		margin-top: 0
+@-moz-keyframes slidedown
+	from
+		opacity: 0
+		margin-top: -200%
 	to 
 		opacity: 1
 		margin-top: 0

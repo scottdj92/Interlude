@@ -12,11 +12,8 @@ mobileClient = {
 	// INITIALIZER 
 	init : function () {
 		// create new instance of socket.io
-		this.id = Math.floor(Math.random()*10);
 		//setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 		this.socket = io.connect( window.location.origin);
-		// initial data sent by socket
-		this.connectData = { id: this.id };
 		// start socket listeners
 		this.initSocket();
 		this.initListeners();
@@ -31,7 +28,17 @@ mobileClient = {
 	// Init each socket listener
 	initSocket : function( callback ) {
 		var socket = this.socket;
+		// initial data sent by socket
+		this.id = socket.id;
+		console.log(this.id);
+		this.connectData = { id: socket.id };
+		
 		var self = this;
+		//set own id
+		socket.on('player id', function(id){
+			console.log(id);
+			self.id = id;
+		});
 		socket.on('response joined', function(msg){
 			//when player has successfully joined
 			$("#status").html(msg);
