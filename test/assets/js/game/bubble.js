@@ -34,7 +34,7 @@ game.Bubble = function() {
 
     this.move();
     this.updateCollisions();
-    this.velocity.y += .000005;//accelerate upward
+    //this.velocity.y += .000005;//accelerate upward
   };
   /** Removes collisions that have ended from the collison array
    */
