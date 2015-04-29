@@ -12,20 +12,11 @@
   position: relative;
 }
 #password{
-  top: 55%;
-  background: none;
-  border: 0.1em solid #ccc;
-  padding: 2%;
-  padding-left: 3.5%;
-  -webkit-box-shadow: inset 0px 0px 31px 0px rgba(200,200,200,0.60);
-  -moz-box-shadow: inset 0px 0px 31px 0px rgba(200,200,200,0.60);
-  box-shadow: inset 0px 0px 31px 0px rgba(200,200,200,0.60);
-  font-size: 3em;
-  letter-spacing: 0.4em;
-  text-align: center;
   font-weight: 500;
   color: #fff;
   font-family: "proxima-nova-condensed", "Lato", sans-serif;
+  background: none;
+  padding: 0 5px 0 5px;
 }
 .center {
   position: absolute;
@@ -41,13 +32,17 @@
   width: 100%;
 }
 .pwdInstruction{
-  top: 40%;
+  top: 55%;
+  background: none;
+  border: 0.1em solid #ccc;
+  padding: 2%;
+  padding-left: 2.5%;
   background: none;
   position: absolute;
-  text-align: center;
-  font-weight: 100;
+  font-weight: 300;
   font-size: 1.5em;
-  color: #fff;
+  color: #eee;
+  text-transform: uppercase;
   font-family: "proxima-nova-condensed", "Lato", sans-serif;
 }
 .container:after {
