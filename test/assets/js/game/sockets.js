@@ -66,7 +66,7 @@ game.sockets = {
       if(target){
         console.log("Player "+target.id+" has left");
         //var color = target.color; /* delete color player has chosen */
-				app.players.splice(app.players.indexOf(target),1); // removes player from players array
+				delete app.players[sockID]; // removes player from players array
 				app.playersReady --;
       }
     });
