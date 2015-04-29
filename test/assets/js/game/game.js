@@ -262,12 +262,19 @@ game.interlude = {
   },
 	//Intro screen where players learn mechanics
   initIntro : function() {
+    //get rid of dom elements
+
     //add bubbles for them to pop
-    this.bubbles.push(new game.Bubble(0, "cyan", 2/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(1, "purple", 5/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(2, "pink", 8/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(3, "blue", 11/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(4, "green", 14/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],
+                      2/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(1, this.bubbleAssets["purple"],
+                      5/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(2, this.bubbleAssets["pink"], 
+                      8/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(3, this.bubbleAssets["blue"], 
+                      11/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(4, this.bubbleAssets["green"],
+                      14/9, 1/2, 0, 0));
     //set state
     this.state = "INTRO";
   },

@@ -10,15 +10,16 @@ game.Bubble = function() {
    * @param x : start x position
    * @param y : start y position
    */
-  var Bubble = function(id, color, x, y, xVel, yVel) {
+  var Bubble = function(id, img, x, y, xVel, yVel) {
     this.x = x;
     this.y = y;
     this.r = .1;//radius
     this.velocity = { x : xVel, y : yVel};
     this.id = id;
-    this.color = color;
+    this.color = img;
     this.collisions = [];
     this.mass = 10;
+    this.img = img;
   }
   //create a reference to the bubble prototype
   var b = Bubble.prototype;
@@ -92,7 +93,9 @@ game.Bubble = function() {
    * @param ctx : drawing context
    */
   b.render = function(ctx) {
-    game.draw.circle(this.x, this.y, this.r, this.color);
+    //game.draw.circle(this.x, this.y, this.r, this.color);
+    game.draw.img(this.img, 0, 0, 350, 350, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
   };
 
   return Bubble;
