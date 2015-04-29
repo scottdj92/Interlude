@@ -50,6 +50,13 @@ game.interlude = {
     //this.bubbles.push(new game.Bubble(0, "cyan", 10/9, 1, -.001, .0001));//Create a new bubble
     //this.bubbles.push(new game.Bubble(1, "purple", 6/9, 1, .001, .0001));//Create a new bubble
 
+
+    //initialize audio objects
+    var track1 = clone(audio);
+    track1.songName = 'Anthony_Constantino_Songs/';
+    track1.trackName = 'Loop.wav';
+    console.log(track1);
+
     this.loop();
   },
 
