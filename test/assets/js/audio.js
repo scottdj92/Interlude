@@ -1,38 +1,30 @@
 "use strict";
 
-var audio = {
+function Audio(song, track)
+{
 	/** CREDIT TO http://www.createjs.com/Demos/SoundJS/MusicVisualizer **/
 	/** CONSTANTS **/
-	FFTSIZE : 32, //number of samples for Fourier Transform
-	TICK_FREQ : 1000, //how often to run tick, in ms
-	CIRCLES : 8, //number of circles to draw. this is also the amount to break the files into. so FFTSIZE/2 has to be even.
-	RADIUS_FACTOR : 40, //radius of circles
-	MIN_RADIUS : 1, //minumum radii
-	HUE_VARIANCE : 120, //hue variance
-	COLOR_CHANGE_THRESHOLD : 15, //amount of change before we effect change
-	WAVE_EMIT_THRESHOLD: 15, //amount of positive change before we effect change
-	WAVE_SCALE : 0.03, //amount to scale wave per tick
-	WAVE_RADIUS : 180, //waves will be drawn with this radius.
-
+	this.FFTSIZE = 32; //number of samples for Fourier Transform
+	this.TICK_FREQ = 1000; //how often to run tick, in ms
 	/** VARIABLES 
 
 	//THIS FILE PATH MUST BE HARD CODED TO FUNCTION IN A LOCAL ENVIRONMENT
 	//assetsPath : '/scottjones/Desktop/Interlude/test/assets/audio/', //folder path
 	*/
-	assetsPath : '/assets/audio/',
-	songName : 'Anthony_Constantino-Songs/',
-	trackName : 'Loop.wav',
-	src : undefined, //select single item to load
+	this.assetsPath = '/assets/audio/';
+	this.songName = song;
+	this.trackName = track;
+	this.src = undefined; //select single item to load
 	
-	soundInstance : undefined, //sound instance we create
-	analyzerNode : undefined, //allows us to visualize the audio
-	freqFloatData : undefined, 
-	freqByteData : undefined, 
-	timeByteData : undefined, //arrays to retrieve data from analyzerNode
-	dataAverage : [42, 42, 42, 42], //array recording data for the 4 most recent ticks
+	this.soundInstance = undefined; //sound instance we create
+	this.analyzerNode = undefined; //allows us to visualize the audio
+	this.freqFloatData = undefined; 
+	this.freqByteData = undefined; 
+	this.timeByteData = undefined; //arrays to retrieve data from analyzerNode
+	this.dataAverage = [42, 42, 42, 42]; //array recording data for the 4 most recent ticks
 	//console.log('audio.js loaded');
 
-	init: function(){
+	this.init = function(){
 		this.src = this.assetsPath + this.songName + this.trackName;
 		//console.log('audio.js loaded');
 		//web audio handler. if this fails, show a message
@@ -43,10 +35,11 @@ var audio = {
 		};
 
 		createjs.Sound.addEventListener("fileload", createjs.proxy(this.handleLoad, this)); //add event listener for when load is completed
-		createjs.Sound.registerSound(audio.src); //register sound
-	},
+		createjs.Sound.registerSound(this.src); //register sound
+		console.log('init called');
+	};
 
-	handleLoad: function(evt)
+	this.handleLoad = function(evt)
 	{
 		//console.log('handleLoad fired');
 
@@ -72,44 +65,27 @@ var audio = {
 		this.freqByteData = new Uint8Array(this.analyzerNode.frequencyBinCount);
 		this.timeByteData = new Uint8Array(this.analyzerNode.frequencyBinCount);
 
-		console.log(this.freqFloatData);
-		//console.log('bytedata created');
-
-		//calculate number of array elements
-		//this.circleFreqChunk = this.analyzerNode.frequencyBinCount / this.CIRCLES;
-
-		//enable touch if supported
-		/*
-		if (createjs.Touch.enable(stage)){
-			messageField.text = 'Touch to Start';
-		} else {
-			messageField.text = "Click to start";
-		}
-		stage.update(); //update to show text
-		*/
-
-		//wrap our sound player in a click event, so it can play on mobile
-		//stage.addEventListener("stagemousedown", this.startPlayback);
+		//console.log(this.freqFloatData);
 		
-	},
+	};
 
-	changeVolume: function(float)
+	this.changeVolume = function(float)
 	{
 		//volume is a set range between 0-1 where 0 is no sound and 1 is the loudest.
 		this.setVolume(float);
-	},
+	};
 
-	stopPlayback: function()
+	this.stopPlayback = function()
 	{
 		createjs.Sound.stop();
-	},
+	};
 
 	//start playback in response to user click
-	startPlayback: function(evt)
+	this.startPlayback = function(evt)
 	{
 		if (this.soundInstance) {
 			return;
-		} //if this is defined, we've started playing. 
+		}; //if this is defined, we've started playing. 
 
 		//start playing the sound we loaded,
 		this.soundInstance = createjs.Sound.play(this.src, {loop: 1}); //we can change loop to 1 to play only once.
@@ -117,9 +93,9 @@ var audio = {
 		//start tick function so we can "move" before updating the stage
 		createjs.Ticker.addEventListener('tick', this.tick.bind(this));
 		createjs.Ticker.setInterval(this.TICK_FREQ);
-	},
+	};
 
-	tick: function(evt)
+	this.tick = function(evt)
 	{
 		this.analyzerNode.getFloatFrequencyData(this.freqFloatData); //gives us dB
 		this.analyzerNode.getByteFrequencyData(this.freqByteData); //gives us frequency
@@ -148,5 +124,5 @@ var audio = {
 
 		//update stage
 		//$('#area').update();
-	},
-}
+	};
+};

@@ -53,9 +53,16 @@ game.interlude = {
 
     //initialize audio objects
     //http://www.htmlgoodies.com/beyond/javascript/object.create-the-new-way-to-create-objects-in-javascript.html
-    var track1 = Object.create()
-    track1.songName = 'Anthony_Constantino_Songs/';
-    track1.trackName = 'Loop.wav';
+    /*var track1 = Object.create(audio.prototype, {
+      songName : { writable: 'true', configurable: 'false', value: 'Anthony_Constantino_Songs/' },
+      trackName : { writable: 'true', configurable: 'false', value: 'Loop.wav'},
+    }); */
+    
+    //function to create new Audio(songName, trackName) object
+    var track1 = new Audio('Anthony_Constantino-Songs/', 'Loop.wav');
+    track1.init();
+    //track1.songName = 'Anthony_Constantino_Songs/';
+    //track1.trackName = 'Loop.wav';
     console.log(track1);
 
     this.loop();
