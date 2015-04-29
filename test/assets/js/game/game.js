@@ -288,6 +288,7 @@ game.interlude = {
   //initializes countdown state
   initCountdown : function(){
     this.initGame();
+    this.lastUpdate = Date.now();
   },
   initGame : function() {
     this.state = "GAME";
