@@ -18,7 +18,7 @@ game.interlude = {
   bubbleAssets : {},
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 0,
+  playersReady : 4,
   backgroundPos: 0,
   bgIterator: 2,
 
@@ -168,6 +168,7 @@ game.interlude = {
     });
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
+    console.log(this.players);
     //if all bubbles are popped switch to countdown
     if(this.bubbles.length < 1)
       this.initCountdown();
@@ -178,12 +179,15 @@ game.interlude = {
     this.backgroundPos += this.bgIterator;
         if(this.backgroundPos <= 0 || this.backgroundPos >= 7000)
           this.bgIterator *= -1;
-        if(this.canStart)
-          this.state = "GAME";
     switch (this.state){
       case "START" :
         break;
       case "LOGIN" :
+        if(this.canStart)
+          this.initIntro();
+        break;
+      case "INTRO":
+        this.updateIntro();
         break;
       case "GAME" :
         this.updateGame();//call game update function
@@ -200,8 +204,6 @@ game.interlude = {
   renderGame : function() {
     var self = this;//Save a reference to this
     //this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
-    this.ctx.fillStyle = "#235";
-    this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
     //loop through bubbles
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);//draw each bubble
@@ -229,6 +231,9 @@ game.interlude = {
       case "LOGIN" :
         this.renderStart();
         break;
+      case "INTRO":
+        this.renderGame();
+        break;
       case "GAME" :
         this.renderGame();//render in game screen
         break;
@@ -254,11 +259,11 @@ game.interlude = {
 	//Intro screen where players learn mechanics
   initIntro : function() {
     //add bubbles for them to pop
-    this.bubbles.push(game.Bubble(id, color, 2/9, 1/2, 0, 0));
-    this.bubbles.push(game.Bubble(id, color, 5/9, 1/2, 0, 0));
-    this.bubbles.push(game.Bubble(id, color, 8/9, 1/2, 0, 0));
-    this.bubbles.push(game.Bubble(id, color, 11/9, 1/2, 0, 0));
-    this.bubbles.push(game.Bubble(id, color, 14/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(0, "cyan", 2/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(1, "purple", 5/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(2, "pink", 8/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(3, "blue", 11/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(4, "green", 14/9, 1/2, 0, 0));
     //set state
     this.state = "INTRO";
   },
@@ -272,7 +277,6 @@ game.interlude = {
 				$(p[i]).addClass('join');
 				$(p[i]).find('.name').html("waiting");
 				i = p.length;
-				console.log('added');
 			}
 		}
 	},
@@ -285,7 +289,6 @@ game.interlude = {
 	
 	//update the name of the lobby player
 	updateLobbyPlayerName: function(data){
-		console.log(data);
 		var p = document.getElementById(data.id);
 		$(p).find('.name').html(data.name);
 	},
@@ -295,7 +298,6 @@ game.interlude = {
     //get reference to canvas holder
     var canvasHolder = document.querySelector('#canvas-holder');
     
-    console.log('resize');
     this.canvas.width = canvasHolder.offsetWidth;
     this.canvas.height = canvasHolder.offsetHeight;
   },
@@ -321,7 +323,6 @@ game.interlude = {
 	* parameter [data object from socket]
   */
   createPlayer : function(data){
-		console.log(data);
   	var x = 200, y = 200;
     this.players[data.id] = new game.Player(data.id, data.sockID, x, y);
     var i = parseInt(data.id);
