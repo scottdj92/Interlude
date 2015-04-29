@@ -114,28 +114,27 @@ game.interlude = {
       this.bubbleIDCounter++;
     }
   },
-  //Function for updating main game loop
-  updateGame : function(){
-    var dt = 0;
+  //updates projectiles and moves inactive ones to the correct array
+  updateProjectiles : function(dt){
     var self = this;
-    //this.blackHole.update(dt);
-    //Loop through all of the players
-    this.players.forEach(function(player) {
-      player.update(dt); //call player's update function
-    });
     //loop through all of the projectiles
     this.projectiles.active.forEach(function(proj, index, array){
       proj.update(dt);
+      //bubble collisions
       if( proj.canHit ) {
         if(self.checkBubbleCollison(proj) )
           proj.dead = true;
       }
+      //move finished ones
       if(proj.dead){
         self.projectiles.inactive.push(proj);
         array.splice(index,1);
       }
     });
-
+  },
+  //updates all bubbles in game
+  updateBubbles : function(dt) {
+    var self = this;
     //Loop through all of the bubbles
     this.bubbles.forEach(function(bubble, index, array) {
       //do bubble bounce physics - I'm sorry you all have to see this
@@ -146,8 +145,32 @@ game.interlude = {
       if(bubble.remove) //Check to see if the bubble should be removed
         array.splice(index, 1); //Remove a bubble
     });
+  },
+  //Function for updating main game loop
+  updateGame : function(){
+    var dt = 0;
+    var self = this;
+    //this.blackHole.update(dt);
+    //Loop through all of the players
+    this.players.forEach(function(player) {
+      player.update(dt); //call player's update function
+    });
 
+    this.updateProjectiles(dt);
+    this.updateBubbles(dt);
     //this.spawnBubbles();
+  },
+  updateIntro : function() {
+    var dt = 0;
+    //Loop through all of the players
+    this.players.forEach(function(player) {
+      player.update(dt); //call player's update function
+    });
+    this.updateProjectiles(dt);
+    this.updateBubbles(dt);
+    //if all bubbles are popped switch to countdown
+    if(this.bubbles.length < 1)
+      this.initCountdown();
   },
   //Main update function
   update : function () {
@@ -170,7 +193,6 @@ game.interlude = {
       case "END" :
         break;
       default :
-
         break;
     }
   },
