@@ -399,6 +399,9 @@ html {
           html .container #lobby #players .player .icon {
             display: block;
             margin: auto;
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            background-position: center;
             width: 90%;
             height: 90%;
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -409,15 +412,25 @@ html {
           html .container #lobby #players .player .name {
             margin-top: 15px; }
           html .container #lobby #players .player .icon.white {
-            border-color: #fff; }
+            border-color: #fff;
+            background-image: url("/assets/img/icon-white-strings.svg");
+            background-size: 55% auto; }
           html .container #lobby #players .player .icon.pink {
-            border-color: #ff4399; }
+            border-color: #ff4399;
+            background-image: url("/assets/img/icon-pink-brass.svg");
+            background-size: 55% auto; }
           html .container #lobby #players .player .icon.blue {
-            border-color: #2cfff4; }
+            border-color: #2cfff4;
+            background-image: url("/assets/img/icon-blue-keyboards.svg");
+            background-size: 55% auto; }
           html .container #lobby #players .player .icon.purple {
-            border-color: #6c7cff; }
+            border-color: #6c7cff;
+            background-image: url("/assets/img/icon-purple-percussion.svg");
+            background-size: 55% auto; }
           html .container #lobby #players .player .icon.green {
-            border-color: #29ff7f; }
+            border-color: #29ff7f;
+            background-image: url("/assets/img/icon-green-woodwinds.svg");
+            background-size: 25% auto; }
         html .container #lobby #players .player:nth-child(odd) {
           margin-top: -10%;
           -webkit-animation: slideupP 0.8s;

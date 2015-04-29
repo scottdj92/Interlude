@@ -29,7 +29,6 @@ mobileClient = {
 	initSocket : function( callback ) {
 		var socket = this.socket;
 		// initial data sent by socket
-		this.id = socket.id;
 		console.log(this.id);
 		this.connectData = { id: socket.id };
 		

@@ -285,6 +285,7 @@ game.interlude = {
 	
 	//update the name of the lobby player
 	updateLobbyPlayerName: function(data){
+		console.log(data);
 		var p = document.getElementById(data.id);
 		$(p).find('.name').html(data.name);
 	},
