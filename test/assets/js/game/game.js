@@ -280,6 +280,9 @@ game.interlude = {
   },
   //initializes countdown state
   initCountdown : function(){
+    this.initGame();
+  },
+  initGame : function() {
     this.state = "GAME";
   },
 	// Add player to Lobby
