@@ -52,7 +52,8 @@ game.interlude = {
 
 
     //initialize audio objects
-    var track1 = clone(audio);
+    //http://www.htmlgoodies.com/beyond/javascript/object.create-the-new-way-to-create-objects-in-javascript.html
+    var track1 = Object.create()
     track1.songName = 'Anthony_Constantino_Songs/';
     track1.trackName = 'Loop.wav';
     console.log(track1);
