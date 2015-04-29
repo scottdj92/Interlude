@@ -2,7 +2,7 @@
 var game = game || {};
 
 game.interlude = {
-  players : [], //array of players in the game
+  players : {}, //array of players in the game
   bubbles : [], //array of bubbles in the game
   projectiles : { //Holds all projectiles in the game so we dont make extra
     active : [], //currently active projectiles
@@ -132,6 +132,14 @@ game.interlude = {
       }
     });
   },
+  //updates players
+  updatePlayers: function(dt){
+    var self = this;
+    for(var p in this.players){
+      console.log(p);
+      self.players[p].update(dt);
+    }
+  },
   //updates all bubbles in game
   updateBubbles : function(dt) {
     var self = this;
@@ -152,9 +160,7 @@ game.interlude = {
     var self = this;
     //this.blackHole.update(dt);
     //Loop through all of the players
-    this.players.forEach(function(player) {
-      player.update(dt); //call player's update function
-    });
+    this.updatePlayers(dt);
 
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
@@ -163,9 +169,7 @@ game.interlude = {
   updateIntro : function() {
     var dt = 0;
     //Loop through all of the players
-    this.players.forEach(function(player) {
-      player.update(dt); //call player's update function
-    });
+    this.updatePlayers(dt);
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
    //console.log(this.players);
@@ -203,7 +207,7 @@ game.interlude = {
   //Render function for in game screen
   renderGame : function() {
     var self = this;//Save a reference to this
-    //this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
+    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
     //loop through bubbles
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);//draw each bubble
@@ -213,14 +217,14 @@ game.interlude = {
     });
 
     //loop through players
-    this.players.forEach(function(player) {
-      player.render(self.ctx);//draw each player
-    });
+    for(var p in this.players){
+      self.players[p].render();
+    }
     //this.blackHole.render();
   },
   //render function for start screen
   renderStart : function() {
-    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1)
+    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
   },
   //Main render function
   render : function () {
@@ -267,7 +271,10 @@ game.interlude = {
     //set state
     this.state = "INTRO";
   },
-
+  //initializes countdown state
+  initCountdown : function(){
+    this.state = "GAME";
+  },
 	// Add player to Lobby
 	addPlayertoLobby: function(data){
 		var p = document.getElementsByClassName('player');
@@ -392,11 +399,13 @@ game.interlude = {
   */
   findPlayer : function (socketID) {
       var target;
-      this.players.every(function(player){
+      var self = this;
+      for(var p in this.players){
+        var player = self.players[p];
         if(player.sockID == socketID){
           target = player;
         }
-      }); 
+      }; 
       return target;
     }
 }

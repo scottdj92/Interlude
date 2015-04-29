@@ -74,7 +74,7 @@ game.Player = function() {
   /** render function for a player
    * @param ctx : drawing context
    */
-  p.render = function(ctx) {
+  p.render = function() {
     // ctx.save();//save the draw state
     // ctx.fillStyle = this.color;//set the color
     // ctx.beginPath();
