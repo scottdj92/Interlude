@@ -16,6 +16,10 @@ game.sockets = {
         self.socket.emit('player joined', data.sockID);
         // create new player
         app.createPlayer(data);
+        //Add player name to screen
+
+        //transition to next state
+        app.initLoginState();
       } else {
         //emit rejection
         self.socket.emit('player reject', data.sockID);

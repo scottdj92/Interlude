@@ -152,13 +152,15 @@ game.interlude = {
   //Main update function
   update : function () {
     //Call different update function depending on the state
-    switch (this.state){
-      case "START" :
-        this.backgroundPos += this.bgIterator;
+    this.backgroundPos += this.bgIterator;
         if(this.backgroundPos <= 0 || this.backgroundPos >= 7000)
           this.bgIterator *= -1;
         if(this.canStart)
           this.state = "GAME";
+    switch (this.state){
+      case "START" :
+        break;
+      case "LOGIN" :
         break;
       case "GAME" :
         this.updateGame();//call game update function
@@ -168,6 +170,7 @@ game.interlude = {
       case "END" :
         break;
       default :
+
         break;
     }
   },
@@ -201,6 +204,9 @@ game.interlude = {
       case "START" :
         this.renderStart();
         break;
+      case "LOGIN" :
+        this.renderStart();
+        break;
       case "GAME" :
         this.renderGame();//render in game screen
         break;
@@ -212,7 +218,16 @@ game.interlude = {
         break;
     }
   },
-	//Resize function for keeping canvas at the right ratio
+  /********TRANSITION FUNCTIONS****************/
+	initLoginState : function() {
+    if(this.state === "LOGIN") 
+      return;
+    //switch state
+    this.state = "LOGIN";
+    //trasition screens
+    
+  },
+  //Resize function for keeping canvas at the right ratio
   resizeCanvas : function() {
     //get reference to canvas holder
     var canvasHolder = document.querySelector('#canvas-holder');
