@@ -147,7 +147,7 @@ game.interlude = {
         array.splice(index, 1); //Remove a bubble
     });
 
-    this.spawnBubbles();
+    //this.spawnBubbles();
   },
   //Main update function
   update : function () {
@@ -229,7 +229,18 @@ game.interlude = {
     //transition screens
     $("#lobby .pwd-sect").addClass("down");
   },
-	
+	//Intro screen where players learn mechanics
+  initIntro : function() {
+    //add bubbles for them to pop
+    this.bubbles.push(game.Bubble(id, color, 2/9, 1/2, 0, 0));
+    this.bubbles.push(game.Bubble(id, color, 5/9, 1/2, 0, 0));
+    this.bubbles.push(game.Bubble(id, color, 8/9, 1/2, 0, 0));
+    this.bubbles.push(game.Bubble(id, color, 11/9, 1/2, 0, 0));
+    this.bubbles.push(game.Bubble(id, color, 14/9, 1/2, 0, 0));
+    //set state
+    this.state = "INTRO";
+  },
+
 	// Add player to Lobby
 	addPlayertoLobby: function(data){
 		var p = document.getElementsByClassName('player');
