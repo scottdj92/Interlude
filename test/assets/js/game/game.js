@@ -21,9 +21,16 @@ game.interlude = {
   playersReady : 4,
   backgroundPos: 0,
   bgIterator: 2,
+  //stores last date val in milliseconds thats 1/1000 sec
+  lastUpdate: 0,
+  //gets delta time
+  /*
+  var now = Date.now();
+  var deltaTime = now - this.lastUpdate;
+  this.lastUpdate = now;
+  */
 
   init : function() {
-    console.log(this);
     var self = this;
     // create new instance of socket.io
     var num = Math.floor(Math.random()*10);
