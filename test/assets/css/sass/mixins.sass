@@ -64,6 +64,18 @@
 	-ms-animation: slidedown $time
 	-o-animation: slidedown $time
 	
+=slideUpP($time)
+	-webkit-animation: slideupP $time
+	-moz-animation: slideupP $time
+	-ms-animation: slideupP $time
+	-o-animation: slideupP $time
+
+=slideDownP($time)
+	-webkit-animation: slidedownP $time
+	-moz-animation: slidedownP $time
+	-ms-animation: slidedownP $time
+	-o-animation: slidedownP $time
+	
 =slideOut($time)
 	-webkit-animation: slideout $time
 	-moz-animation: slideout $time
@@ -246,6 +258,66 @@
 	to 
 		opacity: 1
 		margin-top: 0
+
+// SLIDE UP *******************////
+@-webkit-keyframes slideupP
+	from 
+		opacity: 0
+		margin-top: 20%
+	to
+		opacity: 1
+		margin-top: -10%
+@-ms-keyframes slideupP
+	from
+		opacity: 0
+		margin-top: 20%
+	to  
+		opacity: 1
+		margin-top: -10%
+@keyframes slideupP
+	from
+		opacity: 0
+		margin-top: 20%
+	to 
+		opacity: 1
+		margin-top: -10%
+@-moz-keyframes slideupP
+	from
+		opacity: 0
+		margin-top: 20%
+	to 
+		opacity: 1
+		margin-top: -10%
+
+// SLIDE DOWN P *******************////
+@-webkit-keyframes slidedownP
+	from 
+		opacity: 0
+		margin-top: -20%
+	to
+		opacity: 1
+		margin-top: 5%
+@-ms-keyframes slidedownP
+	from
+		opacity: 0
+		margin-top: -20%
+	to  
+		opacity: 1
+		margin-top: 5%
+@keyframes slidedownP
+	from
+		opacity: 0
+		margin-top: -20%
+	to 
+		opacity: 1
+		margin-top: 5%
+@-moz-keyframes slidedownP
+	from
+		opacity: 0
+		margin-top: -20%
+	to 
+		opacity: 1
+		margin-top: 5%
 //
 // ROTATE ********************// 
 @-webkit-keyframes rotate 

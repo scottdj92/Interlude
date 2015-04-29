@@ -16,8 +16,8 @@ game.sockets = {
         self.socket.emit('player joined', data.sockID);
         // create new player
         app.createPlayer(data);
-        //Add player name to screen
-				
+        //Add player to lobby
+				app.addPlayertoLobby(data);
         //transition to next state
         app.initLoginState();
       } else {

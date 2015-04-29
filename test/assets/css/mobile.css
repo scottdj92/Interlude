@@ -598,7 +598,7 @@ html, body {
     #mobile_body #in-game #game_controls {
       display: none; }
       #mobile_body #in-game #game_controls .instructions {
-        font-size: 180%;
+        font-size: 160%;
         font-weight: 300;
         display: block;
         margin: auto;
@@ -608,7 +608,7 @@ html, body {
         text-align: center;
         opacity: 0.7; }
       #mobile_body #in-game #game_controls #status {
-        font-size: 200%;
+        font-size: 180%;
         font-weight: 400;
         display: block;
         margin: auto;

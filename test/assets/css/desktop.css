@@ -142,6 +142,62 @@
   to {
     opacity: 1;
     margin-top: 0; } }
+@-webkit-keyframes slideupP {
+  from {
+    opacity: 0;
+    margin-top: 20%; }
+  to {
+    opacity: 1;
+    margin-top: -10%; } }
+@-ms-keyframes slideupP {
+  from {
+    opacity: 0;
+    margin-top: 20%; }
+  to {
+    opacity: 1;
+    margin-top: -10%; } }
+@keyframes slideupP {
+  from {
+    opacity: 0;
+    margin-top: 20%; }
+  to {
+    opacity: 1;
+    margin-top: -10%; } }
+@-moz-keyframes slideupP {
+  from {
+    opacity: 0;
+    margin-top: 20%; }
+  to {
+    opacity: 1;
+    margin-top: -10%; } }
+@-webkit-keyframes slidedownP {
+  from {
+    opacity: 0;
+    margin-top: -20%; }
+  to {
+    opacity: 1;
+    margin-top: 5%; } }
+@-ms-keyframes slidedownP {
+  from {
+    opacity: 0;
+    margin-top: -20%; }
+  to {
+    opacity: 1;
+    margin-top: 5%; } }
+@keyframes slidedownP {
+  from {
+    opacity: 0;
+    margin-top: -20%; }
+  to {
+    opacity: 1;
+    margin-top: 5%; } }
+@-moz-keyframes slidedownP {
+  from {
+    opacity: 0;
+    margin-top: -20%; }
+  to {
+    opacity: 1;
+    margin-top: 5%; } }
 @-webkit-keyframes rotate {
   from {
     opacity: 0;
@@ -324,8 +380,10 @@ html {
           background: none;
           padding: 0 5px 0 5px; }
       html .container #lobby #players {
-        width: 75%;
-        height: 25%; }
+        width: 60%;
+        height: 20%;
+        top: 38%;
+        text-transform: uppercase; }
         html .container #lobby #players .player.join {
           display: inline-block; }
         html .container #lobby #players .player {
@@ -334,17 +392,44 @@ html {
           height: 100%;
           display: none;
           float: left;
-          background: red; }
+          color: #fff;
+          transition: all 0.4s ease;
+          -moz-transition: all 0.4s ease;
+          -webkit-transition: all 0.4s ease-in-out; }
+          html .container #lobby #players .player .icon {
+            display: block;
+            margin: auto;
+            width: 90%;
+            height: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            -moz-transition: all 0.4s ease;
+            -webkit-transition: all 0.4s ease-in-out; }
+          html .container #lobby #players .player .name {
+            margin-top: 15px; }
+          html .container #lobby #players .player .icon.white {
+            border-color: #fff; }
+          html .container #lobby #players .player .icon.pink {
+            border-color: #ff4399; }
+          html .container #lobby #players .player .icon.blue {
+            border-color: #2cfff4; }
+          html .container #lobby #players .player .icon.purple {
+            border-color: #6c7cff; }
+          html .container #lobby #players .player .icon.green {
+            border-color: #29ff7f; }
         html .container #lobby #players .player:nth-child(odd) {
-          -webkit-animation: slideup 0.6s;
-          -moz-animation: slideup 0.6s;
-          -ms-animation: slideup 0.6s;
-          -o-animation: slideup 0.6s; }
+          margin-top: -10%;
+          -webkit-animation: slideupP 0.8s;
+          -moz-animation: slideupP 0.8s;
+          -ms-animation: slideupP 0.8s;
+          -o-animation: slideupP 0.8s; }
         html .container #lobby #players .player:nth-child(even) {
-          -webkit-animation: slidedown 0.5s;
-          -moz-animation: slidedown 0.5s;
-          -ms-animation: slidedown 0.5s;
-          -o-animation: slidedown 0.5s; }
+          margin-top: 5%;
+          -webkit-animation: slidedownP 0.8s;
+          -moz-animation: slidedownP 0.8s;
+          -ms-animation: slidedownP 0.8s;
+          -o-animation: slidedownP 0.8s; }
   html #canvas-holder {
     position: absolute;
     top: 0;

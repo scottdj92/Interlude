@@ -218,7 +218,10 @@ game.interlude = {
         break;
     }
   },
-  /********TRANSITION FUNCTIONS****************/
+	
+  /******** TRANSITION FUNCTIONS ****************/
+	
+	// Begining Lobby Scren
 	initLoginState : function() {
     if(this.state === "LOGIN") return;
     //switch state
@@ -226,9 +229,33 @@ game.interlude = {
     //transition screens
     $("#lobby .pwd-sect").addClass("down");
   },
-	transitionPlayer: function(){
-		
+	
+	// Add player to Lobby
+	addPlayertoLobby: function(data){
+		var p = document.getElementsByClassName('player');
+		for(var i=0; i<p.length; i++){
+			if( !$(p[i]).hasClass('join') ){
+				$(p[i]).attr('id', data.sockID);
+				$(p[i]).addClass('join');
+				$(p[i]).find('.name').html("waiting");
+				i = p.length;
+				console.log('added');
+			}
+		}
 	},
+	
+	// update the color of the lobby player's color
+	updateLobbyPlayerColor: function(data){
+		var p = document.getElementById(data.id);
+		$(p).find('.icon').addClass(data.color);
+	},
+	
+	//update the name of the lobby player
+	updateLobbyPlayerName: function(data){
+		var p = document.getElementById(data.id);
+		$(p).find('.name').html(data.name);
+	},
+	
   //Resize function for keeping canvas at the right ratio
   resizeCanvas : function() {
     //get reference to canvas holder
@@ -238,6 +265,7 @@ game.interlude = {
     this.canvas.width = canvasHolder.offsetWidth;
     this.canvas.height = canvasHolder.offsetHeight;
   },
+	
   /** 
   	* createPassword():
 	* generates a password needed to join game
@@ -292,6 +320,7 @@ game.interlude = {
 			self.players[data.id].setColor(data.color);
 			response.color = data.color;
 			game.sockets.socket.emit("player colorcheck", response);
+			self.updateLobbyPlayerColor(data);
 			self.getSelectedColors();
 		}
 	},
@@ -316,6 +345,7 @@ game.interlude = {
 	setPlayerReady: function(data){
 		this.players[data.id].ready = true;
 		this.players[data.id].setName(data.name);
+		this.updateLobbyPlayerName(data);
 		this.playersReady ++;
 		console.log(this.playersReady);
 	},
