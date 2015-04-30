@@ -61,11 +61,6 @@ game.interlude = {
 
     this.initAudio();
 
-    //this.selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
-    //this.beginPlayback(introSong);
-    this.selectTracks(this.tracks[0], 'Anthony_Constantino-Songs', 'Loop.wav');
-    this.beginPlayback(this.tracks[0]);
-
 
     this.loop();
   },
@@ -320,6 +315,11 @@ game.interlude = {
     this.state = "LOGIN";
     //transition screens
     $("#lobby .pwd-sect").addClass("down");
+
+    //this.selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
+    //this.beginPlayback(introSong);
+    this.selectTracks(this.tracks[0], 'Anthony_Constantino-Songs', 'Loop.wav');
+    this.beginPlayback(this.tracks[0]);
 
   },
 	//Intro screen where players learn mechanics

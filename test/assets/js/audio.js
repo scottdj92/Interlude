@@ -25,7 +25,7 @@ function Audio(artist, track)
 	//console.log('audio.js loaded');
 
 	this.init = function(){
-		this.src = this.assetsPath + this.artistName + this.trackName;
+		this.src = this.assetsPath + this.artistName + '/' + this.trackName;
 		//console.log('audio.js loaded');
 		//web audio handler. if this fails, show a message
 		if (!createjs.Sound.registerPlugins([createjs.WebAudioPlugin])) {
