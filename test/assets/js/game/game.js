@@ -61,7 +61,12 @@ game.interlude = {
     this.loop();
   },
 
-  /** HELPER FUNCTIONS ****************************************/
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// LOAD ASSETS / HELPERS
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
   //Loads all image assets
   loadImages : function() {
     this.backgroundImg = this.loadImg("assets/img/background1.png");
@@ -83,10 +88,12 @@ game.interlude = {
     this.update();//Update the game
     this.render();//render the game
   },
+	
   //Returns the value multiplied by itself
   sq : function(val) {
     return val * val;
   },
+	
   /** Takes in two circle objects and detects a collision
    * @param c1 : first circle in possible collision
    * @param c2 : second circle in possible collision
@@ -96,6 +103,7 @@ game.interlude = {
     var distSq = this.sq(c2.x - c1.x) + this.sq(c2.y - c1.y);
     return (radSq >= distSq);
   },
+	
   //function for checking a collsion against all bubbles
   checkBubbleCollison : function(c1) {
     var self = this;
@@ -107,6 +115,7 @@ game.interlude = {
     });
     return false;
   },
+	
   //spawns bubbles for the game
   spawnBubbles : function(){
     this.nextBubble--;
@@ -121,6 +130,16 @@ game.interlude = {
       this.bubbleIDCounter++;
     }
   },
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// UPDATE 
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+		Projectiles
+	**/
   //updates projectiles and moves inactive ones to the correct array
   updateProjectiles : function(dt){
     var self = this;
@@ -139,7 +158,10 @@ game.interlude = {
       }
     });
   },
-  //updates players
+	
+	/**
+		Players
+	**/
   updatePlayers: function(dt){
     var self = this;
     for(var p in this.players){
@@ -147,6 +169,10 @@ game.interlude = {
       self.players[p].update(dt);
     }
   },
+	
+	/**
+		Bubbles
+	**/
   //updates all bubbles in game
   updateBubbles : function(dt) {
     var self = this;
@@ -161,6 +187,10 @@ game.interlude = {
         array.splice(index, 1); //Remove a bubble
     });
   },
+	
+	/**
+		GAME
+	**/
   //Function for updating main game loop
   updateGame : function(){
     var dt = 0;
@@ -173,6 +203,10 @@ game.interlude = {
     this.updateBubbles(dt);
     //this.spawnBubbles();
   },
+	
+	/**
+		Intro
+	**/
   updateIntro : function() {
     var dt = 0;
     //Loop through all of the players
@@ -184,6 +218,10 @@ game.interlude = {
     if(this.bubbles.length < 1)
       this.initCountdown();
   },
+	
+	/**
+		MAIN UPDATE  !!!!!!!
+	**/
   //Main update function
   update : function () {
     //Call different update function depending on the state
@@ -211,6 +249,13 @@ game.interlude = {
         break;
     }
   },
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// RENDER 
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
   //Render function for in game screen
   renderGame : function() {
     var self = this;//Save a reference to this
@@ -293,6 +338,13 @@ game.interlude = {
   initGame : function() {
     this.state = "GAME";
   },
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// LOBBY 
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	// Add player to Lobby
 	addPlayertoLobby: function(data){
 		var p = document.getElementsByClassName('player');
@@ -314,9 +366,14 @@ game.interlude = {
 	
 	//update the name of the lobby player
 	updateLobbyPlayerName: function(data){
-		var p = document.getElementById(data.id);
-		$(p).find('.name').html(data.name);
+		$(document.getElementById(data.id)).find('.name').html(data.name);
 	},
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// HELPER
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
   //Resize function for keeping canvas at the right ratio
   resizeCanvas : function() {
@@ -341,6 +398,13 @@ game.interlude = {
 		}
 		return pw;
   },
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// PLAYER  
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
   /** 
   	* createPlayer():
@@ -397,8 +461,9 @@ game.interlude = {
 		game.sockets.socket.emit("color selected", colors);
 	},
 	
+	
 	/** 
-  	* setPlayerName():
+  	* setPlayerReady():
 	* adds player name
 	* parameter [data object from socket]
   */
