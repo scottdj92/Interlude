@@ -35,7 +35,7 @@ function Audio(artist, track)
 		};
 
 		createjs.Sound.addEventListener("fileload", createjs.proxy(this.handleLoad, this)); //add event listener for when load is completed
-		createjs.Sound.registerSound(this.src); //register sound
+		createjs.Sound.registerSound(this.src, 'sound'); //register sound
 		//console.log('audio init fired');
 	};
 
@@ -44,7 +44,7 @@ function Audio(artist, track)
 		//console.log('handleLoad fired');
 
 		//play audio before everything else
-		//audio.startPlayback();
+		this.startPlayback();
 		//get context. NOTE: to connect to existing nodes, we need to work in the same context
 
 		var context = createjs.Sound.activePlugin.context;

@@ -59,16 +59,16 @@ game.interlude = {
       this.projectiles.inactive.push(new game.Projectile());
     }
 
-    //this.initAudio();
+    this.initAudio();
 
     //this.selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
     //this.beginPlayback(introSong);
-    //this.selectTracks(this.tracks[0], 'Anthony_Constantino-Songs', 'Loop.wav');
-    //this.beginPlayback(this.tracks[0]);
+    this.selectTracks(this.tracks[0], 'Anthony_Constantino-Songs', 'Loop.wav');
+    this.beginPlayback(this.tracks[0]);
 
-    var track1 = new Audio('Anthony_Constantino-Songs', 'Loop.wav');
-    track1.init();
-    track1.startPlayback();
+    //var track1 = new Audio('Anthony_Constantino-Songs', 'Loop.wav');
+    //track1.init();
+    //track1.startPlayback();
 
 
     this.loop();
