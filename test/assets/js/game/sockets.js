@@ -12,7 +12,7 @@ game.sockets = {
 				// check password, if password is correct, create new player
 				if( data.password === app.password && (app.state == "START" || app.state == "LOGIN") ){ 
 					// emit successful join
-					self.socket.emit('player joined', data.sockID);
+					self.socket.emit('player joined', {id:data.sockID, room: app.room});
 					// create new player
 					app.createPlayer(data);
 					//Add player to lobby

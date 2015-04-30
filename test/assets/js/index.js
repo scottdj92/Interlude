@@ -27,7 +27,7 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
 	//broadcast that a user has connected
 	//pass an object containing user informatiojn?
-  socket.emit('game init', {id:socket.id});
+  io.to(socket.id).emit('game init', {id:socket.id});
 
 	// DISCONNECT
 	// handle disconnects
@@ -61,10 +61,10 @@ io.on('connection', function(socket){
 	**/
   // Sent from game to notify that player has been accepted
   socket.on('player joined', function(data){
-  	players.push(data); //add new player's socketID
+  	//players.push(data.id); //add new player's socketID
 		//emit to individual player that they hve just joined the game
-		var msg = "Successfully joined :)";
-		io.to(data).emit('response joined', msg);
+		var msg = data;
+		io.to(data.id).emit('response joined', msg);
   });
 	
   /** 
@@ -81,7 +81,7 @@ io.on('connection', function(socket){
 		PHONE TILT 
 	**/
   socket.on('phone tilt', function(data){
-    io.emit('phone tilt', data);
+    io.to(data.room).emit('phone tilt', data);
   });
 	
 	/** 
@@ -89,7 +89,7 @@ io.on('connection', function(socket){
 	**/
 	// mobile -> game
 	socket.on('player color', function(data){
-		io.emit('player color', data);
+		io.to(data.room).emit('player color', data);
 	});
 	// game -> mobile
 	socket.on('player colorcheck', function(data){
@@ -98,10 +98,11 @@ io.on('connection', function(socket){
 	//mobile -> game
 	// request what colors are available
 	socket.on("color getAvail", function(data){
-		io.emit('color checkAvail', data);
+		io.to(data.room).emit('color checkAvail', data.color);
 	});
 	// game -> mobile
 	// let all mobile clients know that a color is taken (return response)
+  //---------------------------- MUST GO TO ALL PLAYERS IN THAT GAME ----------------------------------------------//
 	socket.on("color selected", function(data){
 		io.emit('color selected', data);
 	});
@@ -109,6 +110,7 @@ io.on('connection', function(socket){
 	/** 
 		PLAYER READY 
 	**/
+  //----------------NEEDS TO LOOP THROUGH EVERY PLAYER IN GAME-----------------
 	socket.on('player ready', function(data){
 		io.emit("player ready", data);
 	});
@@ -117,7 +119,7 @@ io.on('connection', function(socket){
 		GAME FIRE 
 	**/
   socket.on('game fire', function(data){
-    io.emit('game fire', data);
+    io.to(data.room).emit('game fire', data);
   });
 	
 });

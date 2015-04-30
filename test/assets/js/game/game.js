@@ -151,7 +151,7 @@ game.interlude = {
       var xVel = .07 - Math.random()*.14;
       var yVel = Math.random()*.04; 
       var r = (Math.random() * .08) + .07;//get random size
-			var color = "blue";//this.chooseBubbleColor();
+			var color = this.chooseBubbleColor();
       this.scores[color].total++;
       this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
                         this.bubbleAssets[color],color, r,
@@ -594,7 +594,7 @@ game.interlude = {
 		for( var p in this.players ){
 			colors.push(this.players[p].color);
 		}
-		game.sockets.socket.emit("color selected", colors);
+		game.sockets.socket.emit("color selected", {colors:colors, room: this.room});
 	},
 	
 	
