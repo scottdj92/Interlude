@@ -22,7 +22,7 @@ game.Bubble = function() {
     this.mass = 10;
     this.img = img;
     this.rising = rising;
-    this.acceleration.y += this.rising ? .000005 : 0;
+    this.acceleration.y += this.rising ? .0005 : 0;
   }
   //create a reference to the bubble prototype
   var b = Bubble.prototype;
@@ -36,11 +36,11 @@ game.Bubble = function() {
     if(this.x > 16/9 - this.r || this.x < this.r)
       this.velocity.x *= -1;
 
-    this.move();
+    this.move(dt);
     this.updateCollisions();
     //acceleration
-    this.velocity.x += this.acceleration.x;
-    this.velocity.y += this.acceleration.y;
+    this.velocity.x += this.acceleration.x * dt;
+    this.velocity.y += this.acceleration.y * dt;
   };
   /** Removes collisions that have ended from the collison array
    */
@@ -73,12 +73,13 @@ game.Bubble = function() {
       this.collisions.push(bub);
       bub.collisions.push(this);
       //get impulse
-      var impulse = game.physicsUtils.getImpulse(this, bub, 0.01);
-      this.applyImpulse(impulse);
+      var impulse = game.physicsUtils.getImpulse(this, bub, .2);
+      impulse.x *= -1;
+      bub.applyImpulse(impulse);
       //invert it for other bubble
       impulse.x *= -1;
       impulse.y *= -1;
-      bub.applyImpulse(impulse);
+      this.applyImpulse(impulse);
     }
   };
   /** Applies an impulse to the bubble
@@ -90,9 +91,9 @@ game.Bubble = function() {
   };
   /** Move function for the bubble
    */
-  b.move = function() {
-    this.y -= this.velocity.y;
-    this.x += this.velocity.x;
+  b.move = function(dt) {
+    this.y -= this.velocity.y * dt;
+    this.x += this.velocity.x * dt;
   };
   /** render function for a bubble
    * @param ctx : drawing context

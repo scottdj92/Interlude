@@ -13,7 +13,7 @@ game.interlude = {
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
-  state : "START", //current game state
+  state : "GAME", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
   bubbleIDCounter : 0,
@@ -131,8 +131,8 @@ game.interlude = {
 
       var x = 2/9 + 3/9 * bubbleLane;
       var y = 1.1;
-      var xVel = .001 - Math.random()*.002;
-      var yVel = Math.random()*.0008; 
+      var xVel = .01 - Math.random()*.02;
+      var yVel = Math.random()*.08; 
 
       this.bubbles.push(new game.Bubble(this.bubbleIDCounter, this.bubbleAssets["blue"],
                         x, y, xVel, yVel, true));
@@ -204,8 +204,11 @@ game.interlude = {
 	**/
   //Function for updating main game loop
   updateGame : function(){
-    var dt = 0;
     var self = this;
+    var now = Date.now();
+    var dt = (now - this.lastUpdate)/1000;
+    if(this.lastUpdate===0) dt = 0;
+    this.lastUpdate = now;
     //this.blackHole.update(dt);
     //Loop through all of the players
     this.updatePlayers(dt);
