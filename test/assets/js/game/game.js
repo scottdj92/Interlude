@@ -243,8 +243,7 @@ game.interlude = {
       case "START" :
         break;
       case "LOGIN" :
-				var self = this;
-        if(this.canStart) setTimeout(function(){self.initIntro();}, 1000);
+        if(this.canStart) this.initIntro();
         break;
       case "INTRO":
         this.updateIntro();
@@ -332,9 +331,15 @@ game.interlude = {
 	
 	//Intro screen where players learn mechanics
   initIntro : function() {
+		//set state
+    this.state = "INTRO";
+		
+		var self = this;
+		setTimeout( function(){
     //get rid of dom elements
-		this.removeLobby();
+		self.removeLobby();
     //add bubbles for them to pop
+
     this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],
                       2/9, 1/2, 0, 0, false));
     this.bubbles.push(new game.Bubble(1, this.bubbleAssets["purple"],
@@ -345,8 +350,7 @@ game.interlude = {
                       11/9, 1/2, 0, 0, false));
     this.bubbles.push(new game.Bubble(4, this.bubbleAssets["green"],
                       14/9, 1/2, 0, 0, false));
-    //set state
-    this.state = "INTRO";
+		}, 1500);
   },
 	
   //initializes countdown state
