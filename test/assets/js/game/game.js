@@ -59,6 +59,14 @@ game.interlude = {
       this.projectiles.inactive.push(new game.Projectile());
     }
 
+    this.initAudio();
+
+    //this.selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
+    //this.beginPlayback(introSong);
+    this.selectTracks(this.tracks[0], 'Anthony_Constantino-Songs', 'Loop.wav');
+    this.beginPlayback(this.tracks[0]);
+
+
     this.loop();
   },
 
@@ -278,9 +286,6 @@ game.interlude = {
   //render function for start screen
   renderStart : function() {
     game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
-
-    // selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
-    // beginPlayback(introSong);
   },
   //Main render function
   render : function () {
@@ -506,41 +511,48 @@ game.interlude = {
   initAudio: function()
   {
     //create new Audio() objects
-    var introSong = new Audio();
-    var track1 = new Audio();
-    var track2 = new Audio();
-    var track3 = new Audio();
-    var track4 = new Audio();
-    var track5 = new Audio();
+    //WARNING: the first index will always be the 'start screen' song
+
+    for (var i = 0; i < 6; i++) {
+      this.tracks[i] = new Audio();
+      //console.log(this.tracks[i]);
+    };
   },
 
-  selectTracks: function (song, artist, track)
+  selectTracks: function (selectedTrack, artist, track)
   {
+
     //establish which song and track you want to play and initialize
     //song is the name of the variable of the audio you want to play
-    //ex: selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav'); plays the intro music
-    song.artistName = artist;
-    song.trackName = track;
+    //ex: selectTracks(0, 'Anthony_Constantino-Songs/', 'Loop.wav'); plays the intro music
+    selectedTrack.artistName = artist + '/';
+    selectedTrack.trackName = track;
 
-    song.init();
+    console.log(selectedTrack);
+
+    //seek song in file destination and initalize if possible
+    selectedTrack.init();
+
+    //add error prevention here
   },
 
-  beginPlayback: function(song)
+  beginPlayback: function(track)
   {
+    console.log('beginPlayback fired');
     //bada bing bada boom
-    song.startPlayback();
+     track.startPlayback();
   },
 
-  stopPlayback: function(song)
+  haltPlayback: function(track)
   {
-    //prematurely end if necessary
-    song.stopPlayback();
+    //prematurely ejaculate...I mean stop if necessary
+     track.stopPlayback();
   },
 
-  changeVolume: function(float)
+  changeVolume: function(track, float)
   {
     //change the volume to a float between 0-1 where 1 is the loudest possible volume
-    song.changeVolume(float);
+     track.changeVolume(float);
   }
 
 }

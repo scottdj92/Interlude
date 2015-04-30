@@ -36,7 +36,7 @@ function Audio(artist, track)
 
 		createjs.Sound.addEventListener("fileload", createjs.proxy(this.handleLoad, this)); //add event listener for when load is completed
 		createjs.Sound.registerSound(this.src); //register sound
-		//console.log('init called');
+		console.log('audio init fired');
 	};
 
 	this.handleLoad = function(evt)
@@ -81,9 +81,9 @@ function Audio(artist, track)
 		createjs.Ticker.removeEventListener('tick', this.tick);
 	};
 
-	//start playback in response to user click
-	this.startPlayback = function(evt)
+	this.startPlayback = function()
 	{
+		console.log('audio startPlayback');
 		if (this.soundInstance) {
 			return;
 		}; //if this is defined, we've started playing. 
