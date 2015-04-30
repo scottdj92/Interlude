@@ -143,8 +143,8 @@ game.interlude = {
 
       var x = 2/9 + 3/9 * bubbleLane;
       var y = 1.15;//spawn off screen
-      var xVel = .1 - Math.random()*.2;
-      var yVel = Math.random()*.08; 
+      var xVel = .07 - Math.random()*.14;
+      var yVel = Math.random()*.04; 
       var r = (Math.random() * .08) + .07;//get random size
 			var color = "blue";//this.chooseBubbleColor();
       this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
@@ -272,8 +272,8 @@ game.interlude = {
       var distSq = xDist * xDist + yDist * yDist;
       var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
       var pull = .06/distSq;
-      var yAcc = fwd.y*pull;
-      var xAcc = -fwd.x*pull;
+      var yAcc = fwd.y*pull/5;
+      var xAcc = -fwd.x*pull/5;
       bub.setAccleration(xAcc, yAcc);
       if(distSq <= bh.r/10)
         bub.r = bub.startR * xDist/xStart * yDist/yStart;
