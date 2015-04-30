@@ -266,23 +266,20 @@ game.interlude = {
     this.bubbles.forEach(function(bub){
       var xDist = bub.x - bh.x;
       var yDist = bub.y - bh.y;
-      var xStart = bub.startX - bh.x;
-      var yStart = bub.startY - bh.y;
 
       var distSq = xDist * xDist + yDist * yDist;
       var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
       var pull = .06/distSq;
-      var yAcc = fwd.y*pull/5;
-      var xAcc = -fwd.x*pull/5;
+      var yAcc = fwd.y*pull/4;
+      var xAcc = -fwd.x*pull/4;
       bub.setAccleration(xAcc, yAcc);
       if(distSq <= bh.r/10)
-        bub.r = bub.startR * xDist/xStart * yDist/yStart;
+        bub.r = bub.startR * distSq/bub.startDistsq;
       else {
-        bub.startX = bub.x;
-        bub.startY = bub.y;
+        bub.startDistsq = distSq;
       }
 
-      if(distSq <= bh.r/30)
+      if(distSq <= bh.r/40)
         bub.remove = true;
     });
   },
