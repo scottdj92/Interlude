@@ -10,13 +10,14 @@ game.Bubble = function() {
    * @param x : start x position
    * @param y : start y position
    */
-  var Bubble = function(id, img, x, y, xVel, yVel, rising) {
+  var Bubble = function(id, img, type, x, y, xVel, yVel, rising) {
     this.x = x;
     this.y = y;
     this.r = .1;//radius
     this.velocity = { x : xVel, y : yVel};
     this.acceleration = { x : 0, y : 0};
     this.id = id;
+    this.type = type;
     this.color = img;
     this.collisions = [];
     this.mass = 10;
