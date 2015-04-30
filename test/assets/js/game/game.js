@@ -5,6 +5,7 @@ game.interlude = {
   players : {}, //array of players in the game
   bubbles : [], //array of bubbles in the game
 	colors : [],
+  popSprites : [],
   projectiles : { //Holds all projectiles in the game so we dont make extra
     active : [], //currently active projectiles
     inactive : [] //inactive projectiles
@@ -19,7 +20,7 @@ game.interlude = {
   bubbleAssets : {},
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 1,
+  playersReady : 4,
   backgroundPos: 0,
   bgIterator: 2,
   lastLane: 0,//last lane a bubble spawned in
@@ -206,11 +207,22 @@ game.interlude = {
         bubble.collideWith(self.bubbles[i]);
       }
       bubble.update(dt); //call bubble's update function
-      if(bubble.remove) //Check to see if the bubble should be removed
+      if(bubble.remove) {//Check to see if the bubble should be removed
+        self.popSprites.push(new game.PopSprite(bubble.img, bubble.r, bubble.x, bubble.y));
         array.splice(index, 1); //Remove a bubble
+      }
     });
   },
-	
+  //updates all bubble pop sprites
+	updatePopSprites : function(dt) {
+    var self = this;
+    //Loop through all of the sprites
+    this.popSprites.forEach(function(sprite, index, array) {
+      sprite.update(dt); //call sprites's update function
+      if(sprite.remove) //Check to see if the sprite should be removed
+        array.splice(index, 1); //Remove a sprite
+    });
+  },
 	/**
 		GAME
 	**/
@@ -227,7 +239,7 @@ game.interlude = {
     //this.blackHole.update(dt);
     //Loop through all of the players
     this.updatePlayers(dt);
-
+    this.updatePopSprites(dt);
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
     this.spawnBubbles(dt);
@@ -291,6 +303,9 @@ game.interlude = {
     //loop through bubbles
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);//draw each bubble
+    });
+    this.popSprites.forEach(function(sprite) {
+      sprite.render();//draw each bubble
     });
     this.projectiles.active.forEach(function(proj){
       proj.render();
