@@ -91,7 +91,7 @@ function Audio(song, track)
 		this.soundInstance = createjs.Sound.play(this.src, {loop: 1}); //we can change loop to 1 to play only once.
 
 		//start tick function so we can "move" before updating the stage
-		createjs.Ticker.addEventListener('tick', this.tick.bind(this));
+		createjs.Ticker.addEventListener('tick', this.tick);
 		createjs.Ticker.setInterval(this.TICK_FREQ);
 
 		console.log(this.analyzerNode);

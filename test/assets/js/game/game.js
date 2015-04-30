@@ -66,8 +66,12 @@ game.interlude = {
       trackName : { writable: 'true', configurable: 'false', value: 'Loop.wav'},
     }); */
     
-    //function to create new Audio(songName, trackName) object
-    var track1 = new Audio('The_Clash-Rock_the_Casbah/', 'Loop.wav');
+    //function to create new Audio() object
+    var track1 = new Audio();
+    var track2 = new Audio();
+    var track3 = new Audio();
+    var track4 = new Audio();
+    var track5 = new Audio();
 
     this.loop();
   },
