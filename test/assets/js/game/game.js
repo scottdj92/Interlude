@@ -59,7 +59,16 @@ game.interlude = {
       this.projectiles.inactive.push(new game.Projectile());
     }
 
-    this.initAudio();
+    //this.initAudio();
+
+    //this.selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
+    //this.beginPlayback(introSong);
+    //this.selectTracks(this.tracks[0], 'Anthony_Constantino-Songs', 'Loop.wav');
+    //this.beginPlayback(this.tracks[0]);
+
+    var track1 = new Audio('Anthony_Constantino-Songs', 'Loop.wav');
+    track1.init();
+    track1.startPlayback();
 
 
     this.loop();
@@ -316,11 +325,6 @@ game.interlude = {
     //transition screens
     $("#lobby .pwd-sect").addClass("down");
 
-    //this.selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
-    //this.beginPlayback(introSong);
-    this.selectTracks(this.tracks[0], 'Anthony_Constantino-Songs', 'Loop.wav');
-    this.beginPlayback(this.tracks[0]);
-
   },
 	//Intro screen where players learn mechanics
   initIntro : function() {
@@ -515,7 +519,7 @@ game.interlude = {
 
     for (var i = 0; i < 6; i++) {
       this.tracks[i] = new Audio();
-      //console.log(this.tracks[i]);
+      console.log(this.tracks[i]);
     };
   },
 
@@ -525,7 +529,7 @@ game.interlude = {
     //establish which song and track you want to play and initialize
     //song is the name of the variable of the audio you want to play
     //ex: selectTracks(0, 'Anthony_Constantino-Songs/', 'Loop.wav'); plays the intro music
-    selectedTrack.artistName = artist + '/';
+    selectedTrack.artistName = artist;
     selectedTrack.trackName = track;
 
     console.log(selectedTrack);
@@ -538,9 +542,9 @@ game.interlude = {
 
   beginPlayback: function(track)
   {
-    console.log('beginPlayback fired');
+    //console.log('beginPlayback fired');
     //bada bing bada boom
-     track.startPlayback();
+    track.startPlayback();
   },
 
   haltPlayback: function(track)

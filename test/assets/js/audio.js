@@ -36,7 +36,7 @@ function Audio(artist, track)
 
 		createjs.Sound.addEventListener("fileload", createjs.proxy(this.handleLoad, this)); //add event listener for when load is completed
 		createjs.Sound.registerSound(this.src); //register sound
-		console.log('audio init fired');
+		//console.log('audio init fired');
 	};
 
 	this.handleLoad = function(evt)
@@ -84,9 +84,6 @@ function Audio(artist, track)
 	this.startPlayback = function()
 	{
 		console.log('audio startPlayback');
-		if (this.soundInstance) {
-			return;
-		}; //if this is defined, we've started playing. 
 
 		//start playing the sound we loaded,
 		this.soundInstance = createjs.Sound.play(this.src, {loop: 1}); //we can change loop to 1 to play only once.
@@ -95,7 +92,24 @@ function Audio(artist, track)
 		createjs.Ticker.addEventListener('tick', this.tick);
 		createjs.Ticker.setInterval(this.TICK_FREQ);
 
+		if (this.soundInstance) {
+			return;
+		} //if this is defined, we've started playing. 
+
+		else if (this.soundInstance.playState == 'playFailed')
+		{
+			console.log('audio did not play');
+			return;
+		}
+
+		else if (this.soundInstance.playState == 'playSucceeded')
+		{
+			console.log('audio is playing');
+			return;
+		}
+
 		console.log(this.analyzerNode);
+
 	};
 
 	this.tick = function(evt)
