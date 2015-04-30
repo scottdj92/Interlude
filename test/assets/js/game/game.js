@@ -8,6 +8,7 @@ game.interlude = {
     active : [], //currently active projectiles
     inactive : [] //inactive projectiles
   },
+  tracks : [],
   blackHole : undefined,
   canvas : undefined, //canvas for drawing
   ctx : undefined, //drawing context
@@ -57,21 +58,6 @@ game.interlude = {
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
-
-
-    //initialize audio objects
-    //http://www.htmlgoodies.com/beyond/javascript/object.create-the-new-way-to-create-objects-in-javascript.html
-    /*var track1 = Object.create(audio.prototype, {
-      songName : { writable: 'true', configurable: 'false', value: 'Anthony_Constantino_Songs/' },
-      trackName : { writable: 'true', configurable: 'false', value: 'Loop.wav'},
-    }); */
-    
-    //function to create new Audio() object
-    var track1 = new Audio();
-    var track2 = new Audio();
-    var track3 = new Audio();
-    var track4 = new Audio();
-    var track5 = new Audio();
 
     this.loop();
   },
@@ -292,6 +278,9 @@ game.interlude = {
   //render function for start screen
   renderStart : function() {
     game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
+
+    // selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
+    // beginPlayback(introSong);
   },
   //Main render function
   render : function () {
@@ -326,6 +315,7 @@ game.interlude = {
     this.state = "LOGIN";
     //transition screens
     $("#lobby .pwd-sect").addClass("down");
+
   },
 	//Intro screen where players learn mechanics
   initIntro : function() {
@@ -505,5 +495,52 @@ game.interlude = {
         }
       }; 
       return target;
-    }
+    },
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  // AUDIO
+  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  initAudio: function()
+  {
+    //create new Audio() objects
+    var introSong = new Audio();
+    var track1 = new Audio();
+    var track2 = new Audio();
+    var track3 = new Audio();
+    var track4 = new Audio();
+    var track5 = new Audio();
+  },
+
+  selectTracks: function (song, artist, track)
+  {
+    //establish which song and track you want to play and initialize
+    //song is the name of the variable of the audio you want to play
+    //ex: selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav'); plays the intro music
+    song.artistName = artist;
+    song.trackName = track;
+
+    song.init();
+  },
+
+  beginPlayback: function(song)
+  {
+    //bada bing bada boom
+    song.startPlayback();
+  },
+
+  stopPlayback: function(song)
+  {
+    //prematurely end if necessary
+    song.stopPlayback();
+  },
+
+  changeVolume: function(float)
+  {
+    //change the volume to a float between 0-1 where 1 is the loudest possible volume
+    song.changeVolume(float);
+  }
+
 }

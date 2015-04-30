@@ -1,6 +1,6 @@
 "use strict";
 
-function Audio(song, track)
+function Audio(artist, track)
 {
 	/** CREDIT TO http://www.createjs.com/Demos/SoundJS/MusicVisualizer **/
 	/** CONSTANTS **/
@@ -12,7 +12,7 @@ function Audio(song, track)
 	//assetsPath : '/scottjones/Desktop/Interlude/test/assets/audio/', //folder path
 	*/
 	this.assetsPath = '/assets/audio/';
-	this.songName = song;
+	this.artistName = artist;
 	this.trackName = track;
 	this.src = undefined; //select single item to load
 	
@@ -25,7 +25,7 @@ function Audio(song, track)
 	//console.log('audio.js loaded');
 
 	this.init = function(){
-		this.src = this.assetsPath + this.songName + this.trackName;
+		this.src = this.assetsPath + this.artistName + this.trackName;
 		//console.log('audio.js loaded');
 		//web audio handler. if this fails, show a message
 		if (!createjs.Sound.registerPlugins([createjs.WebAudioPlugin])) {
@@ -78,6 +78,7 @@ function Audio(song, track)
 	this.stopPlayback = function()
 	{
 		createjs.Sound.stop();
+		createjs.Ticker.removeEventListener('tick', this.tick);
 	};
 
 	//start playback in response to user click
