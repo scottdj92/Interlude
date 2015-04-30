@@ -243,8 +243,7 @@ game.interlude = {
       case "START" :
         break;
       case "LOGIN" :
-				var self = this;
-        if(this.canStart) setTimeout(function(){self.initIntro();}, 1000);
+        if(this.canStart) this.initIntro();
         break;
       case "INTRO":
         this.updateIntro();
@@ -332,21 +331,25 @@ game.interlude = {
 	
 	//Intro screen where players learn mechanics
   initIntro : function() {
-    //get rid of dom elements
-		this.removeLobby();
-    //add bubbles for them to pop
-    this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],
-                      2/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(1, this.bubbleAssets["purple"],
-                      5/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(2, this.bubbleAssets["pink"], 
-                      8/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(3, this.bubbleAssets["blue"], 
-                      11/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(4, this.bubbleAssets["green"],
-                      14/9, 1/2, 0, 0));
-    //set state
+		//set state
     this.state = "INTRO";
+		
+		var self = this;
+		setTimeout( function(){
+    //get rid of dom elements
+		self.removeLobby();
+    //add bubbles for them to pop
+    self.bubbles.push(new game.Bubble(0, self.bubbleAssets["white"],
+                      2/9, 1/2, 0, 0));
+    self.bubbles.push(new game.Bubble(1, self.bubbleAssets["purple"],
+                      5/9, 1/2, 0, 0));
+    self.bubbles.push(new game.Bubble(2, self.bubbleAssets["pink"], 
+                      8/9, 1/2, 0, 0));
+    self.bubbles.push(new game.Bubble(3, self.bubbleAssets["blue"], 
+                      11/9, 1/2, 0, 0));
+    self.bubbles.push(new game.Bubble(4, self.bubbleAssets["green"],
+                      14/9, 1/2, 0, 0));
+		}, 1500);
   },
 	
   //initializes countdown state
