@@ -20,7 +20,7 @@ game.interlude = {
   bubbleAssets : {},
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 3,
+  playersReady : 4,
   backgroundPos: 0,
   bgIterator: 2,
   lastLane: 0,//last lane a bubble spawned in
@@ -146,8 +146,10 @@ game.interlude = {
       var y = 1.1;
       var xVel = .1 - Math.random()*.2;
       var yVel = Math.random()*.08; 
+      var r = (Math.random() * .08) + .07;
 			var color = this.chooseBubbleColor();
-      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, this.bubbleAssets[color],color,
+      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
+                        this.bubbleAssets[color],color, r,
                         x, y, xVel, yVel, true));
       this.nextBubble = 100;
       this.bubbleIDCounter++;
@@ -365,22 +367,22 @@ game.interlude = {
   initIntro : function() {
 		//set state
     this.state = "INTRO";
-		
+    var r = .15;		
 		var self = this;
 		setTimeout( function(){
     //get rid of dom elements
 		self.removeLobby();
     //add bubbles for them to pop
 
-    this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],"white",
+    this.bubbles.push(new game.Bubble(0,this.bubbleAssets["white"],"white",r,
                       2/9, 1/2, 0, 0, false));
-    this.bubbles.push(new game.Bubble(1, this.bubbleAssets["purple"],"purple",
+    this.bubbles.push(new game.Bubble(1,this.bubbleAssets["purple"],"purple",r,
                       5/9, 1/2, 0, 0, false));
-    this.bubbles.push(new game.Bubble(2, this.bubbleAssets["pink"],"pink",
+    this.bubbles.push(new game.Bubble(2,this.bubbleAssets["pink"],"pink",r,
                       8/9, 1/2, 0, 0, false));
-    this.bubbles.push(new game.Bubble(3, this.bubbleAssets["blue"],"blue",
+    this.bubbles.push(new game.Bubble(3,this.bubbleAssets["blue"],"blue",r,
                       11/9, 1/2, 0, 0, false));
-    this.bubbles.push(new game.Bubble(4, this.bubbleAssets["green"],"green",
+    this.bubbles.push(new game.Bubble(4,this.bubbleAssets["green"],"green",r,
                       14/9, 1/2, 0, 0, false));
 		}, 1500);
   },
