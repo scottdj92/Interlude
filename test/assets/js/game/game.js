@@ -144,10 +144,9 @@ game.interlude = {
 
       var x = 2/9 + 3/9 * bubbleLane;
       var y = 1.1;
-      var xVel = .01 - Math.random()*.02;
+      var xVel = .1 - Math.random()*.2;
       var yVel = Math.random()*.08; 
 			var color = this.chooseBubbleColor();
-			console.log(color);
       this.bubbles.push(new game.Bubble(this.bubbleIDCounter, this.bubbleAssets[color],
                         x, y, xVel, yVel, true));
       this.nextBubble = 100;

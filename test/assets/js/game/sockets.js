@@ -55,7 +55,7 @@ game.sockets = {
     
     this.socket.on('phone tilt', function(data) {
       if(app.players[data.id]) {
-        app.players[data.id].setTarget((data.xAcc/70) + 8/9, -1*(data.yAcc/90) + .5);
+        app.players[data.id].setTarget((data.xAcc/40) + 8/9, -1*(data.yAcc/90) + .5);
       }
     });
     
