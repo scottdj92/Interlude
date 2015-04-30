@@ -61,7 +61,7 @@ game.Bubble = function() {
    * @param bub : bubble to collide with
    */
   b.collideWith = function(bub){
-    if(bub.id === this.id || !game.physicsUtils.circleCollision(this,bub) || this.colliding(bub) ) {
+    if(!game.physicsUtils.circleCollision(this,bub) || this.colliding(bub) ) {
       return false;
     } else {
       //add collison to collision array

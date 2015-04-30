@@ -21,6 +21,7 @@ game.interlude = {
   playersReady : 4,
   backgroundPos: 0,
   bgIterator: 2,
+  lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
   //gets delta time
@@ -117,16 +118,26 @@ game.interlude = {
   },
 	
   //spawns bubbles for the game
-  spawnBubbles : function(){
+  spawnBubbles : function(dt){
     this.nextBubble--;
-    if(this.nextBubble < 0) {
-      var x = Math.random()*12/9 + 2/9;
-      var y = 1;
-      var xVel = .001 - Math.random()*.002;
-      var yVel = Math.random()*.0008; 
 
-      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, "red", x, y, xVel, yVel));
-      this.nextBubble = 100;
+    if(this.nextBubble <= 0) {
+      //set spawn lane
+      var bubbleLane = Math.floor(Math.random()*5);
+      while(bubbleLane === this.lastLane){
+        bubbleLane = Math.floor(Math.random()*5);
+      }
+      this.lastLane = bubbleLane;
+
+      var x = 2/9 + 3/9 * bubbleLane;
+      var y = 1.1;
+      var xVel = 0;//.001 - Math.random()*.002;
+      var yVel = .001;//Math.random()*.0008; 
+
+      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, this.bubbleAssets["blue"],
+                        x, y, xVel, yVel));
+      
+      this.nextBubble = 200;
       this.bubbleIDCounter++;
     }
   },
@@ -201,7 +212,7 @@ game.interlude = {
 
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
-    //this.spawnBubbles();
+    //this.spawnBubbles(dt);
   },
 	
 	/**
@@ -233,7 +244,7 @@ game.interlude = {
         break;
       case "LOGIN" :
 				var self = this;
-        if(this.canStart) setTimeout(function(){self.initIntro();}, 400);
+        if(this.canStart) setTimeout(function(){self.initIntro();}, 1000);
         break;
       case "INTRO":
         this.updateIntro();
