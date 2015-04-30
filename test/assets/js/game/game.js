@@ -131,13 +131,13 @@ game.interlude = {
 
       var x = 2/9 + 3/9 * bubbleLane;
       var y = 1.1;
-      var xVel = 0;//.001 - Math.random()*.002;
-      var yVel = .001;//Math.random()*.0008; 
+      var xVel = .001 - Math.random()*.002;
+      var yVel = Math.random()*.0008; 
 
       this.bubbles.push(new game.Bubble(this.bubbleIDCounter, this.bubbleAssets["blue"],
-                        x, y, xVel, yVel));
+                        x, y, xVel, yVel, true));
       
-      this.nextBubble = 200;
+      this.nextBubble = 100;
       this.bubbleIDCounter++;
     }
   },
@@ -212,7 +212,7 @@ game.interlude = {
 
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
-    //this.spawnBubbles(dt);
+    this.spawnBubbles(dt);
   },
 	
 	/**
@@ -336,15 +336,15 @@ game.interlude = {
 		this.removeLobby();
     //add bubbles for them to pop
     this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],
-                      2/9, 1/2, 0, 0));
+                      2/9, 1/2, 0, 0, false));
     this.bubbles.push(new game.Bubble(1, this.bubbleAssets["purple"],
-                      5/9, 1/2, 0, 0));
+                      5/9, 1/2, 0, 0, false));
     this.bubbles.push(new game.Bubble(2, this.bubbleAssets["pink"], 
-                      8/9, 1/2, 0, 0));
+                      8/9, 1/2, 0, 0, false));
     this.bubbles.push(new game.Bubble(3, this.bubbleAssets["blue"], 
-                      11/9, 1/2, 0, 0));
+                      11/9, 1/2, 0, 0, false));
     this.bubbles.push(new game.Bubble(4, this.bubbleAssets["green"],
-                      14/9, 1/2, 0, 0));
+                      14/9, 1/2, 0, 0, false));
     //set state
     this.state = "INTRO";
   },

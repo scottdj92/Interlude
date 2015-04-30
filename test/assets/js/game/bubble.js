@@ -10,7 +10,7 @@ game.Bubble = function() {
    * @param x : start x position
    * @param y : start y position
    */
-  var Bubble = function(id, img, x, y, xVel, yVel) {
+  var Bubble = function(id, img, x, y, xVel, yVel, rising) {
     this.x = x;
     this.y = y;
     this.r = .1;//radius
@@ -20,6 +20,7 @@ game.Bubble = function() {
     this.collisions = [];
     this.mass = 10;
     this.img = img;
+    this.rising = rising;
   }
   //create a reference to the bubble prototype
   var b = Bubble.prototype;
@@ -35,7 +36,7 @@ game.Bubble = function() {
 
     this.move();
     this.updateCollisions();
-    //this.velocity.y += .000005;//accelerate upward
+    this.velocity.y += this.rising ? .000005 : 0;//accelerate upward
   };
   /** Removes collisions that have ended from the collison array
    */
@@ -94,7 +95,7 @@ game.Bubble = function() {
    */
   b.render = function(ctx) {
     //game.draw.circle(this.x, this.y, this.r, this.color);
-    game.draw.img(this.img, 0, 0, 350, 350, 
+    game.draw.img(this.img, 48, 48, 256, 256, 
               this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
   };
 
