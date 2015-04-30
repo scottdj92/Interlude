@@ -165,7 +165,7 @@ game.interlude = {
   updatePlayers: function(dt){
     var self = this;
     for(var p in this.players){
-      console.log(p);
+      //console.log(p);
       self.players[p].update(dt);
     }
   },
@@ -232,8 +232,8 @@ game.interlude = {
       case "START" :
         break;
       case "LOGIN" :
-        if(this.canStart)
-          this.initIntro();
+				var self = this;
+        if(this.canStart) setTimeout(function(){self.initIntro();}, 400);
         break;
       case "INTRO":
         this.updateIntro();
@@ -340,12 +340,14 @@ game.interlude = {
 	
   //initializes countdown state
   initCountdown : function(){
+		console.log('start game');
     this.initGame();
     this.lastUpdate = Date.now();
   },
 	
   initGame : function() {
     this.state = "GAME";
+		
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
