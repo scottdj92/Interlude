@@ -266,7 +266,7 @@ mobileClient = {
 	
 	// 6 //
 	gameStart: function(){
-	
+		$("#game_controls #info").fadeOut(400);
 	},
 
 	

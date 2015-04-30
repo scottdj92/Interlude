@@ -302,9 +302,15 @@ game.interlude = {
     }
   },
 	
-  /******** TRANSITION FUNCTIONS ****************/
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// Begining Lobby Scren
+	// TRANSITIONS (Each game state)
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+		Lobby
+	**/
 	initLoginState : function() {
     if(this.state === "LOGIN") return;
     //switch state
@@ -312,10 +318,11 @@ game.interlude = {
     //transition screens
     $("#lobby .pwd-sect").addClass("down");
   },
+	
 	//Intro screen where players learn mechanics
   initIntro : function() {
     //get rid of dom elements
-
+		this.removeLobby();
     //add bubbles for them to pop
     this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],
                       2/9, 1/2, 0, 0));
@@ -330,11 +337,13 @@ game.interlude = {
     //set state
     this.state = "INTRO";
   },
+	
   //initializes countdown state
   initCountdown : function(){
     this.initGame();
     this.lastUpdate = Date.now();
   },
+	
   initGame : function() {
     this.state = "GAME";
   },
@@ -367,6 +376,12 @@ game.interlude = {
 	//update the name of the lobby player
 	updateLobbyPlayerName: function(data){
 		$(document.getElementById(data.id)).find('.name').html(data.name);
+	},
+	
+	//remove lobby
+	removeLobby: function(){
+		$("#lobby .pwd-sect").removeClass('down').addClass("done");
+		$("#players").fadeOut(700, function(){ $('#lobby').hide(); });
 	},
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
