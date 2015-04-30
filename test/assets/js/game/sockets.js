@@ -24,7 +24,11 @@ game.sockets = {
 					self.socket.emit('player reject', data.sockID);
 				}
     });
-		
+		//gets socket id
+    this.socket.on('game init', function(data){
+      app.room = data.id;
+      console.log(app.room);
+    });
 		//color selection
 		this.socket.on("player color", function(data){
 			app.setPlayerColor(data);
