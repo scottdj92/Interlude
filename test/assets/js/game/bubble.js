@@ -22,7 +22,7 @@ game.Bubble = function() {
     this.mass = 10;
     this.img = img;
     this.rising = rising;
-    this.acceleration.y += this.rising ? .0005 : 0;
+    this.acceleration.y += this.rising ? .005 : 0;
   }
   //create a reference to the bubble prototype
   var b = Bubble.prototype;

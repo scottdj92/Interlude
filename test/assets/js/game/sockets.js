@@ -10,7 +10,7 @@ game.sockets = {
     //Set up socket events 
     this.socket.on('player join', function(data){
 				// check password, if password is correct, create new player
-				if( data.password === app.password && app.state == "START" ){ 
+				if( data.password === app.password && (app.state == "START" || app.state == "LOGIN") ){ 
 					// emit successful join
 					self.socket.emit('player joined', data.sockID);
 					// create new player

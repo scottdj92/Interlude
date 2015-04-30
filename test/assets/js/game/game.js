@@ -4,6 +4,7 @@ var game = game || {};
 game.interlude = {
   players : {}, //array of players in the game
   bubbles : [], //array of bubbles in the game
+	colors : [],
   projectiles : { //Holds all projectiles in the game so we dont make extra
     active : [], //currently active projectiles
     inactive : [] //inactive projectiles
@@ -13,12 +14,12 @@ game.interlude = {
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
-  state : "GAME", //current game state
+  state : "START", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 4,
+  playersReady : 1,
   backgroundPos: 0,
   bgIterator: 2,
   lastLane: 0,//last lane a bubble spawned in
@@ -118,6 +119,16 @@ game.interlude = {
     return false;
   },
 	
+	chooseBubbleColor : function(){
+		var cols = []
+		//change this shit
+		for(var p in this.players){
+			cols.push(this.players[p].color);
+		}
+		var n = Math.floor(Math.random()*cols.length);
+		return cols[n];
+	},
+	
   //spawns bubbles for the game
   spawnBubbles : function(dt){
     this.nextBubble--;
@@ -134,10 +145,10 @@ game.interlude = {
       var y = 1.1;
       var xVel = .01 - Math.random()*.02;
       var yVel = Math.random()*.08; 
-
-      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, this.bubbleAssets["blue"],
+			var color = this.chooseBubbleColor();
+			console.log(color);
+      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, this.bubbleAssets[color],
                         x, y, xVel, yVel, true));
-      
       this.nextBubble = 100;
       this.bubbleIDCounter++;
     }
