@@ -10,6 +10,7 @@ game.interlude = {
     active : [], //currently active projectiles
     inactive : [] //inactive projectiles
   },
+  scores : {},
   blackHole : undefined,
   canvas : undefined, //canvas for drawing
   ctx : undefined, //drawing context
@@ -85,6 +86,14 @@ game.interlude = {
     asset.src = src;
     return asset;
   },
+  //set up scores
+  setUpScores : function() {
+    this.scores["blue"]={total:0, hit:0};
+    this.scores["white"]={total:0, hit:0};
+    this.scores["green"]={total:0, hit:0};
+    this.scores["purple"]={total:0, hit:0};
+    this.scores["pink"]={total:0, hit:0};
+  }
   //Main loop that gets called on each frame
   loop : function () {
     requestAnimationFrame(this.loop.bind(this));//Set up next loop call
@@ -113,6 +122,7 @@ game.interlude = {
     this.bubbles.forEach(function(bubble){
       if(c1.type === bubble.type && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
+        this.scores[type].hits++;
         return true;
       }
     });
@@ -147,6 +157,7 @@ game.interlude = {
       var yVel = Math.random()*.04; 
       var r = (Math.random() * .08) + .07;//get random size
 			var color = "blue";//this.chooseBubbleColor();
+      this.scores[color].total++;
       this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
                         this.bubbleAssets[color],color, r,
                         x, y, xVel, yVel, (this.state !== "BOSS")));
