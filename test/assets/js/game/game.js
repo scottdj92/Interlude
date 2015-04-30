@@ -59,11 +59,7 @@ game.interlude = {
     }); */
     
     //function to create new Audio(songName, trackName) object
-    var track1 = new Audio('Anthony_Constantino-Songs/', 'Loop.wav');
-    track1.init();
-    //track1.songName = 'Anthony_Constantino_Songs/';
-    //track1.trackName = 'Loop.wav';
-    console.log(track1);
+    var track1 = new Audio('The_Clash-Rock_the_Casbah/', 'Loop.wav');
 
     this.loop();
   },

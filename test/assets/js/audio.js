@@ -36,7 +36,7 @@ function Audio(song, track)
 
 		createjs.Sound.addEventListener("fileload", createjs.proxy(this.handleLoad, this)); //add event listener for when load is completed
 		createjs.Sound.registerSound(this.src); //register sound
-		console.log('init called');
+		//console.log('init called');
 	};
 
 	this.handleLoad = function(evt)
@@ -93,15 +93,18 @@ function Audio(song, track)
 		//start tick function so we can "move" before updating the stage
 		createjs.Ticker.addEventListener('tick', this.tick.bind(this));
 		createjs.Ticker.setInterval(this.TICK_FREQ);
+
+		console.log(this.analyzerNode);
 	};
 
 	this.tick = function(evt)
 	{
+
 		this.analyzerNode.getFloatFrequencyData(this.freqFloatData); //gives us dB
 		this.analyzerNode.getByteFrequencyData(this.freqByteData); //gives us frequency
 		this.analyzerNode.getByteTimeDomainData(this.timeByteData); //gives us waveform
 
-		console.log(audio.freqFloatDataArray);
+		console.log(this.freqFloatDataArray);
 		//console.log(this.freqByteDataArray);
 		//console.log(this.timeByteDataArray);
 
