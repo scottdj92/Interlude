@@ -270,8 +270,9 @@ game.interlude = {
       var distSq = xDist * xDist + yDist * yDist;
       var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
       var pull = .06/distSq;
-      var yAcc = fwd.y*pull/4;
-      var xAcc = -fwd.x*pull/4;
+      pull *= distSq <= bh.r/10 ? 2 : 1/4;
+      var yAcc = fwd.y*pull;
+      var xAcc = -fwd.x*pull;
       bub.setAccleration(xAcc, yAcc);
       if(distSq <= bh.r/10)
         bub.r = bub.startR * distSq/bub.startDistsq;
@@ -458,7 +459,7 @@ game.interlude = {
   initBoss : function() {
     this.state = "BOSS";
 
-    this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
+    this.blackHole = new game.BlackHole(8/9, 0.3, 0.4, 150);
 
   },
 	
