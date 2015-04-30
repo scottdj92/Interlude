@@ -4,6 +4,8 @@ var game = game || {};
 game.interlude = {
   players : {}, //array of players in the game
   bubbles : [], //array of bubbles in the game
+	colors : [],
+  popSprites : [],
   projectiles : { //Holds all projectiles in the game so we dont make extra
     active : [], //currently active projectiles
     inactive : [] //inactive projectiles
@@ -22,8 +24,10 @@ game.interlude = {
   playersReady : 4,
   backgroundPos: 0,
   bgIterator: 2,
+  lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
+  bossTimer: 120,
   //gets delta time
   /*
   var now = Date.now();
@@ -121,7 +125,7 @@ game.interlude = {
   checkBubbleCollison : function(c1) {
     var self = this;
     this.bubbles.forEach(function(bubble){
-      if(self.circleCollison(bubble, c1)) {
+      if(c1.type === bubble.type && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
         return true;
       }
@@ -129,16 +133,35 @@ game.interlude = {
     return false;
   },
 	
-  //spawns bubbles for the game
-  spawnBubbles : function(){
-    this.nextBubble--;
-    if(this.nextBubble < 0) {
-      var x = Math.random()*12/9 + 2/9;
-      var y = 1;
-      var xVel = .001 - Math.random()*.002;
-      var yVel = Math.random()*.0008; 
+	chooseBubbleColor : function(){
+		var cols = []
+		//change this shit
+		for(var p in this.players){
+			cols.push(this.players[p].color);
+		}
+		var n = Math.floor(Math.random()*cols.length);
+		return cols[n];
+	},
 
-      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, "red", x, y, xVel, yVel));
+  //spawns bubbles for the game
+  spawnBubbles : function(dt){
+    this.nextBubble--;
+
+    if(this.nextBubble <= 0) {
+      //set spawn lane
+      var bubbleLane = Math.floor(Math.random()*5);
+      while(bubbleLane === this.lastLane){
+        bubbleLane = Math.floor(Math.random()*5);
+      }
+      this.lastLane = bubbleLane;
+
+      var x = 2/9 + 3/9 * bubbleLane;
+      var y = 1.1;
+      var xVel = .1 - Math.random()*.2;
+      var yVel = Math.random()*.08; 
+			var color = this.chooseBubbleColor();
+      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, this.bubbleAssets[color],color,
+                        x, y, xVel, yVel, true));
       this.nextBubble = 100;
       this.bubbleIDCounter++;
     }
@@ -178,7 +201,7 @@ game.interlude = {
   updatePlayers: function(dt){
     var self = this;
     for(var p in this.players){
-      console.log(p);
+      //console.log(p);
       self.players[p].update(dt);
     }
   },
@@ -196,25 +219,43 @@ game.interlude = {
         bubble.collideWith(self.bubbles[i]);
       }
       bubble.update(dt); //call bubble's update function
-      if(bubble.remove) //Check to see if the bubble should be removed
+      if(bubble.remove) {//Check to see if the bubble should be removed
+        self.popSprites.push(new game.PopSprite(bubble.img, bubble.r, bubble.x, bubble.y));
         array.splice(index, 1); //Remove a bubble
+      }
     });
   },
-	
+  //updates all bubble pop sprites
+	updatePopSprites : function(dt) {
+    var self = this;
+    //Loop through all of the sprites
+    this.popSprites.forEach(function(sprite, index, array) {
+      sprite.update(dt); //call sprites's update function
+      if(sprite.remove) //Check to see if the sprite should be removed
+        array.splice(index, 1); //Remove a sprite
+    });
+  },
+
 	/**
 		GAME
 	**/
   //Function for updating main game loop
   updateGame : function(){
-    var dt = 0;
     var self = this;
+    var now = Date.now();
+    var dt = (now - this.lastUpdate)/1000;
+    if(this.lastUpdate===0) dt = 0;
+    this.lastUpdate = now;
+    this.bossTimer -= dt;
+    if(this.bossTimer <= 0) console.log("Boss Baby");
+    else if(this.bossTimer <= 60) console.log("bon jovi");
     //this.blackHole.update(dt);
     //Loop through all of the players
     this.updatePlayers(dt);
-
+    this.updatePopSprites(dt);
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
-    //this.spawnBubbles();
+    this.spawnBubbles(dt);
   },
 	
 	/**
@@ -245,8 +286,7 @@ game.interlude = {
       case "START" :
         break;
       case "LOGIN" :
-        if(this.canStart)
-          this.initIntro();
+        if(this.canStart) this.initIntro();
         break;
       case "INTRO":
         this.updateIntro();
@@ -276,6 +316,9 @@ game.interlude = {
     //loop through bubbles
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);//draw each bubble
+    });
+    this.popSprites.forEach(function(sprite) {
+      sprite.render();//draw each bubble
     });
     this.projectiles.active.forEach(function(proj){
       proj.render();
@@ -315,9 +358,15 @@ game.interlude = {
     }
   },
 	
-  /******** TRANSITION FUNCTIONS ****************/
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// Begining Lobby Scren
+	// TRANSITIONS (Each game state)
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+		Lobby
+	**/
 	initLoginState : function() {
     if(this.state === "LOGIN") return;
     //switch state
@@ -326,31 +375,41 @@ game.interlude = {
     $("#lobby .pwd-sect").addClass("down");
 
   },
+	
 	//Intro screen where players learn mechanics
   initIntro : function() {
-    //get rid of dom elements
-
-    //add bubbles for them to pop
-    this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],
-                      2/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(1, this.bubbleAssets["purple"],
-                      5/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(2, this.bubbleAssets["pink"], 
-                      8/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(3, this.bubbleAssets["blue"], 
-                      11/9, 1/2, 0, 0));
-    this.bubbles.push(new game.Bubble(4, this.bubbleAssets["green"],
-                      14/9, 1/2, 0, 0));
-    //set state
+		//set state
     this.state = "INTRO";
+		
+		var self = this;
+		setTimeout( function(){
+    //get rid of dom elements
+		self.removeLobby();
+    //add bubbles for them to pop
+
+    this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],"white",
+                      2/9, 1/2, 0, 0, false));
+    this.bubbles.push(new game.Bubble(1, this.bubbleAssets["purple"],"purple",
+                      5/9, 1/2, 0, 0, false));
+    this.bubbles.push(new game.Bubble(2, this.bubbleAssets["pink"],"pink",
+                      8/9, 1/2, 0, 0, false));
+    this.bubbles.push(new game.Bubble(3, this.bubbleAssets["blue"],"blue",
+                      11/9, 1/2, 0, 0, false));
+    this.bubbles.push(new game.Bubble(4, this.bubbleAssets["green"],"green",
+                      14/9, 1/2, 0, 0, false));
+		}, 1500);
   },
+	
   //initializes countdown state
   initCountdown : function(){
+		console.log('start game');
     this.initGame();
     this.lastUpdate = Date.now();
   },
+	
   initGame : function() {
     this.state = "GAME";
+		
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -381,6 +440,13 @@ game.interlude = {
 	//update the name of the lobby player
 	updateLobbyPlayerName: function(data){
 		$(document.getElementById(data.id)).find('.name').html(data.name);
+	},
+	
+
+	//remove lobby
+	removeLobby: function(){
+		$("#lobby .pwd-sect").removeClass('down').addClass("done");
+		$("#players").fadeOut(700, function(){ $('#lobby').hide(); });
 	},
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

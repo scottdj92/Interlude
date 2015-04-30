@@ -357,6 +357,9 @@ html {
       height: 100%;
       width: 100%;
       display: block; }
+      html .container #lobby .pwd-sect.done {
+        margin-top: 20%;
+        opacity: 0; }
       html .container #lobby .pwd-sect.down {
         margin-top: 10%; }
       html .container #lobby .pwd-sect {
