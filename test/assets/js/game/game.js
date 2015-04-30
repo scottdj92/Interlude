@@ -16,7 +16,7 @@ game.interlude = {
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
-  state : "GAME", //current game state
+  state : "START", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
   bubbleIDCounter : 0,
@@ -28,12 +28,7 @@ game.interlude = {
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
   bossTimer: 120,
-  //gets delta time
-  /*
-  var now = Date.now();
-  var deltaTime = now - this.lastUpdate;
-  this.lastUpdate = now;
-  */
+  room: undefined,
 
   init : function() {
     var self = this;
@@ -49,9 +44,9 @@ game.interlude = {
 	  game.draw.init(this.canvas, this.ctx);
 
     this.loadImages();
+    this.setUpScores();
   	//get passwords
   	this.password = this.generatePassword();
-  	console.log(this.password);
     document.querySelector('#password').innerHTML = this.password;
 	
     game.sockets.init(this);
@@ -61,7 +56,7 @@ game.interlude = {
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
-    this.initBoss();
+    
     this.loop();
   },
 
@@ -93,7 +88,7 @@ game.interlude = {
     this.scores["green"]={total:0, hit:0};
     this.scores["purple"]={total:0, hit:0};
     this.scores["pink"]={total:0, hit:0};
-  }
+  },
   //Main loop that gets called on each frame
   loop : function () {
     requestAnimationFrame(this.loop.bind(this));//Set up next loop call
