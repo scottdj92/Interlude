@@ -117,7 +117,7 @@ game.interlude = {
     this.bubbles.forEach(function(bubble){
       if(c1.type === bubble.type && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
-        this.scores[type].hits++;
+        self.scores[type].hits++;
         return true;
       }
     });
@@ -447,7 +447,7 @@ game.interlude = {
                       11/9, 1/2, 0, 0, false));
     self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
                       14/9, 1/2, 0, 0, false));
-    
+
 		setTimeout( function(){
       //get rid of dom elements
   		self.removeLobby();
