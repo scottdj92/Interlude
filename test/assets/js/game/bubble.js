@@ -14,6 +14,9 @@ game.Bubble = function() {
     this.x = x;
     this.y = y;
     this.r = r;//radius
+    this.startX = x;
+    this.startY = y;
+    this.startR = r;
     this.velocity = { x : xVel, y : yVel};
     this.acceleration = { x : 0, y : 0};
     this.id = id;
@@ -74,7 +77,7 @@ game.Bubble = function() {
       this.collisions.push(bub);
       bub.collisions.push(this);
       //get impulse
-      var impulse = game.physicsUtils.getImpulse(this, bub, .06);
+      var impulse = game.physicsUtils.getImpulse(this, bub, .2);
       impulse.x *= -1;
       bub.applyImpulse(impulse);
       //invert it for other bubble

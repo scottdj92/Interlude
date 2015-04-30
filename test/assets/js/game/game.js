@@ -15,7 +15,7 @@ game.interlude = {
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
-  state : "START", //current game state
+  state : "GAME", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
   bubbleIDCounter : 0,
@@ -57,11 +57,10 @@ game.interlude = {
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
-    //this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
-
+    this.initBoss();
     this.loop();
   },
 
@@ -143,14 +142,14 @@ game.interlude = {
       this.lastLane = bubbleLane;
 
       var x = 2/9 + 3/9 * bubbleLane;
-      var y = 1.1;
+      var y = 1.15;//spawn off screen
       var xVel = .1 - Math.random()*.2;
       var yVel = Math.random()*.08; 
-      var r = (Math.random() * .08) + .07;
-			var color = this.chooseBubbleColor();
+      var r = (Math.random() * .08) + .07;//get random size
+			var color = "blue";//this.chooseBubbleColor();
       this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
                         this.bubbleAssets[color],color, r,
-                        x, y, xVel, yVel, true));
+                        x, y, xVel, yVel, (this.state !== "BOSS")));
       this.nextBubble = 100;
       this.bubbleIDCounter++;
     }
@@ -245,7 +244,48 @@ game.interlude = {
     this.updateBubbles(dt);
     this.spawnBubbles(dt);
   },
-	
+  /**
+    Boss
+  **/
+  updateBoss : function() {
+    var self = this;
+    var now = Date.now();
+    var dt = (now - this.lastUpdate)/1000;
+    if(this.lastUpdate===0) dt = 0;
+    this.lastUpdate = now;
+    this.blackHole.update(dt);
+    this.updatePlayers(dt);
+    this.updatePopSprites(dt);
+    this.updateProjectiles(dt);
+    this.updateBubbles(dt);
+    this.spawnBubbles(dt);
+    //save black hole ref
+    var bh = this.blackHole;
+    //accelerate bubbles to black hole
+    //This is hella ugly
+    this.bubbles.forEach(function(bub){
+      var xDist = bub.x - bh.x;
+      var yDist = bub.y - bh.y;
+      var xStart = bub.startX - bh.x;
+      var yStart = bub.startY - bh.y;
+
+      var distSq = xDist * xDist + yDist * yDist;
+      var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
+      var pull = .06/distSq;
+      var yAcc = fwd.y*pull;
+      var xAcc = -fwd.x*pull;
+      bub.setAccleration(xAcc, yAcc);
+      if(distSq <= bh.r/10)
+        bub.r = bub.startR * xDist/xStart * yDist/yStart;
+      else {
+        bub.startX = bub.x;
+        bub.startY = bub.y;
+      }
+
+      if(distSq <= bh.r/30)
+        bub.remove = true;
+    });
+  },
 	/**
 		Intro
 	**/
@@ -283,6 +323,7 @@ game.interlude = {
         this.updateGame();//call game update function
         break;
       case "BOSS" :
+        this.updateBoss();
         break;
       case "END" :
         break;
@@ -311,12 +352,30 @@ game.interlude = {
     this.projectiles.active.forEach(function(proj){
       proj.render();
     });
-
     //loop through players
     for(var p in this.players){
       self.players[p].render();
     }
-    //this.blackHole.render();
+  },
+  //render function for boss screen
+  renderBoss : function () {
+    var self = this;//Save a reference to this
+    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
+    this.blackHole.render();
+    //loop through bubbles
+    this.bubbles.forEach(function(bubble) {
+      bubble.render(self.ctx);//draw each bubble
+    });
+    this.popSprites.forEach(function(sprite) {
+      sprite.render();//draw each bubble
+    });
+    this.projectiles.active.forEach(function(proj){
+      proj.render();
+    });
+    //loop through players
+    for(var p in this.players){
+      self.players[p].render();
+    }
   },
   //render function for start screen
   renderStart : function() {
@@ -338,6 +397,7 @@ game.interlude = {
         this.renderGame();//render in game screen
         break;
       case "BOSS" :
+        this.renderBoss();
         break;
       case "END" :
         break;
@@ -386,7 +446,6 @@ game.interlude = {
                       14/9, 1/2, 0, 0, false));
 		}, 1500);
   },
-	
   //initializes countdown state
   initCountdown : function(){
 		console.log('start game');
@@ -397,6 +456,13 @@ game.interlude = {
   initGame : function() {
     this.state = "GAME";
 		
+  },
+
+  initBoss : function() {
+    this.state = "BOSS";
+
+    this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
+
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
