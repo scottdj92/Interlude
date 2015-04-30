@@ -24,6 +24,7 @@ game.interlude = {
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
+  bossTimer: 120,
   //gets delta time
   /*
   var now = Date.now();
@@ -209,6 +210,10 @@ game.interlude = {
     var dt = (now - this.lastUpdate)/1000;
     if(this.lastUpdate===0) dt = 0;
     this.lastUpdate = now;
+
+    this.bossTimer -= dt;
+    if(this.bossTimer <= 0) console.log("Boss Baby");
+    else if(this.bossTimer <= 60) console.log("bon jovi");
     //this.blackHole.update(dt);
     //Loop through all of the players
     this.updatePlayers(dt);

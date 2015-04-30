@@ -73,7 +73,7 @@ game.Bubble = function() {
       this.collisions.push(bub);
       bub.collisions.push(this);
       //get impulse
-      var impulse = game.physicsUtils.getImpulse(this, bub, .2);
+      var impulse = game.physicsUtils.getImpulse(this, bub, .06);
       impulse.x *= -1;
       bub.applyImpulse(impulse);
       //invert it for other bubble
