@@ -52,11 +52,17 @@ game.sockets = {
     this.socket.on('game fire', function(data){
       //just make this add a projectile
       var player = app.players[data.id];
+      player.primed = false;
       app.projectiles.inactive[0].reset(player.x, player.y, data.id, data.dist, player.color);
       app.projectiles.active.push(app.projectiles.inactive[0]);
       app.projectiles.inactive.splice(0,1);
     });
-    
+    //change player sprite to primed state
+    this.socket.on('pull start', function(data){
+      var player = app.players[data.id];
+      player.primed = true;
+    });
+
     this.socket.on('phone tilt', function(data) {
       if(app.players[data.id]) {
         app.players[data.id].setTarget((data.xAcc/40) + 8/9, -1*(data.yAcc/90) + .5);

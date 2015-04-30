@@ -19,6 +19,7 @@ game.interlude = {
   state : "START", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
+  playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
   playersReady : 4,
@@ -74,6 +75,7 @@ game.interlude = {
     this.bubbleAssets['purple'] = this.loadImg("assets/img/purple-sprite.png");
     this.bubbleAssets['white'] = this.loadImg("assets/img/white-sprite.png");
     this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
+    this.playerSprites = this.loadImg("assets/img/crosshair.png")
   },
   //retune the image object with the source passed in
   loadImg : function(src) {
@@ -117,14 +119,15 @@ game.interlude = {
     this.bubbles.forEach(function(bubble){
       if(c1.type === bubble.type && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
-        self.scores[type].hits++;
+        if(self.state !== "GAME" || self.state !== "BOSS")
+          self.scores[bubble.type].hits++;
         return true;
       }
     });
     return false;
   },
-	
-	chooseBubbleColor : function(){
+	//Picks a color from available players
+	chooseBubbleColor : function() {
 		var cols = []
 		//change this shit
 		for(var p in this.players){
@@ -553,7 +556,8 @@ game.interlude = {
   */
   createPlayer : function(data){
   	var x = 200, y = 200;
-    this.players[data.id] = new game.Player(data.id, data.sockID, x, y);
+    this.players[data.id] = new game.Player(data.id, data.sockID, x, y, 
+                            this.playerSprites);
     var i = parseInt(data.id);
   },
 	

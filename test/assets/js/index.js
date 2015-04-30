@@ -121,6 +121,9 @@ io.on('connection', function(socket){
   socket.on('game fire', function(data){
     io.to(data.room).emit('game fire', data);
   });
+  socket.on('pull start', function(data){
+    io.to(data.room).emit('pull start', data);
+  });
 	
 });
 

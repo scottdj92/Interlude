@@ -30,6 +30,8 @@ mobileClient.slingshot = {
 		var start = function() {
 				c.stop();
 				l.stop();
+				var data = {id: client.id, room: client.room};
+				client.socket.emit('pull start', data);
 		}
 		var end = function() {
 				var endY = this.getPointAtLength(0).y;
