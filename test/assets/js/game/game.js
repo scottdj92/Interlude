@@ -221,7 +221,6 @@ game.interlude = {
     var dt = (now - this.lastUpdate)/1000;
     if(this.lastUpdate===0) dt = 0;
     this.lastUpdate = now;
-
     this.bossTimer -= dt;
     if(this.bossTimer <= 0) console.log("Boss Baby");
     else if(this.bossTimer <= 60) console.log("bon jovi");
