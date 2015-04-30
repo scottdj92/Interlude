@@ -9,21 +9,20 @@ game.sockets = {
     var self = this;
     //Set up socket events 
     this.socket.on('player join', function(data){
-      // check password
-      // if password is correct, create new player
-      if( data.password === app.password ){ 
-        // emit successful join
-        self.socket.emit('player joined', data.sockID);
-        // create new player
-        app.createPlayer(data);
-        //Add player to lobby
-				app.addPlayertoLobby(data);
-        //transition to next state
-        app.initLoginState();
-      } else {
-        //emit rejection
-        self.socket.emit('player reject', data.sockID);
-      } 
+				// check password, if password is correct, create new player
+				if( data.password === app.password && app.state == "LOGIN" ){ 
+					// emit successful join
+					self.socket.emit('player joined', data.sockID);
+					// create new player
+					app.createPlayer(data);
+					//Add player to lobby
+					app.addPlayertoLobby(data);
+					//transition to next state
+					app.initLoginState();
+				} else {
+					//emit rejection
+					self.socket.emit('player reject', data.sockID);
+				}
     });
 		
 		//color selection

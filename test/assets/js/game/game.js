@@ -13,7 +13,7 @@ game.interlude = {
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
-  state : "START", //current game state
+  state : "GAME", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
   bubbleIDCounter : 0,
