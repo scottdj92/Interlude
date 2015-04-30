@@ -12,38 +12,32 @@ mobileClient = {
 	// INITIALIZER 
 	init : function () {
 		// create new instance of socket.io
-		this.id = Math.floor(Math.random()*10);
-		this.name ='user'+this.id;
-
-		var red = Math.floor(Math.random() * 255);
-		var green = Math.floor(Math.random() * 255);
-		var blue = Math.floor(Math.random() * 255);
-		this.color = 'rgb('+red+','+green+','+blue+')';
-
 		//setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 		this.socket = io.connect( window.location.origin);
-
-		// initial data sent by socket
-		this.connectData = { id: this.id, color: this.color};
-
-		// JOIN GAME
-		// this.socket.emit('player join', connectData);
-
 		// start socket listeners
 		this.initSocket();
-		
 		this.initListeners();
-
+		
 		var self = this;
 		setTimeout(function(){mobileClient.changeState();}, 1500);
 	},// end
 	
 	/**
-	// INITIATE SOCKET 
+		INITIATE SOCKET 
 	**/
+	// Init each socket listener
 	initSocket : function( callback ) {
 		var socket = this.socket;
+		// initial data sent by socket
+		console.log(this.id);
+		this.connectData = { id: socket.id };
+		
 		var self = this;
+		//set own id
+		socket.on('player id', function(id){
+			console.log(id);
+			self.id = id;
+		});
 		socket.on('response joined', function(msg){
 			//when player has successfully joined
 			$("#status").html(msg);
@@ -58,7 +52,17 @@ mobileClient = {
 		socket.on('color check', function(msg){
 			/* msg will have color name */
 			// if color available
+			if(msg.color){
+				self.selectColor(msg.color);
+			}
 			// if not available 
+		});
+		
+		// Lists of taken colors recieved from game
+		socket.on('color selected', function(msg){
+			// marks that a color is selected
+			// msg is an array containing colors taken and the name of user (if availble)
+			self.markSelectedColors(msg);
 		});
 		
 		if(jQuery.isFunction(callback)){
@@ -148,7 +152,7 @@ mobileClient = {
 	// These functions are used to show different screens for each state
 	**/
 	
-	// 1
+	// 1 //
 	showIntro: function(){
 		$("#pre-game").removeClass('center').addClass('center-top');
 		$("#intro").addClass('initial');
@@ -160,7 +164,7 @@ mobileClient = {
 		});
 	},
 	
-	// 2
+	// 2 //
 	showLogin: function(){
 		$("#intro").removeClass("initial").addClass("nonactive").fadeOut(600);
 		$("#game_login").addClass("active");
@@ -194,7 +198,7 @@ mobileClient = {
 		});
 	},
 	
-	// 3
+	// 3 //
 	showColorSelection: function(){
 		// remove pre game content
 		$("#pre-game").addClass("finished");
@@ -210,25 +214,29 @@ mobileClient = {
 		});
 		
 		var self = this;
+		this.socket.emit("color getAvail", this.id);
 		// color selection listeners
 		$(".color").on("touchend click", function(e){
+			e.preventDefault();
 			var color = $(e.target).attr("class").split(" ")[1];
 			// send message to server for game to check colors
 			// need to create function for socket listeners
-			self.selectColor(color); // will be called after response of socket listener
+			//self.selectColor(color); // will be called after response of socket listener
+			var data = { id: self.id, color: color };
+			self.socket.emit('player color', data);
 		});
 		
 	},
 	
-	// 4
+	// 4 //
 	showNameInput: function(){
 		$("#colors_instr").fadeOut(300);
 		setTimeout(function(){ $("#name_instr").fadeIn(300); }, 300);
 		
 		var self = this;
+		// Name Submit Btn Listener
 		$("#submit_name").on("touchend click", function(e){
 			e.preventDefault();
-			
 			if($("#name_input").val().trim() != "") {
 				self.name = $("#name_input").val().toUpperCase();
 				console.log(self.name);
@@ -241,7 +249,7 @@ mobileClient = {
 		});
 	},
 	
-	// 5
+	// 5 //
 	showGameControls : function(){
 		var self = this;
 		$("#colors").removeClass("down").addClass("inactive").fadeOut(600);
@@ -251,61 +259,19 @@ mobileClient = {
 			//hide game_prep content
 			$("#game_prep").removeClass("active").hide();
 			$('#game_controls').addClass("active").fadeIn(500);
-			// fire btn
-			$("#fire_btn").on('touchstart click', function(e){
-				e.preventDefault();
-				console.log("shoot");
-				var data = {id: self.id};
-				self.socket.emit('game fire', data);
-			});
-			
-			// Creating slingshot
-			var R = Raphael(0, 0, window.innerWidth, window.innerHeight);
-			// Parameters
-			var cWidth = 30;
-			var cXpos = window.innerWidth/2;
-			var cYpos = window.innerHeight/2 - 40 - cWidth/2+10;
-			var lYpos = window.innerHeight/2 - 40;
-			var lXpos = window.innerWidth;
-			// Line
-			var l = R.path("M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos);
-			l.attr({
-					stroke: self.hex,
-					'stroke-width': 7
-			});
-			// Circle (draggable)
-			var c = R.circle(cXpos, cYpos, cWidth).attr({
-					fill: 'rgba(10,12,46,0.95)',
-					stroke: self.hex,
-					'stroke-width': 5
-			});
-			var move = function(dx, dy) {
-					var x = cXpos + dx, y = cYpos + dy; 
-					this.attr({cx: x, cy: y});
-					l.attr({path: "M0 "+lYpos+"L"+x+" "+y+"L"+lXpos+" "+lYpos});
-			}
-			var start = function() {
-					c.stop();
-					l.stop();
-			}
-			var end = function() {
-					var endY = this.getPointAtLength(0).y;
-					var Ychange =  (endY - cYpos)/(window.innerHeight - cYpos);
-					this.animate({cx: cXpos, cy: cYpos}, 2000, "elastic");
-					//this.animate({cx: cXpos, cy: -100}, 200);
-					l.animate({path: "M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos},
-									 2000, "elastic");
-					var data = {id: self.id, dist: Ychange};
-					console.log(Ychange);
-					self.socket.emit('game fire', data);
-			}
-			c.drag(move, start, end);
+	
+			mobileClient.slingshot.init(self);
 		});
+	},
+	
+	// 6 //
+	gameStart: function(){
+	
 	},
 
 	
 	/**
-	// HELPER ///////////////////////////////////////////////////////////////
+		HELPER 
 	**/
 	clearInputFill: function(){
 		var boxes = document.getElementsByClassName('box');
@@ -316,25 +282,31 @@ mobileClient = {
 	
 	selectColor: function(color){
 		//make sure to check color
-		//if( available ){
-			this.color = color; //set client's color
-			$(document.getElementsByClassName(color)[0]).addClass("selected");
-			this.hex = $(".color.selected").css("background-color");
-			//clear unselected colors
-			$(".color").each(function(index){
-				if(!$(this).hasClass('selected')){
-					$(this).addClass('nonactive');
-					$(this).fadeOut(500);
-				}
-			});
-			$(".color").off();
-
-			var self = this;
-			setTimeout(function(){
-				$("#colors").addClass('down');
-				self.changeState();
-			}, 500);
-		//}
+		this.color = color; //set client's color
+		$(document.getElementsByClassName(color)[0]).addClass("selected");
+		this.hex = $(".color.selected").css("background-color");
+		//clear unselected colors
+		var self = this;
+		$(".color").off();
+		$(".color").each(function(index){
+			if( !$(this).hasClass('selected') ){
+				$(this).addClass('nonactive');
+				$(this).fadeOut(500);
+			}
+		});
+		
+		setTimeout( function(){
+			$("#colors").addClass('down');
+			self.changeState();
+		}, 500);
+	},
+	
+	markSelectedColors: function(colors){
+		colors.forEach(function(color){
+			var col = document.getElementsByClassName(color)[0];
+			if( !$(col).hasClass("selected") )
+				$(col).addClass("unavailable");
+		});
 	},
 	
 	// Notify Game that Player is ready

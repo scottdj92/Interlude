@@ -2,7 +2,7 @@
 var game = game || {};
 
 game.interlude = {
-  players : [], //array of players in the game
+  players : {}, //array of players in the game
   bubbles : [], //array of bubbles in the game
   projectiles : { //Holds all projectiles in the game so we dont make extra
     active : [], //currently active projectiles
@@ -13,13 +13,24 @@ game.interlude = {
   ctx : undefined, //drawing context
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
-  state : "GAME", //current game state
+  state : "START", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
   bubbleIDCounter : 0,
+  canstart: false,
+  playersReady : 4,
+  backgroundPos: 0,
+  bgIterator: 2,
+  //stores last date val in milliseconds thats 1/1000 sec
+  lastUpdate: 0,
+  //gets delta time
+  /*
+  var now = Date.now();
+  var deltaTime = now - this.lastUpdate;
+  this.lastUpdate = now;
+  */
 
   init : function() {
-    console.log(this);
     var self = this;
     // create new instance of socket.io
     var num = Math.floor(Math.random()*10);
@@ -36,19 +47,16 @@ game.interlude = {
   	//get passwords
   	this.password = this.generatePassword();
   	console.log(this.password);
+    document.querySelector('#password').innerHTML = this.password;
 	
     game.sockets.init(this);
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
     //this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
-
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
-    //test bubbles
-    //this.bubbles.push(new game.Bubble(0, "cyan", 10/9, 1, -.001, .0001));//Create a new bubble
-    //this.bubbles.push(new game.Bubble(1, "purple", 6/9, 1, .001, .0001));//Create a new bubble
 
 
     //initialize audio objects
@@ -124,28 +132,35 @@ game.interlude = {
       this.bubbleIDCounter++;
     }
   },
-  //Function for updating main game loop
-  updateGame : function(){
-    var dt = 0;
+  //updates projectiles and moves inactive ones to the correct array
+  updateProjectiles : function(dt){
     var self = this;
-    //this.blackHole.update(dt);
-    //Loop through all of the players
-    this.players.forEach(function(player) {
-      player.update(dt); //call player's update function
-    });
     //loop through all of the projectiles
     this.projectiles.active.forEach(function(proj, index, array){
       proj.update(dt);
-
-      if(self.checkBubbleCollison(proj))
-        proj.dead = true;
-
+      //bubble collisions
+      if( proj.canHit ) {
+        if(self.checkBubbleCollison(proj) )
+          proj.dead = true;
+      }
+      //move finished ones
       if(proj.dead){
         self.projectiles.inactive.push(proj);
         array.splice(index,1);
       }
     });
-
+  },
+  //updates players
+  updatePlayers: function(dt){
+    var self = this;
+    for(var p in this.players){
+      console.log(p);
+      self.players[p].update(dt);
+    }
+  },
+  //updates all bubbles in game
+  updateBubbles : function(dt) {
+    var self = this;
     //Loop through all of the bubbles
     this.bubbles.forEach(function(bubble, index, array) {
       //do bubble bounce physics - I'm sorry you all have to see this
@@ -156,14 +171,45 @@ game.interlude = {
       if(bubble.remove) //Check to see if the bubble should be removed
         array.splice(index, 1); //Remove a bubble
     });
+  },
+  //Function for updating main game loop
+  updateGame : function(){
+    var dt = 0;
+    var self = this;
+    //this.blackHole.update(dt);
+    //Loop through all of the players
+    this.updatePlayers(dt);
 
-    this.spawnBubbles();
+    this.updateProjectiles(dt);
+    this.updateBubbles(dt);
+    //this.spawnBubbles();
+  },
+  updateIntro : function() {
+    var dt = 0;
+    //Loop through all of the players
+    this.updatePlayers(dt);
+    this.updateProjectiles(dt);
+    this.updateBubbles(dt);
+   //console.log(this.players);
+    //if all bubbles are popped switch to countdown
+    if(this.bubbles.length < 1)
+      this.initCountdown();
   },
   //Main update function
   update : function () {
     //Call different update function depending on the state
+    this.backgroundPos += this.bgIterator;
+        if(this.backgroundPos <= 0 || this.backgroundPos >= 7000)
+          this.bgIterator *= -1;
     switch (this.state){
       case "START" :
+        break;
+      case "LOGIN" :
+        if(this.canStart)
+          this.initIntro();
+        break;
+      case "INTRO":
+        this.updateIntro();
         break;
       case "GAME" :
         this.updateGame();//call game update function
@@ -179,28 +225,36 @@ game.interlude = {
   //Render function for in game screen
   renderGame : function() {
     var self = this;//Save a reference to this
-    //this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
-    this.ctx.fillStyle = "#235";
-    this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);//clear the canvas
+    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
     //loop through bubbles
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);//draw each bubble
     });
-    //loop through players
-    this.players.forEach(function(player) {
-      player.render(self.ctx);//draw each player
+    this.projectiles.active.forEach(function(proj){
+      proj.render();
     });
+
+    //loop through players
+    for(var p in this.players){
+      self.players[p].render();
+    }
     //this.blackHole.render();
   },
   //render function for start screen
   renderStart : function() {
-    game.draw.img(this.backgroundImg, 0,7545,1920,1080, 0,0,16/9,1)
+    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
   },
   //Main render function
   render : function () {
     switch(this.state) {
       case "START" :
         this.renderStart();
+        break;
+      case "LOGIN" :
+        this.renderStart();
+        break;
+      case "INTRO":
+        this.renderGame();
         break;
       case "GAME" :
         this.renderGame();//render in game screen
@@ -213,28 +267,90 @@ game.interlude = {
         break;
     }
   },
-	//Resize function for keeping canvas at the right ratio
+	
+  /******** TRANSITION FUNCTIONS ****************/
+	
+	// Begining Lobby Scren
+	initLoginState : function() {
+    if(this.state === "LOGIN") return;
+    //switch state
+    this.state = "LOGIN";
+    //transition screens
+    $("#lobby .pwd-sect").addClass("down");
+  },
+	//Intro screen where players learn mechanics
+  initIntro : function() {
+    //get rid of dom elements
+
+    //add bubbles for them to pop
+    this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],
+                      2/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(1, this.bubbleAssets["purple"],
+                      5/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(2, this.bubbleAssets["pink"], 
+                      8/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(3, this.bubbleAssets["blue"], 
+                      11/9, 1/2, 0, 0));
+    this.bubbles.push(new game.Bubble(4, this.bubbleAssets["green"],
+                      14/9, 1/2, 0, 0));
+    //set state
+    this.state = "INTRO";
+  },
+  //initializes countdown state
+  initCountdown : function(){
+    this.initGame();
+    this.lastUpdate = Date.now();
+  },
+  initGame : function() {
+    this.state = "GAME";
+  },
+	// Add player to Lobby
+	addPlayertoLobby: function(data){
+		var p = document.getElementsByClassName('player');
+		for(var i=0; i<p.length; i++){
+			if( !$(p[i]).hasClass('join') ){
+				$(p[i]).attr('id', data.sockID);
+				$(p[i]).addClass('join');
+				$(p[i]).find('.name').html("waiting");
+				i = p.length;
+			}
+		}
+	},
+	
+	// update the color of the lobby player's color
+	updateLobbyPlayerColor: function(data){
+		var p = document.getElementById(data.id);
+		$(p).find('.icon').addClass(data.color);
+	},
+	
+	//update the name of the lobby player
+	updateLobbyPlayerName: function(data){
+		var p = document.getElementById(data.id);
+		$(p).find('.name').html(data.name);
+	},
+	
+  //Resize function for keeping canvas at the right ratio
   resizeCanvas : function() {
     //get reference to canvas holder
     var canvasHolder = document.querySelector('#canvas-holder');
     
-    console.log('resize');
     this.canvas.width = canvasHolder.offsetWidth;
     this.canvas.height = canvasHolder.offsetHeight;
   },
+	
   /** 
   	* createPassword():
 	* generates a password needed to join game
   */
   generatePassword : function(){
   	var pw = "";
-	var chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	var string_length = 5;
-	for (var i=0; i<string_length; i++) {
-		var rnum = Math.floor(Math.random() * chars.length);
-		pw += chars.substring(rnum,rnum+1);
-	}
-	return pw;
+		var chars = "ABCDEFGHIJKLMNOPQRSTUVWXTZABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		var string_length = 5;
+		for (var i=0; i<string_length; i++) {
+			var rnum = Math.floor(Math.random() * chars.length);
+			pw += chars.substring(rnum,rnum+1);
+		}
+		return pw;
   },
 	
   /** 
@@ -244,9 +360,66 @@ game.interlude = {
   */
   createPlayer : function(data){
   	var x = 200, y = 200;
-    this.players[data.id] = new game.Player(data.id, data.color, data.sockID, x, y);
+    this.players[data.id] = new game.Player(data.id, data.sockID, x, y);
     var i = parseInt(data.id);
   },
+	
+	/** 
+  	* setPlayerColor():
+	* creates and adds a new player in game
+	* parameter [data object from socket]
+  */
+	setPlayerColor: function(data){
+		//check available colors
+		var used = false;
+		var self = this;
+		var players = this.players;
+		console.log(data);
+		var sockID = players[data.id].sockID;
+		var response = { id: data.id, sockID: sockID };
+		for( var p in players ){
+			if(players[p].color == data.color){
+				//if color is already used
+				used = true;
+				response.color = null;
+				game.sockets.socket.emit("player colorcheck", response);
+				break;
+			}
+		}
+		//if color availabe
+		if(!used){
+			players[data.id].setColor(data.color);
+			response.color = data.color;
+			game.sockets.socket.emit("player colorcheck", response);
+			self.updateLobbyPlayerColor(data);
+			self.getSelectedColors();
+		}
+	},
+	
+	/** 
+  	* checkSelectedColors():
+	* sends to players array of taken colors
+  */
+	getSelectedColors: function(){
+		var colors = [];
+		for( var p in this.players ){
+			colors.push(this.players[p].color);
+		}
+		game.sockets.socket.emit("color selected", colors);
+	},
+	
+	/** 
+  	* setPlayerName():
+	* adds player name
+	* parameter [data object from socket]
+  */
+	setPlayerReady: function(data){
+		this.players[data.id].ready = true;
+		this.players[data.id].setName(data.name);
+		this.updateLobbyPlayerName(data);
+		this.playersReady ++;
+		console.log(this.playersReady);
+	},
 	
   /** 
   	* findPlayer():
@@ -254,16 +427,14 @@ game.interlude = {
 	* parameter [socketID]
   */
   findPlayer : function (socketID) {
-      console.log('Find player: '+socketID);
       var target;
-      this.players.every(function(player){
-        console.log("search: "+player.sockID);
+      var self = this;
+      for(var p in this.players){
+        var player = self.players[p];
         if(player.sockID == socketID){
           target = player;
-          console.log('match');
         }
-      });
-      
+      }; 
       return target;
     }
 }

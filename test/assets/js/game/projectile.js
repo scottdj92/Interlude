@@ -22,11 +22,13 @@ game.Projectile = function() {
     if(this.dead)
       return;
 
-    this.z -= this.pow;
-    if(this.z < 20) 
+    this.z-=5;
+
+    //this.z -= this.pow;
+    if(this.z < 5) 
       this.canHit = true;
 
-    if(this.z < -10)
+    if(this.z < -1)
       this.dead = true;
   };
 
@@ -37,12 +39,12 @@ game.Projectile = function() {
     this.pow = pow;
     this.canHit = false;
     this.dead = false;
-    this.color = color;
+    this.color = "black";
     this.id = id;
   };
 
   p.render = function() {
-    game.draw.circle(this.x,this.y, 100-z/100 * 0.3, this.color);
+    game.draw.circle(this.x,this.y, (this.z/100) * 0.04, this.color);
   };
 
   return Projectile;
