@@ -11,6 +11,7 @@ game.interlude = {
     inactive : [] //inactive projectiles
   },
   tracks : [],
+  scores : {},
   blackHole : undefined,
   canvas : undefined, //canvas for drawing
   ctx : undefined, //drawing context
@@ -19,6 +20,7 @@ game.interlude = {
   state : "START", //current game state
   backgroundImg : undefined,
   bubbleAssets : {},
+  playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
   playersReady : 4,
@@ -28,12 +30,7 @@ game.interlude = {
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
   bossTimer: 120,
-  //gets delta time
-  /*
-  var now = Date.now();
-  var deltaTime = now - this.lastUpdate;
-  this.lastUpdate = now;
-  */
+  room: undefined,
 
   init : function() {
     var self = this;
@@ -49,16 +46,15 @@ game.interlude = {
 	  game.draw.init(this.canvas, this.ctx);
 
     this.loadImages();
+    this.setUpScores();
   	//get passwords
   	this.password = this.generatePassword();
-  	console.log(this.password);
     document.querySelector('#password').innerHTML = this.password;
 	
     game.sockets.init(this);
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
 
-    //this.blackHole = new game.BlackHole(8/9, 0.5, 0.4, 150);
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
@@ -73,8 +69,6 @@ game.interlude = {
     //var track1 = new Audio('Anthony_Constantino-Songs', 'Loop.wav');
     //track1.init();
     //track1.startPlayback();
-
-
     this.loop();
   },
 
@@ -92,12 +86,21 @@ game.interlude = {
     this.bubbleAssets['purple'] = this.loadImg("assets/img/purple-sprite.png");
     this.bubbleAssets['white'] = this.loadImg("assets/img/white-sprite.png");
     this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
+    this.playerSprites = this.loadImg("assets/img/crosshair.png")
   },
   //retune the image object with the source passed in
   loadImg : function(src) {
     var asset = new Image();
     asset.src = src;
     return asset;
+  },
+  //set up scores
+  setUpScores : function() {
+    this.scores["blue"]={total:0, hit:0};
+    this.scores["white"]={total:0, hit:0};
+    this.scores["green"]={total:0, hit:0};
+    this.scores["purple"]={total:0, hit:0};
+    this.scores["pink"]={total:0, hit:0};
   },
   //Main loop that gets called on each frame
   loop : function () {
@@ -127,13 +130,15 @@ game.interlude = {
     this.bubbles.forEach(function(bubble){
       if(c1.type === bubble.type && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
+        if(self.state !== "GAME" || self.state !== "BOSS")
+          self.scores[bubble.type].hits++;
         return true;
       }
     });
     return false;
   },
-	
-	chooseBubbleColor : function(){
+	//Picks a color from available players
+	chooseBubbleColor : function() {
 		var cols = []
 		//change this shit
 		for(var p in this.players){
@@ -156,12 +161,15 @@ game.interlude = {
       this.lastLane = bubbleLane;
 
       var x = 2/9 + 3/9 * bubbleLane;
-      var y = 1.1;
-      var xVel = .1 - Math.random()*.2;
-      var yVel = Math.random()*.08; 
+      var y = 1.15;//spawn off screen
+      var xVel = .07 - Math.random()*.14;
+      var yVel = Math.random()*.04; 
+      var r = (Math.random() * .08) + .07;//get random size
 			var color = this.chooseBubbleColor();
-      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, this.bubbleAssets[color],color,
-                        x, y, xVel, yVel, true));
+      this.scores[color].total++;
+      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
+                        this.bubbleAssets[color],color, r,
+                        x, y, xVel, yVel, (this.state !== "BOSS")));
       this.nextBubble = 100;
       this.bubbleIDCounter++;
     }
@@ -257,7 +265,46 @@ game.interlude = {
     this.updateBubbles(dt);
     this.spawnBubbles(dt);
   },
-	
+  /**
+    Boss
+  **/
+  updateBoss : function() {
+    var self = this;
+    var now = Date.now();
+    var dt = (now - this.lastUpdate)/1000;
+    if(this.lastUpdate===0) dt = 0;
+    this.lastUpdate = now;
+    this.blackHole.update(dt);
+    this.updatePlayers(dt);
+    this.updatePopSprites(dt);
+    this.updateProjectiles(dt);
+    this.updateBubbles(dt);
+    this.spawnBubbles(dt);
+    //save black hole ref
+    var bh = this.blackHole;
+    //accelerate bubbles to black hole
+    //This is hella ugly
+    this.bubbles.forEach(function(bub){
+      var xDist = bub.x - bh.x;
+      var yDist = bub.y - bh.y;
+
+      var distSq = xDist * xDist + yDist * yDist;
+      var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
+      var pull = .06/distSq;
+      pull *= distSq <= bh.r/10 ? 2 : 1/4;
+      var yAcc = fwd.y*pull;
+      var xAcc = -fwd.x*pull;
+      bub.setAccleration(xAcc, yAcc);
+      if(distSq <= bh.r/10)
+        bub.r = bub.startR * distSq/bub.startDistsq;
+      else {
+        bub.startDistsq = distSq;
+      }
+
+      if(distSq <= bh.r/40)
+        bub.remove = true;
+    });
+  },
 	/**
 		Intro
 	**/
@@ -269,8 +316,9 @@ game.interlude = {
     this.updateBubbles(dt);
    //console.log(this.players);
     //if all bubbles are popped switch to countdown
-    if(this.bubbles.length < 1)
+    if(this.bubbles.length < 1){
       this.initCountdown();
+    }
   },
 	
 	/**
@@ -295,6 +343,7 @@ game.interlude = {
         this.updateGame();//call game update function
         break;
       case "BOSS" :
+        this.updateBoss();
         break;
       case "END" :
         break;
@@ -323,12 +372,30 @@ game.interlude = {
     this.projectiles.active.forEach(function(proj){
       proj.render();
     });
-
     //loop through players
     for(var p in this.players){
       self.players[p].render();
     }
-    //this.blackHole.render();
+  },
+  //render function for boss screen
+  renderBoss : function () {
+    var self = this;//Save a reference to this
+    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
+    this.blackHole.render();
+    //loop through bubbles
+    this.bubbles.forEach(function(bubble) {
+      bubble.render(self.ctx);//draw each bubble
+    });
+    this.popSprites.forEach(function(sprite) {
+      sprite.render();//draw each bubble
+    });
+    this.projectiles.active.forEach(function(proj){
+      proj.render();
+    });
+    //loop through players
+    for(var p in this.players){
+      self.players[p].render();
+    }
   },
   //render function for start screen
   renderStart : function() {
@@ -350,6 +417,7 @@ game.interlude = {
         this.renderGame();//render in game screen
         break;
       case "BOSS" :
+        this.renderBoss();
         break;
       case "END" :
         break;
@@ -379,27 +447,29 @@ game.interlude = {
 	//Intro screen where players learn mechanics
   initIntro : function() {
 		//set state
-    this.state = "INTRO";
-		
+    var r = .15;		
 		var self = this;
-		setTimeout( function(){
-    //get rid of dom elements
-		self.removeLobby();
-    //add bubbles for them to pop
 
-    this.bubbles.push(new game.Bubble(0, this.bubbleAssets["white"],"white",
+    this.state = "INTRO";
+
+    //add bubbles for them to pop
+    self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
                       2/9, 1/2, 0, 0, false));
-    this.bubbles.push(new game.Bubble(1, this.bubbleAssets["purple"],"purple",
+    self.bubbles.push(new game.Bubble(1,self.bubbleAssets["purple"],"purple",r,
                       5/9, 1/2, 0, 0, false));
-    this.bubbles.push(new game.Bubble(2, this.bubbleAssets["pink"],"pink",
+    self.bubbles.push(new game.Bubble(2,self.bubbleAssets["pink"],"pink",r,
                       8/9, 1/2, 0, 0, false));
-    this.bubbles.push(new game.Bubble(3, this.bubbleAssets["blue"],"blue",
+    self.bubbles.push(new game.Bubble(3,self.bubbleAssets["blue"],"blue",r,
                       11/9, 1/2, 0, 0, false));
-    this.bubbles.push(new game.Bubble(4, this.bubbleAssets["green"],"green",
+    self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
                       14/9, 1/2, 0, 0, false));
-		}, 1500);
+
+		setTimeout( function(){
+      //get rid of dom elements
+  		self.removeLobby();
+    }, 1500);
+
   },
-	
   //initializes countdown state
   initCountdown : function(){
 		console.log('start game');
@@ -410,6 +480,13 @@ game.interlude = {
   initGame : function() {
     this.state = "GAME";
 		
+  },
+
+  initBoss : function() {
+    this.state = "BOSS";
+
+    this.blackHole = new game.BlackHole(8/9, 0.3, 0.4, 150);
+
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -493,7 +570,8 @@ game.interlude = {
   */
   createPlayer : function(data){
   	var x = 200, y = 200;
-    this.players[data.id] = new game.Player(data.id, data.sockID, x, y);
+    this.players[data.id] = new game.Player(data.id, data.sockID, x, y, 
+                            this.playerSprites);
     var i = parseInt(data.id);
   },
 	
@@ -538,7 +616,7 @@ game.interlude = {
 		for( var p in this.players ){
 			colors.push(this.players[p].color);
 		}
-		game.sockets.socket.emit("color selected", colors);
+		game.sockets.socket.emit("color selected", {colors:colors, room: this.room});
 	},
 	
 	
@@ -585,7 +663,7 @@ game.interlude = {
 
     for (var i = 0; i < 6; i++) {
       this.tracks[i] = new Audio();
-      console.log(this.tracks[i]);
+      //console.log(this.tracks[i]);
     };
   },
 
@@ -598,7 +676,7 @@ game.interlude = {
     selectedTrack.artistName = artist;
     selectedTrack.trackName = track;
 
-    console.log(selectedTrack);
+    //console.log(selectedTrack);
 
     //seek song in file destination and initalize if possible
     selectedTrack.init();

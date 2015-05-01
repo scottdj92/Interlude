@@ -11,18 +11,20 @@ game.Player = function() {
    * @param x : start x position
    * @param y : start y position
    */
-  var Player = function(id, sockID, x, y){
+  var Player = function(id, sockID, x, y, img){
     this.x = x;
     this.y = y;
-    this.r = .02; //radius
+    this.r = .06; //radius
     this.speed = .01; 
     this.id = id;
 	  this.sockID = sockID;
+    this.img = img;
     //this.color = color;
     this.mu = 0.95;
     this.target = {x:0,y:0}; //target position for the cursor
     this.startRotation = undefined;
     this.ready = false;
+    this.primed = false;
   }
   //create a reference to the player prototype
   var p = Player.prototype;
@@ -75,14 +77,32 @@ game.Player = function() {
    * @param ctx : drawing context
    */
   p.render = function() {
-    // ctx.save();//save the draw state
-    // ctx.fillStyle = this.color;//set the color
-    // ctx.beginPath();
-    // ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);//draw the player circle
-    // ctx.closePath();
-    // ctx.fill();//fill the path
-    // ctx.restore();//restore the draw state
-    game.draw.circle(this.x,this.y, this.r, this.color);
+    var y = this.primed ? 182 : 0;
+    switch(this.color){
+      case "blue":
+        game.draw.img(this.img, 0, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      case "pink":
+        game.draw.img(this.img, 182, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      case "green":
+        game.draw.img(this.img, 364, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      case "white":
+        game.draw.img(this.img, 546, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      case "purple":
+        game.draw.img(this.img, 728, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      default:
+        console.log('Annie are you ok?');
+        break;
+    }
   };
   /** sets the player's target positon
    * @param x : target x coord

@@ -41,12 +41,31 @@ game.Projectile = function() {
     this.canHit = false;
     this.dead = false;
     this.type = type;
-    this.color = "black";
+    switch(type) {
+      case "blue":
+        this.color = "#2CFFF4";
+        break;
+      case "white":
+        this.color = "#FFFFFF";
+        break;
+      case "purple":
+        this.color = "#6E7CFF";
+        break;
+      case "green":
+        this.color = "#29FF7F";
+        break;
+      case "pink":
+        this.color = "#FF4399";
+        break;
+      default:
+        this.color = "yellow";
+        break;
+    }
     this.id = id;
   };
 
   p.render = function() {
-    game.draw.circle(this.x,this.y, (this.z/this.startZ) * 0.04, this.color);
+    game.draw.circle(this.x,this.y, (this.z/this.startZ) * 0.05, this.color);
   };
 
   return Projectile;

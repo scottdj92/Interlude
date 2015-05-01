@@ -30,6 +30,8 @@ mobileClient.slingshot = {
 		var start = function() {
 				c.stop();
 				l.stop();
+				var data = {id: client.id, room: client.room};
+				client.socket.emit('pull start', data);
 		}
 		var end = function() {
 				var endY = this.getPointAtLength(0).y;
@@ -38,7 +40,7 @@ mobileClient.slingshot = {
 				//this.animate({cx: cXpos, cy: -100}, 200);
 				l.animate({path: "M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos},
 								 1000, "elastic");
-				var data = {id: client.id, dist: Ychange};
+				var data = {id: client.id, dist: Ychange, room: client.room};
 				console.log(Ychange);
 				client.socket.emit('game fire', data);
 		}
