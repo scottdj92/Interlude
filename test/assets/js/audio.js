@@ -44,10 +44,11 @@ function Audio(artist, track)
 		//console.log('handleLoad fired');
 
 		//play audio before everything else
-		this.startPlayback();
+		
 		//get context. NOTE: to connect to existing nodes, we need to work in the same context
 
 		var context = createjs.Sound.activePlugin.context;
+		//console.log(context);
 
 		//create analyzer node
 		this.analyzerNode = context.createAnalyser();
@@ -55,10 +56,13 @@ function Audio(artist, track)
 		this.analyzerNode.smoothingTimeConstant = 0.85; //a value between 0->1 where 0 represents no time average with the last "frame"
 		this.analyzerNode.connect(context.destination); //connects to the destination, which is our output
 
+		//console.log(context);
+
 		//attach visualizer node to existing dynamicsCompressorNode, which exists in destination
 		var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;
 		dynamicsNode.disconnect(); //disconnect from destination
 		dynamicsNode.connect(this.analyzerNode);
+		console.log(this.analyzerNode);
 
 		//set up arrays that we use to retrieve analyzerNode data
 		this.freqFloatData = new Float32Array(this.analyzerNode.frequencyBinCount);
@@ -66,6 +70,8 @@ function Audio(artist, track)
 		this.timeByteData = new Uint8Array(this.analyzerNode.frequencyBinCount);
 
 		//console.log(this.freqFloatData);
+
+		this.startPlayback();
 		
 	};
 
@@ -115,10 +121,10 @@ function Audio(artist, track)
 
 	this.tick = function(evt)
 	{
-
+		console.log(analyzerNode);
 		this.analyzerNode.getFloatFrequencyData(this.freqFloatData); //gives us dB
-		this.analyzerNode.getByteFrequencyData(this.freqByteData); //gives us frequency
-		this.analyzerNode.getByteTimeDomainData(this.timeByteData); //gives us waveform
+		//this.analyzerNode.prototype.getByteFrequencyData(this.freqByteData); //gives us frequency
+		//this.analyzerNode.prototype.getByteTimeDomainData(this.timeByteData); //gives us waveform
 
 		console.log(this.freqFloatDataArray);
 		//console.log(this.freqByteDataArray);
@@ -126,7 +132,7 @@ function Audio(artist, track)
 
 		//update dataAverage, by popping first element and pushing
 		this.dataAverage.shift();
-		//this.dataAverage.push(lastRadius);
+		this.dataAverage.push(this.freqFloatData);
 
 		//get average data for the last 3 ticks
 		var dataSum = 0;

@@ -63,7 +63,7 @@ game.interlude = {
 
     //this.selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
     //this.beginPlayback(introSong);
-    this.selectTracks(this.tracks[0], 'Anthony_Constantino-Songs', 'Loop.wav');
+    this.selectTracks(this.tracks[0], 'Hector_Songs', 'Funk2.mp3');
     this.beginPlayback(this.tracks[0]);
 
     //var track1 = new Audio('Anthony_Constantino-Songs', 'Loop.wav');
