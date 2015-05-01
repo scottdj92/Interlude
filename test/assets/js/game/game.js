@@ -247,7 +247,7 @@ game.interlude = {
     Background
   **/
   updateBG : function() {
-    this.bgPos += 3;
+    this.bgPos += 40;
     //x always zero
     this.bgPos ++;
 
@@ -427,6 +427,8 @@ game.interlude = {
         break;
       case "END" :
         break;
+      case "TRANS":
+        break;
       default :
         break;
     }
@@ -440,8 +442,11 @@ game.interlude = {
 	renderBG : function() {
     //render
     if(this.bgPos > 8625 && this.bgPos < 9705) {
-      game.draw.img(this.bgImgs[this.nextBG], 0, this.bgPos,1920,1080, 0,0,16/9,1);
-      game.draw.img(this.bgImgs[this.currBG], 0,8625 - this.bgPos,1920,1080,0,0,16/9,1);  
+      var y1 = this.bgPos - 8625;
+      var h1 = y1;
+      var h2 = 1080 - y1;
+      game.draw.img(this.bgImgs[this.nextBG], 0, 8625 - y1,1920,h1,0,0,16/9,h1/1080);
+      game.draw.img(this.bgImgs[this.currBG], 0, 0,1920,h2,0, h1/1080,16/9,h2/1080);  
       //draw other bg
     } else {
       game.draw.img(this.bgImgs[this.currBG], 0,8625 - this.bgPos,1920,1080,0,0,16/9,1);
@@ -543,6 +548,8 @@ game.interlude = {
         break;
       case "END" :
         break;
+      case "TRANS":
+        break;
       default :
         break;
     }
@@ -553,7 +560,27 @@ game.interlude = {
 	// TRANSITIONS (Each game state)
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+	/**
+    Animation transition
+  **/
+  transitionAnimation : function(video, callBack) {
+    //player asset animation on canvas
+    this.state = "TRANS";
+    //set up canvas callback for video playing
+    video.addEventListener('play', function() {
+    var $this = this; //cache
+    (function loop() {
+      if (!$this.paused && !$this.ended) {
+        game.draw.ctx.drawImage($this, 0, 0);
+        setTimeout(loop, 1000 / 30); // drawing at 30fps
+      }
+    })();
+  }, 0);
+    //play video
+    video.play();
+    //when animation is done call callback
+    //video finished do callback
+  },
 	/**
 		Lobby
 	**/
