@@ -24,6 +24,7 @@ game.Bubble = function() {
     this.mass = 10;
     this.img = img;
     this.rising = rising;
+    this.opacity = 0;
     this.acceleration.y += this.rising ? .005 : 0;
   }
   //create a reference to the bubble prototype
@@ -37,6 +38,8 @@ game.Bubble = function() {
     
     if(this.x > 16/9 - this.r || this.x < this.r)
       this.velocity.x *= -1;
+    if(this.opacity<1)
+      this.opacity+=dt/2;
 
     this.move(dt);
     this.updateCollisions();
@@ -100,10 +103,12 @@ game.Bubble = function() {
   /** render function for a bubble
    * @param ctx : drawing context
    */
-  b.render = function(ctx) {
-    //game.draw.circle(this.x, this.y, this.r, this.color);
+  b.render = function() {
+    game.draw.ctx.save();
+    game.draw.ctx.globalAlpha = this.opacity;
     game.draw.img(this.img, 48, 48, 256, 256, 
               this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+    game.draw.ctx.restore();
   };
   //bitch you know what this does
   b.setAccleration = function(x,y){
