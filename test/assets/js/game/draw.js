@@ -94,4 +94,24 @@ game.draw = {
       this.ctx.fillText(string, x, y);
       this.ctx.restore();
     },
+    triStar: function(x,y,theta) {
+      var xs = x*this.canvas.height;
+      var ys = y*this.canvas.height;
+      var x1 = .01* this.canvas.height;
+      var y1 = 1.73/6 * 2*x1;
+      var y2 = 1.73/3 * 2*x1;
+      this.ctx.save();
+      this.ctx.globalAlpha = .6;
+      this.ctx.fillStyle = "#fff";
+      this.ctx.translate(xs,ys);
+      this.ctx.rotate(theta);
+      this.ctx.beginPath();
+      this.ctx.moveTo(0,y2);
+      this.ctx.lineTo(-x1,-y1);
+      this.ctx.lineTo(x1,y1);
+      this.ctx.lineTo(0,y2);
+      this.ctx.fill();
+      this.ctx.closePath();
+      this.ctx.restore();
+    }
 }
