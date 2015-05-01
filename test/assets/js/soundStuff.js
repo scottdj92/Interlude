@@ -1,18 +1,25 @@
 "use strict";
 
-function Sound()
+function Sound(artistFilePath, trackFilePathArray)
 {
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 	//audio variables
 	
 	this.FFT = 85;
 	this.assetsPath = '/assets/audio/';
-	//this.artistName = artist;
-	//this.tracks = trackArray;
+	this.artistName = artistFilePath;
+	this.tracks = trackFilePathArray;
 	this.sources = [];
+	
 	this.context = new AudioContext();
-
+	
 	this.analyzer = this.context.createAnalyser();
+	this.analyzer.minDecibels = -90;
+	this.analyzer.maxDecibels = -10;
+	this.analyzer.smoothingTimeConstant = 0.85;
+
+	//this.source = this.context.createMediaStreamSource()
+
 	this.freqFloatData = new Float32Array();
 	this.freqByteData = new Uint8Array();
 	this.timeDomainData = new Uint8Array();
@@ -20,22 +27,24 @@ function Sound()
 	this.volume = this.context.createGain();
 
 	this.bufferLoader = undefined;
+	//console.log(this.tracks);
 
 	this.init = function()
 	{
+		var loaderArray = new Array();
+
+		//build all file paths
+		for (var i = 0; i < this.tracks.length; i++) {
+			this.src = this.assetsPath + this.artistName + '/' + this.tracks[i];
+			loaderArray.push(this.src);
+			//console.log(loaderArray);
+		};
 		//this.src = assetsPath + this.artistName + '/' + trackName;
 
 		this.bufferLoader = new BufferLoader(
 			this.context,
-			[
-				'/assets/audio/The_Clash-Rock_the_Casbah/Keys.mp3',
-				'/assets/audio/The_Clash-Rock_the_Casbah/Guitar.mp3',
-				'/assets/audio/The_Clash-Rock_the_Casbah/Bass.mp3',
-				'/assets/audio/The_Clash-Rock_the_Casbah/Percussion.mp3',
-				'/assets/audio/The_Clash-Rock_the_Casbah/Drums.mp3',
-				'/assets/audio/The_Clash-Rock_the_Casbah/Vocals.mp3',
-			],
-			//this.trackArray, //source path of all audio files in an array. this must be in this directory:
+			loaderArray,
+			 //source path of all audio files in an array. this must be in this directory:
 			// '/assets/audio/artistName/trackName.extension'
 			this.finishedLoading
 			);
@@ -93,9 +102,6 @@ function Sound()
 		source4.start(0);
 		source5.start(0);
 		source6.start(0);
-
-		//connect analyzer node
-		source1.connect(this.analyzer);
 	};
 
 	this.getFreqFloatData = function()
@@ -119,9 +125,15 @@ function Sound()
 	this.getTimeDomainData = function()
 	{
 		//copies current analyzer node frequencyBinCount onto UintArray timeDomainData
-		var bufferLength =  this.analyzer(this.analyzer.frequencyBinCount);
+		var bufferLength = this.analyzer(this.analyzer.frequencyBinCount);
 		this.timeDomainData = bufferLength;
 		return this.timeDomainData;
 		console.log(this.timeDomainData);
+	};
+
+	this.changeVolume = function(track, volume)
+	{
+		//volume is a number between 0-1 where 0 is the quietest possible volume and 1 is the loudest possible volume
+		track.gain.value = volume;
 	};
 };
