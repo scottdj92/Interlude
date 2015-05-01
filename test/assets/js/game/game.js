@@ -34,7 +34,11 @@ game.interlude = {
     sec: 1,
   },
   room: undefined,
-
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  // Initializer
+  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
   init : function() {
     var self = this;
     // create new instance of socket.io
@@ -63,7 +67,38 @@ game.interlude = {
     }
     this.loop();
   },
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  // reseter
+  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  reset : function() {
+    this.setUpScores();
+    //get passwords
+    this.password = this.generatePassword();
+    document.querySelector('#password').innerHTML = this.password;
 
+    this.state = "START";
+    //reset time values
+    this.lastUpdate = 0;
+    this.bossTimer = 120;
+    this.countdownTime= {
+      secLeft: 3,
+      sec: 1,
+    };
+
+    this.bubbleIDCounter = 0;
+    this.canstart = false;
+    this.playersReady = 0;
+    this.backgroundPos = 0;
+
+    this.players = {}; //array of players in the game
+    this.bubbles = []; //array of bubbles in the game
+    this.colors = [];
+    this.popSprites = [];
+
+    this.loop();
+  }
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// LOAD ASSETS / HELPERS
