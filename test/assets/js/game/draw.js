@@ -35,6 +35,27 @@ game.draw = {
     this.ctx.fill();
     this.ctx.restore();//restore the draw state
   },
+  /** strokes an arc at the coordinates provided
+   * @param x : X coordinate
+   * @param y : Y coordinate
+   * @param r : radius of circle
+   * @param color : color of circle
+   */
+  strokeArc : function(x, y, r, color, lineWidth, endPi) {
+    var Xscaled = x * this.canvas.height;
+    var Yscaled = y * this.canvas.height;
+    var Rscaled = r * this.canvas.height;
+    var lw = lineWidth * this.canvas.height; 
+
+    this.ctx.save();//save the draw state
+    this.ctx.lineWidth =     
+    this.ctx.strokeStyle = color;
+    this.ctx.beginPath();
+    this.ctx.arc(Xscaled, Yscaled, Rscaled, 0, endPi);
+    this.ctx.closePath();
+    this.ctx.stroke();
+    this.ctx.restore();//restore the draw state
+  },
   /** Draw function for the particle object
    *
    *
