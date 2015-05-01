@@ -29,6 +29,10 @@ game.interlude = {
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
   bossTimer: 120,
+  countdownTime: {
+    secLeft: 3,
+    sec: 1,
+  },
   room: undefined,
 
   init : function() {
@@ -163,6 +167,15 @@ game.interlude = {
       this.bubbleIDCounter++;
     }
   },
+  //returns the delta time from the last call in seconds
+  getDT : function() {
+    var now = Date.now();
+    var dt = (now - this.lastUpdate)/1000;
+    if(this.lastUpdate===0) dt = 0;
+    this.lastUpdate = now;
+
+    return dt;
+  },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -238,10 +251,7 @@ game.interlude = {
   //Function for updating main game loop
   updateGame : function(){
     var self = this;
-    var now = Date.now();
-    var dt = (now - this.lastUpdate)/1000;
-    if(this.lastUpdate===0) dt = 0;
-    this.lastUpdate = now;
+    var dt = this.getDT();
     this.bossTimer -= dt;
     if(this.bossTimer <= 0) console.log("Boss Baby");
     else if(this.bossTimer <= 60) console.log("bon jovi");
@@ -258,10 +268,7 @@ game.interlude = {
   **/
   updateBoss : function() {
     var self = this;
-    var now = Date.now();
-    var dt = (now - this.lastUpdate)/1000;
-    if(this.lastUpdate===0) dt = 0;
-    this.lastUpdate = now;
+    var dt = this.getDT();
     this.blackHole.update(dt);
     this.updatePlayers(dt);
     this.updatePopSprites(dt);
@@ -297,7 +304,7 @@ game.interlude = {
 		Intro
 	**/
   updateIntro : function() {
-    var dt = 0;
+    var dt = this.getDT();
     //Loop through all of the players
     this.updatePlayers(dt);
     this.updateProjectiles(dt);
@@ -308,7 +315,23 @@ game.interlude = {
       this.initCountdown();
     }
   },
-	
+	/**
+    countdown to game
+  **/
+  updateCountdown : function(){
+    var dt = this.getDT();
+    //Loop through all of the players
+    this.updatePlayers(dt);
+    this.updateProjectiles(dt);
+    //update countdown timer
+    this.countdownTime.sec -= dt;
+    if(this.countdownTime.sec <= 0)
+      this.countdownTime.secLeft--;
+    //if all bubbles are popped switch to countdown
+    if(this.countdownTime.secLeft < 1){
+      this.initGame();
+    }
+  },
 	/**
 		MAIN UPDATE  !!!!!!!
 	**/
