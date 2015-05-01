@@ -33,9 +33,9 @@ function Audio(artist, track)
 			console.log('sound failed');
 			return;
 		};
-
-		createjs.Sound.addEventListener("fileload", createjs.proxy(this.handleLoad, this)); //add event listener for when load is completed
+		
 		createjs.Sound.registerSound(this.src, 'sound'); //register sound
+		createjs.Sound.addEventListener("fileload", createjs.proxy(this.handleLoad, this)); //add event listener for when load is completed
 		//console.log('audio init fired');
 	};
 
@@ -51,18 +51,18 @@ function Audio(artist, track)
 		//console.log(context);
 
 		//create analyzer node
+		console.log(this);
 		this.analyzerNode = context.createAnalyser();
 		this.analyzerNode.fftSize = this.FFTSIZE; //Fast Fourier Transform size
 		this.analyzerNode.smoothingTimeConstant = 0.85; //a value between 0->1 where 0 represents no time average with the last "frame"
 		this.analyzerNode.connect(context.destination); //connects to the destination, which is our output
-
+		console.log(this.analyzerNode);
 		//console.log(context);
 
 		//attach visualizer node to existing dynamicsCompressorNode, which exists in destination
 		var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;
 		dynamicsNode.disconnect(); //disconnect from destination
 		dynamicsNode.connect(this.analyzerNode);
-		console.log(this.analyzerNode);
 
 		//set up arrays that we use to retrieve analyzerNode data
 		this.freqFloatData = new Float32Array(this.analyzerNode.frequencyBinCount);
@@ -97,7 +97,7 @@ function Audio(artist, track)
 
 
 		//start tick function so we can "move" before updating the stage
-		createjs.Ticker.addEventListener('tick', this.tick);
+		createjs.Ticker.addEventListener('tick',  createjs.proxy(this.tick, this));
 		createjs.Ticker.setInterval(this.TICK_FREQ);
 
 		if (this.soundInstance) {
@@ -127,7 +127,7 @@ function Audio(artist, track)
 		//this.analyzerNode.prototype.getByteFrequencyData(this.freqByteData); //gives us frequency
 		//this.analyzerNode.prototype.getByteTimeDomainData(this.timeByteData); //gives us waveform
 
-		console.log(this.freqFloatDataArray);
+		console.log(this.freqFloatData);
 		//console.log(this.freqByteDataArray);
 		//console.log(this.timeByteDataArray);
 
