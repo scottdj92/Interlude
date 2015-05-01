@@ -26,6 +26,7 @@ game.interlude = {
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
+  bgSpeed : 80,
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
@@ -246,10 +247,8 @@ game.interlude = {
   /**
     Background
   **/
-  updateBG : function() {
-    this.bgPos += 40;
-    //x always zero
-    this.bgPos ++;
+  updateBG : function(dt) {
+    this.bgPos += this.bgSpeed * dt;
 
     if(this.bgPos >= 9705) {
       //switch bg
@@ -259,7 +258,6 @@ game.interlude = {
     } 
     if(this.nextBG > 3)
       this.nextBG = 0;
-    //game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);    
   },
 	
 	/**
@@ -317,7 +315,7 @@ game.interlude = {
     else if(this.bossTimer <= 60) console.log("bon jovi");
     //this.blackHole.update(dt);
     //Loop through all of the players
-    this.updateBG();
+    this.updateBG(dt);
     this.updatePlayers(dt);
     this.updatePopSprites(dt);
     this.updateProjectiles(dt);
@@ -330,7 +328,7 @@ game.interlude = {
   updateBoss : function() {
     var self = this;
     var dt = this.getDT();
-    this.updateBG();
+    this.updateBG(dt);
     this.blackHole.update(dt);
     this.updatePlayers(dt);
     this.updatePopSprites(dt);
@@ -367,7 +365,7 @@ game.interlude = {
 	**/
   updateIntro : function() {
     var dt = this.getDT();
-    this.updateBG();
+    this.updateBG(dt);
     //Loop through all of the players
     this.updatePlayers(dt);
     this.updateProjectiles(dt);
@@ -375,7 +373,7 @@ game.interlude = {
     this.updatePopSprites(dt);
    //console.log(this.players);
     //if all bubbles are popped switch to countdown
-    if(this.bubbles.length < 1){
+    if(this.bubbles.length < 1 && this.popSprites.length < 1){
       this.initCountdown();
     }
   },
@@ -384,7 +382,7 @@ game.interlude = {
   **/
   updateCountdown : function(){
     var dt = this.getDT();
-    this.updateBG();
+    this.updateBG(dt);
     //Loop through all of the players
     this.updatePlayers(dt);
     this.updateProjectiles(dt);
@@ -407,10 +405,10 @@ game.interlude = {
     //Call different update function depending on the state
     switch (this.state){
       case "START" :
-        this.updateBG();
+        this.updateBG(this.getDT());
         break;
       case "LOGIN" :
-        this.updateBG();
+        this.updateBG(this.getDT());
         if(this.canStart) this.initIntro();
         break;
       case "INTRO":
