@@ -61,7 +61,6 @@ game.interlude = {
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
-    this.initCountdown();
     this.loop();
   },
 
