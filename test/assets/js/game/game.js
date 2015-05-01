@@ -17,14 +17,15 @@ game.interlude = {
   password: "", //THIS IS A PASSWORD
   nextBubble: 0, //time until next bubble spawn
   state : "START", //current game state
-  backgroundImg : undefined,
+  bgImgs : [],
   bubbleAssets : {},
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
   playersReady : 4,
-  backgroundPos: 0,
-  bgIterator: 2,
+  bgPos: 1080,
+  currBG : 0,
+  nextBG : 1,
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
@@ -98,7 +99,7 @@ game.interlude = {
     this.popSprites = [];
 
     this.loop();
-  }
+  },
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// LOAD ASSETS / HELPERS
@@ -107,7 +108,10 @@ game.interlude = {
 	
   //Loads all image assets
   loadImages : function() {
-    this.backgroundImg = this.loadImg("assets/img/background1.png");
+    this.bgImgs[0] = this.loadImg("assets/img/bg/bg1.png");
+    this.bgImgs[1] = this.loadImg("assets/img/bg/bg2.png");
+    this.bgImgs[2] = this.loadImg("assets/img/bg/bg3.png");
+    this.bgImgs[3] = this.loadImg("assets/img/bg/bg4.png");
     this.bubbleAssets['blue'] = this.loadImg("assets/img/cyan-sprite.png"); 
     this.bubbleAssets['pink'] = this.loadImg("assets/img/pink-sprite.png");
     this.bubbleAssets['purple'] = this.loadImg("assets/img/purple-sprite.png");
@@ -216,7 +220,9 @@ game.interlude = {
 	// UPDATE 
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+	/////////////////
+  // Update Helpers
+  /////////////////
 	/**
 		Projectiles
 	**/
@@ -237,6 +243,25 @@ game.interlude = {
         array.splice(index,1);
       }
     });
+  },
+  /**
+    Background
+  **/
+  updateBG : function() {
+    this.bgPos += 30;
+    //x always zero
+    this.bgPos ++;
+
+    if(this.bgPos > 9705) {
+      //switch bg
+      this.currBG = this.nextBG;
+      this.bgPos = 1080;
+      this.nextBG ++;
+    } 
+
+    if(this.nextBG > 3)
+      this.nextBG = 0;
+    //game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);    
   },
 	
 	/**
@@ -279,6 +304,9 @@ game.interlude = {
         array.splice(index, 1); //Remove a sprite
     });
   },
+  ///////////////
+  // MAIN UPDATES
+  ///////////////
 	/**
 		GAME
 	**/
@@ -375,11 +403,9 @@ game.interlude = {
   //Main update function
   update : function () {
     //Call different update function depending on the state
-    this.backgroundPos += this.bgIterator;
-        if(this.backgroundPos <= 0 || this.backgroundPos >= 7000)
-          this.bgIterator *= -1;
     switch (this.state){
       case "START" :
+        this.updateBG();
         break;
       case "LOGIN" :
         if(this.canStart) this.initIntro();
@@ -408,11 +434,20 @@ game.interlude = {
 	// RENDER 
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+	renderBG : function() {
+    //render
+    if(this.bgPos > 8625 && this.bgPos < 9705) {
+      game.draw.img(this.bgImgs[this.nextBG], 0, this.bgPos,1920,1080, 0,0,16/9,1);
+      game.draw.img(this.bgImgs[this.currBG], 0,8625 - this.bgPos,1920,1080,0,0,16/9,1);  
+      //draw other bg
+    } else {
+      game.draw.img(this.bgImgs[this.currBG], 0,8625 - this.bgPos,1920,1080,0,0,16/9,1);
+    }
+  },
   //Render function for in game screen
   renderGame : function() {
     var self = this;//Save a reference to this
-    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
+    this.renderBG();
     //loop through bubbles
     this.bubbles.forEach(function(bubble) {
       bubble.render(self.ctx);//draw each bubble
@@ -431,7 +466,7 @@ game.interlude = {
   //render function for boss screen
   renderBoss : function () {
     var self = this;//Save a reference to this
-    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
+    this.renderBG();
     this.blackHole.render();
     //loop through bubbles
     this.bubbles.forEach(function(bubble) {
@@ -452,7 +487,7 @@ game.interlude = {
     countdown
   **/
   renderCountdown : function() {
-    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
+    this.renderBG();
 
     this.projectiles.active.forEach(function(proj){
       proj.render();
@@ -480,7 +515,7 @@ game.interlude = {
   },
   //render function for start screen
   renderStart : function() {
-    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
+    this.renderBG();
   },
   //Main render function
   render : function () {
