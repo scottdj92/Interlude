@@ -15,7 +15,7 @@ game.Player = function() {
     this.x = x;
     this.y = y;
     this.r = .06; //radius
-    this.speed = .01; 
+    this.speed = .001; 
     this.id = id;
 	  this.sockID = sockID;
     this.img = img;
@@ -40,20 +40,20 @@ game.Player = function() {
   p.move = function(dt) {
     var self = this;//save a reference to this
     //make a vector with the x and y distance
-    /*var dist = {
+    var dist = {
         x:self.x - self.target.x, 
         y: self.y - self.target.y
-      };
+    };
     var normal = this.normalize(dist);//normalize the distance
     var yMag = Math.abs(dist.y);//get the magnitude of x distance
     var xMag = Math.abs(dist.x);//get the magnitude of y distance
-
-    if(dist.x > .01 || dist.x < -.01)//if far enough away in the x direction
-      this.x -= normal.x * (this.speed * xMag/40);//move to the target loaction
-    if(dist.y > .01 || dist.y < -.01)
-      this.y -= normal.y * (this.speed * yMag/40);  
+    
+    if(dist.x > .0004 || dist.x < -.0004)//if far enough away in the x direction
+      this.x -= normal.x * (this.speed * xMag/100);//move to the target loaction
+    if(dist.y > .0004 || dist.y < -.0004)
+      this.y -= normal.y * (this.speed * yMag/100);  
     //console.log(this.x + ".." +this.y);
-    //console.log(this.target);*/
+    //console.log(this.target);
     this.x =this.target.x;
     this.y =this.target.y;
   };
@@ -78,6 +78,8 @@ game.Player = function() {
    */
   p.render = function() {
     var y = this.primed ? 182 : 0;
+    game.draw.ctx.save();
+    game.draw.ctx.globalAlpha = .7;
     switch(this.color){
       case "blue":
         game.draw.img(this.img, 0, y, 182, 182, 
@@ -103,6 +105,7 @@ game.Player = function() {
         console.log('Annie are you ok?');
         break;
     }
+    game.draw.ctx.restore();
   };
   /** sets the player's target positon
    * @param x : target x coord

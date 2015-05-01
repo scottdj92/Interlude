@@ -308,6 +308,7 @@ game.interlude = {
     this.updatePlayers(dt);
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
+    this.updatePopSprites(dt);
    //console.log(this.players);
     //if all bubbles are popped switch to countdown
     if(this.bubbles.length < 1){
