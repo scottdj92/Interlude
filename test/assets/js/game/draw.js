@@ -41,19 +41,19 @@ game.draw = {
    * @param r : radius of circle
    * @param color : color of circle
    */
-  strokeArc : function(x, y, r, color, lineWidth, endPi) {
+  strokeArc : function(x, y, r, color, lineWidth, startPi, endPi) {
     var Xscaled = x * this.canvas.height;
     var Yscaled = y * this.canvas.height;
     var Rscaled = r * this.canvas.height;
     var lw = lineWidth * this.canvas.height; 
 
     this.ctx.save();//save the draw state
-    this.ctx.lineWidth =     
+    this.ctx.lineWidth = lw;
     this.ctx.strokeStyle = color;
     this.ctx.beginPath();
-    this.ctx.arc(Xscaled, Yscaled, Rscaled, 0, endPi);
-    this.ctx.closePath();
+    this.ctx.arc(Xscaled, Yscaled, Rscaled, startPi, endPi);
     this.ctx.stroke();
+    this.ctx.closePath();
     this.ctx.restore();//restore the draw state
   },
   /** Draw function for the particle object
@@ -75,5 +75,23 @@ game.draw = {
   img : function(image, imgX, imgY, imgW, imgH, x, y, w, h) {
     this.ctx.drawImage(image, imgX, imgY, imgW, imgH, 
       x*this.canvas.height, y*this.canvas.height, w*this.canvas.height, h*this.canvas.height);
-  }
+  },
+  /** Draws text to the screen
+   * @param string : text to be rendered
+   * @param x : x coord of text
+   * @param y : y coord of text
+   * @param size : size of text
+   * @param col : color of text
+   */
+    text: function( string, x, y, size, col) {
+      x *= this.canvas.height;
+      y *= this.canvas.height;
+      size *= this.canvas.height;  
+      this.ctx.save();
+      this.ctx.font = size+'px Lato';
+      this.ctx.textAlign = "center";
+      this.ctx.fillStyle = col;
+      this.ctx.fillText(string, x, y);
+      this.ctx.restore();
+    },
 }

@@ -61,7 +61,7 @@ game.interlude = {
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
-    
+    this.initCountdown();
     this.loop();
   },
 
@@ -325,8 +325,10 @@ game.interlude = {
     this.updateProjectiles(dt);
     //update countdown timer
     this.countdownTime.sec -= dt;
-    if(this.countdownTime.sec <= 0)
+    if(this.countdownTime.sec < 0) {
+      this.countdownTime.sec = 1;
       this.countdownTime.secLeft--;
+    }
     //if all bubbles are popped switch to countdown
     if(this.countdownTime.secLeft < 1){
       this.initGame();
@@ -349,6 +351,9 @@ game.interlude = {
         break;
       case "INTRO":
         this.updateIntro();
+        break;
+      case "COUNTDOWN":
+        this.updateCountdown();
         break;
       case "GAME" :
         this.updateGame();//call game update function
@@ -408,6 +413,36 @@ game.interlude = {
       self.players[p].render();
     }
   },
+  /**
+    countdown
+  **/
+  renderCountdown : function() {
+    game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
+
+    this.projectiles.active.forEach(function(proj){
+      proj.render();
+    });
+    //loop through players
+    for(var p in this.players){
+      self.players[p].render();
+    }
+
+    game.draw.ctx.save();
+    game.draw.ctx.globalAlpha = 0.35;
+    game.draw.circle(8/9, 0.5, .29, "#5B7C96");
+    game.draw.ctx.restore();
+
+    game.draw.ctx.save();
+    game.draw.ctx.globalAlpha = 0.25;
+    game.draw.strokeArc(8/9, 0.5, .3, "#5B7C96", .02,Math.PI*3/2, 
+                        Math.PI*2*this.countdownTime.sec);
+    game.draw.ctx.restore();
+
+    game.draw.strokeArc(8/9, 0.5, .3, "#5B7C96", .02,
+                       Math.PI*2*this.countdownTime.sec, Math.PI*3/2);
+
+    game.draw.text(this.countdownTime.secLeft, 8/9, 0.55, .2, "#fff");
+  },
   //render function for start screen
   renderStart : function() {
     game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);
@@ -423,6 +458,9 @@ game.interlude = {
         break;
       case "INTRO":
         this.renderGame();
+        break;
+      case "COUNTDOWN":
+        this.renderCountdown();
         break;
       case "GAME" :
         this.renderGame();//render in game screen
@@ -483,8 +521,7 @@ game.interlude = {
   //initializes countdown state
   initCountdown : function(){
 		console.log('start game');
-    this.initGame();
-    this.lastUpdate = Date.now();
+    this.state = "COUNTDOWN";
   },
 	
   initGame : function() {
