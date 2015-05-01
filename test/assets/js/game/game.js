@@ -46,7 +46,6 @@ game.interlude = {
     var num = Math.floor(Math.random()*10);
     var name ='user'+num;
     //setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
-    
     //set inital canvas variables
     this.canvas = document.querySelector('#area');
     this.ctx = this.canvas.getContext('2d');
@@ -248,17 +247,16 @@ game.interlude = {
     Background
   **/
   updateBG : function() {
-    this.bgPos += 30;
+    this.bgPos += 3;
     //x always zero
     this.bgPos ++;
 
-    if(this.bgPos > 9705) {
+    if(this.bgPos >= 9705) {
       //switch bg
       this.currBG = this.nextBG;
       this.bgPos = 1080;
       this.nextBG ++;
     } 
-
     if(this.nextBG > 3)
       this.nextBG = 0;
     //game.draw.img(this.backgroundImg, 0,7545 - this.backgroundPos,1920,1080, 0,0,16/9,1);    
@@ -319,6 +317,7 @@ game.interlude = {
     else if(this.bossTimer <= 60) console.log("bon jovi");
     //this.blackHole.update(dt);
     //Loop through all of the players
+    this.updateBG();
     this.updatePlayers(dt);
     this.updatePopSprites(dt);
     this.updateProjectiles(dt);
@@ -331,6 +330,7 @@ game.interlude = {
   updateBoss : function() {
     var self = this;
     var dt = this.getDT();
+    this.updateBG();
     this.blackHole.update(dt);
     this.updatePlayers(dt);
     this.updatePopSprites(dt);
@@ -367,6 +367,7 @@ game.interlude = {
 	**/
   updateIntro : function() {
     var dt = this.getDT();
+    this.updateBG();
     //Loop through all of the players
     this.updatePlayers(dt);
     this.updateProjectiles(dt);
@@ -383,6 +384,7 @@ game.interlude = {
   **/
   updateCountdown : function(){
     var dt = this.getDT();
+    this.updateBG();
     //Loop through all of the players
     this.updatePlayers(dt);
     this.updateProjectiles(dt);
@@ -408,6 +410,7 @@ game.interlude = {
         this.updateBG();
         break;
       case "LOGIN" :
+        this.updateBG();
         if(this.canStart) this.initIntro();
         break;
       case "INTRO":
@@ -565,7 +568,7 @@ game.interlude = {
 	//Intro screen where players learn mechanics
   initIntro : function() {
 		//set state
-    var r = .15;		
+    var r = .12;		
 		var self = this;
 
     this.state = "INTRO";
@@ -574,17 +577,15 @@ game.interlude = {
 		
     //add bubbles for them to pop
     self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
-                      2/9, 1/2, 0, 0, false));
+                      2/9, 3/5 - .1, 0, 0, false));
     self.bubbles.push(new game.Bubble(1,self.bubbleAssets["purple"],"purple",r,
-                      5/9, 1/2, 0, 0, false));
+                      5/9, 4/5- .1, 0, 0, false));
     self.bubbles.push(new game.Bubble(2,self.bubbleAssets["pink"],"pink",r,
-                      8/9, 1/2, 0, 0, false));
+                      8/9, 3/5- .1, 0, 0, false));
     self.bubbles.push(new game.Bubble(3,self.bubbleAssets["blue"],"blue",r,
-                      11/9, 1/2, 0, 0, false));
+                      11/9, 4/5- .1, 0, 0, false));
     self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
-                      14/9, 1/2, 0, 0, false));
-
-		
+                      14/9, 3/5- .1, 0, 0, false));
 		setTimeout( function(){
       //get rid of dom elements
   		self.removeLobby();
