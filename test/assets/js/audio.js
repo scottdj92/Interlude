@@ -72,6 +72,7 @@ function Audio(artist, track)
 		//console.log(this.freqFloatData);
 
 		this.startPlayback();
+		return this.analyzerNode;
 		
 	};
 
@@ -121,7 +122,7 @@ function Audio(artist, track)
 
 	this.tick = function(evt)
 	{
-		console.log(analyzerNode);
+		console.log(this.analyzerNode);
 		this.analyzerNode.getFloatFrequencyData(this.freqFloatData); //gives us dB
 		//this.analyzerNode.prototype.getByteFrequencyData(this.freqByteData); //gives us frequency
 		//this.analyzerNode.prototype.getByteTimeDomainData(this.timeByteData); //gives us waveform
