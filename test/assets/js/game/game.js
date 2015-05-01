@@ -60,9 +60,13 @@ game.interlude = {
     document.querySelector('#password').innerHTML = this.password;
 	
     game.sockets.init(this);
+		
+		// window screen size
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
-
+		//set fullscreen buttton listener
+		$('#fullscreen_btn').on('click', function(){self.toggleFullScreen(document.querySelector('#canvas-holder'));});
+		
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
@@ -373,7 +377,7 @@ game.interlude = {
     this.updatePopSprites(dt);
    //console.log(this.players);
     //if all bubbles are popped switch to countdown
-    if(this.bubbles.length < 1 && this.popSprites.length < 1){
+    if(this.bubbles.length < 5 && this.popSprites.length < 1){
       this.initCountdown();
     }
   },
@@ -500,7 +504,7 @@ game.interlude = {
     });
     //loop through players
     for(var p in this.players){
-      self.players[p].render();
+      this.players[p].render();
     }
 
     game.draw.ctx.save();
@@ -684,6 +688,33 @@ game.interlude = {
     this.canvas.width = canvasHolder.offsetWidth;
     this.canvas.height = canvasHolder.offsetHeight;
   },
+	
+	toggleFullScreen : function(documentElement){
+		if (!document.fullscreenElement &&    // alternative standard method
+      !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
+			if (document.documentElement.requestFullscreen) {
+				document.documentElement.requestFullscreen();
+			} else if (document.documentElement.msRequestFullscreen) {
+				document.documentElement.msRequestFullscreen();
+			} else if (document.documentElement.mozRequestFullScreen) {
+				document.documentElement.mozRequestFullScreen();
+			} else if (document.documentElement.webkitRequestFullscreen) {
+				document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+			}
+			$(documentElement).parent().addClass("fullscreen");
+  	} else {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.msExitFullscreen) {
+				document.msExitFullscreen();
+			} else if (document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) {
+				document.webkitExitFullscreen();
+			}
+			$(documentElement).parent().removeClass("fullscreen");
+  	}
+	},
 	
   /** 
   	* createPassword():

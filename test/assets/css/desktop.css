@@ -346,10 +346,14 @@ html {
     padding-top: 56.25%;
     display: block;
     content: ""; }
+  html .container.fullscreen {
+    width: 100%;
+    margin: auto;
+    margin-top: 2.5%; }
   html .container {
     width: 85%;
+    margin-top: 2.5%;
     margin-left: 7.5%;
-    margin-top: 2%;
     display: inline-block;
     position: relative;
     font-family: "proxima-nova-condensed", "Lato", sans-serif; }
@@ -453,5 +457,12 @@ html {
     bottom: 0;
     right: 0;
     left: 0; }
+  html #fullscreen_btn {
+    font-weight: 100;
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.7; }
 
 /*# sourceMappingURL=desktop.css.map */
