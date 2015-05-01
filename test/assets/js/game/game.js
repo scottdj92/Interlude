@@ -66,8 +66,8 @@ game.interlude = {
 		// window screen size
     this.resizeCanvas();
     window.addEventListener('resize', this.resizeCanvas.bind(this));
-		//set fullscreen buttton listener
-		$('#fullscreen_btn').on('click', function(){self.toggleFullScreen(document.querySelector('#canvas-holder'));});
+		
+		this.initSizeListeners();
 		
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
@@ -267,9 +267,9 @@ game.interlude = {
     this.tricounter--;
     if(this.tricounter <= 0){
       console.log("tri");
-      var x = Math.random()*10/9 +2/9;
+      var x = Math.random()*10/8 +2/9;
       this.bgObjs.push(new game.TriStar(x,0));
-      this.tricounter = 100;
+      this.tricounter = 340;
     }
     this.bgObjs.forEach(function(obj){obj.update(dt);});
 
@@ -727,6 +727,18 @@ game.interlude = {
 			}
 			$(documentElement).parent().removeClass("fullscreen");
   	}
+	},
+	
+	initSizeListeners : function(){
+		var self = this;
+		var canvas = document.querySelector('#canvas-holder');
+		//set fullscreen buttton listener
+		$('#fullscreen_btn').on('click', function(){self.toggleFullScreen(canvas);});
+		//button listner
+		$(document).on('keyup', function(e) {  
+			if (e.keyCode == 13) self.toggleFullScreen(canvas); //enter
+			if (e.keyCode == 27) $('.container').removeClass("fullscreen"); // esc
+		});
 	},
 	
   /** 
