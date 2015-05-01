@@ -8,7 +8,7 @@ mobileClient = {
 	color: null,
 	hex: null,
 	state: 0,
-	room: undefined,
+	room: undefined, // socket id of game
 	
 	// INITIALIZER 
 	init : function () {
@@ -61,10 +61,14 @@ mobileClient = {
 		});
 		
 		// Lists of taken colors recieved from game
-		socket.on('color selected', function(msg){
+		socket.on('color selected', function(colors){
 			// marks that a color is selected
 			// msg is an array containing colors taken and the name of user (if availble)
-			self.markSelectedColors(msg.colors);
+			self.markSelectedColors(colors);
+		});
+		
+		socket.on('game start', function(data){
+			self.gameStart();
 		});
 		
 		if(jQuery.isFunction(callback)){
@@ -162,7 +166,9 @@ mobileClient = {
 		var m = this;
 		$("#join_btn").on("click touchend", function(e){ 
 			e.preventDefault();
+			e.stopImmediatePropagation();
 			m.changeState(); 
+			$(this).off();
 		});
 	},
 	
@@ -314,7 +320,7 @@ mobileClient = {
 	
 	// Notify Game that Player is ready
 	sendReady: function(){
-		var data = { id:this.id, name:this.name, room:this.room };
+		var data = { id:this.id, name:this.name, room: this.room };
 		this.socket.emit("player ready", data);
 		this.changeState(); 
 	},

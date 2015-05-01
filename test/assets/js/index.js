@@ -73,8 +73,7 @@ io.on('connection', function(socket){
   // Sent from game to notify that player has been rejected
   socket.on('player reject', function(data){
 		//data should be socket id of client
-		var msg = "Unable to join game :(";
-  	io.to(data).emit('response reject', msg);
+  	io.to(data.id).emit('response reject', data.msg);
   });
 
   /** 
@@ -100,19 +99,31 @@ io.on('connection', function(socket){
 	socket.on("color getAvail", function(data){
 		io.to(data.room).emit('color checkAvail', data.color);
 	});
-	// game -> mobile
+	// game -> mobile (all)
 	// let all mobile clients know that a color is taken (return response)
   //---------------------------- MUST GO TO ALL PLAYERS IN THAT GAME ----------------------------------------------//
 	socket.on("color selected", function(data){
-		io.emit('color selected', data);
+		data.players.forEach(function(p){
+			io.to(p).emit('color selected', data.colors);
+		});
 	});
 	
 	/** 
 		PLAYER READY 
 	**/
-  //----------------NEEDS TO LOOP THROUGH EVERY PLAYER IN GAME-----------------
 	socket.on('player ready', function(data){
-		io.emit("player ready", data);
+		io.to(data.room).emit("player ready", data);
+	});
+	
+	/**
+	 GAME START
+	**/
+	// game -> mobile (all)
+	socket.on('game start', function(data){
+		console.log(data.players);
+		data.players.forEach(function(p){
+			io.to(p).emit('game start', true);
+		});
 	});
 	
   /** 

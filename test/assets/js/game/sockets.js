@@ -4,31 +4,46 @@ game.sockets = {
   socket: undefined,
   init : function(app){
     this.socket = io.connect( window.location.origin, {query: 'user='+name, type: 'desktop'});
-    /** PLAYER CONNECTING TO GAME ****************************************/
-    //
     var self = this;
-    //Set up socket events 
+		
+		/** PLAYER CONNECTING TO GAME ****************************************/
+		
+		/**
+			Player join attempt
+		**/ 
     this.socket.on('player join', function(data){
-				// check password, if password is correct, create new player
-				if( data.password === app.password && (app.state == "START" || app.state == "LOGIN") ){ 
-					// emit successful join
-					self.socket.emit('player joined', {id:data.sockID, room: app.room});
-					// create new player
-					app.createPlayer(data);
-					//Add player to lobby
-					app.addPlayertoLobby(data);
-					//transition to next state
-					app.initLoginState();
+			var msg; //error msg
+			
+			if(app.state == "START" || app.state == "LOGIN"){
+				// check password
+				if( data.password === app.password ){ 
+					// check number of players
+					if( app.playersReady < 5 ){
+						self.socket.emit('player joined', {id:data.sockID, room: app.room}); // emit successful join
+						app.createPlayer(data); // create new player
+						app.addPlayertoLobby(data); //Add player to lobby
+						app.initLoginState();
+						return;
+					} else {
+						msg = "Game is full"
+					} //
 				} else {
 					//emit rejection
-					self.socket.emit('player reject', data.sockID);
-				}
+					msg = "Incorrect Password";
+				} //
+			} else {
+				msg = "Unable to join game";
+			}
+									 
+			self.socket.emit('player reject', {id:data.sockID, msg: msg}); //emit rejection if not all conditions met
     });
+	
 		//gets socket id
     this.socket.on('game init', function(data){
       app.room = data.id;
       console.log(app.room);
     });
+
 		//color selection
 		this.socket.on("player color", function(data){
 			app.setPlayerColor(data);

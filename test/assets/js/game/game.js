@@ -498,7 +498,9 @@ game.interlude = {
 		var self = this;
 
     this.state = "INTRO";
-
+		var players = this.getPlayersById();
+		game.sockets.socket.emit('game start', {players: players}); 
+		
     //add bubbles for them to pop
     self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
                       2/9, 1/2, 0, 0, false));
@@ -511,10 +513,11 @@ game.interlude = {
     self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
                       14/9, 1/2, 0, 0, false));
 
+		
 		setTimeout( function(){
       //get rid of dom elements
   		self.removeLobby();
-    }, 1500);
+    }, 900);
 
   },
   //initializes countdown state
@@ -525,7 +528,6 @@ game.interlude = {
 	
   initGame : function() {
     this.state = "GAME";
-		
   },
 
   initBoss : function() {
@@ -658,10 +660,12 @@ game.interlude = {
   */
 	getSelectedColors: function(){
 		var colors = [];
+		var pIds = [];
 		for( var p in this.players ){
+			pIds.push(p);
 			colors.push(this.players[p].color);
 		}
-		game.sockets.socket.emit("color selected", {colors:colors, room: this.room});
+		game.sockets.socket.emit("color selected", {players: pIds, colors:colors, room: this.room});
 	},
 	
 	
@@ -684,14 +688,23 @@ game.interlude = {
 	* parameter [socketID]
   */
   findPlayer : function (socketID) {
-      var target;
-      var self = this;
-      for(var p in this.players){
-        var player = self.players[p];
-        if(player.sockID == socketID){
-          target = player;
-        }
-      }; 
-      return target;
-    }
+		var target;
+		var self = this;
+		for(var p in this.players){
+			var player = self.players[p];
+			if(player.sockID == socketID){
+				target = player;
+			}
+		}; 
+		return target;
+  },
+	
+	// Returns an array of player ids
+	getPlayersById : function(){
+		var ids = [];
+		for(var p in this.players){
+			ids.push(p);
+		};
+		return ids;
+	}
 }
