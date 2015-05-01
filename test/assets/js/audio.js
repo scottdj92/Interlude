@@ -5,7 +5,7 @@ function Audio(artist, track)
 	/** CREDIT TO http://www.createjs.com/Demos/SoundJS/MusicVisualizer **/
 	/** CONSTANTS **/
 	this.FFTSIZE = 32; //number of samples for Fourier Transform
-	this.TICK_FREQ = 1000; //how often to run tick, in ms
+	this.TICK_FREQ = 100; //how often to run tick, in ms
 	/** VARIABLES 
 
 	//THIS FILE PATH MUST BE HARD CODED TO FUNCTION IN A LOCAL ENVIRONMENT
@@ -122,18 +122,19 @@ function Audio(artist, track)
 
 	this.tick = function(evt)
 	{
-		console.log(this.analyzerNode);
+		//console.log(this.analyzerNode);
 		this.analyzerNode.getFloatFrequencyData(this.freqFloatData); //gives us dB
-		//this.analyzerNode.prototype.getByteFrequencyData(this.freqByteData); //gives us frequency
-		//this.analyzerNode.prototype.getByteTimeDomainData(this.timeByteData); //gives us waveform
+		this.analyzerNode.getByteFrequencyData(this.freqByteData); //gives us frequency
+		this.analyzerNode.getByteTimeDomainData(this.timeByteData); //gives us waveform
 
-		console.log(this.freqFloatData);
+		//console.log(this.freqByteData);
 		//console.log(this.freqByteDataArray);
 		//console.log(this.timeByteDataArray);
 
 		//update dataAverage, by popping first element and pushing
 		this.dataAverage.shift();
-		this.dataAverage.push(this.freqFloatData);
+		this.dataAverage.push(this.freqFloatData[0]);
+		console.log(this.dataAverage);
 
 		//get average data for the last 3 ticks
 		var dataSum = 0;

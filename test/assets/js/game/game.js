@@ -11,6 +11,7 @@ game.interlude = {
     inactive : [] //inactive projectiles
   },
   tracks : [],
+  currentTrack : undefined,
   scores : {},
   blackHole : undefined,
   canvas : undefined, //canvas for drawing
@@ -63,8 +64,16 @@ game.interlude = {
 
     //this.selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
     //this.beginPlayback(introSong);
-    this.selectTracks(this.tracks[0], 'Hector_Songs', 'Funk2.mp3');
-    this.beginPlayback(this.tracks[0]);
+    this.selectTracks(this.tracks[0], 'The_Clash-Rock_the_Casbah', 'Keys.mp3');
+    this.selectTracks(this.tracks[1], 'The_Clash-Rock_the_Casbah', 'Percussion.mp3');
+
+    console.log(this.tracks[0]);
+    console.log(this.tracks[1]);
+    
+    // this.beginPlayback(this.tracks[0]);
+    // this.beginPlayback(this.tracks[1]);
+
+
 
     //var track1 = new Audio('Anthony_Constantino-Songs', 'Loop.wav');
     //track1.init();
@@ -479,6 +488,29 @@ game.interlude = {
 	
   initGame : function() {
     this.state = "GAME";
+    //stop all songs, this is a failsafe to make sure that we dont accidentally play overlapping songs
+    for (var i = 0; i < this.tracks.length; i++) {
+      this.tracks[i].stopPlayback();
+    };
+
+    //play random song from selection
+    /*
+    switch (var num = floor(Math.random())
+    {
+      case num = 0:
+        this.selectTracks(0, 'The_Clash-Rock_the_Casbah', 'Bass.mp3');
+        this.selectTracks(1, 'The_Clash-Rock_the_Casbah', 'Drums.mp3');
+        this.selectTracks(2, 'The_Clash-Rock_the_Casbah', 'Guitar.mp3');
+        this.selectTracks(3, 'The_Clash-Rock_the_Casbah', 'Percussion.mp3');
+        this.selectTracks(4, 'The_Clash-Rock_the_Casbah', 'Keys.mp3');
+        break;
+      case num = 1:
+        this.selectTracks(0, 'Hector_Songs', 'Funk2.mp3');
+        break;
+      case num = 2:
+        this.selectTracks(0, 'Anthony_Constantino-Songs', 'Funk_Loop.wav');
+    }
+    */
 		
   },
 
