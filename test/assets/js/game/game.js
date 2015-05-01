@@ -60,24 +60,9 @@ game.interlude = {
       this.projectiles.inactive.push(new game.Projectile());
     }
 
-    this.initAudio();
+    var audio = new Sound();
+    audio.init();
 
-    //this.selectTracks(introSong, 'Anthony_Constantino-Songs/', 'Loop.wav');
-    //this.beginPlayback(introSong);
-    this.selectTracks(this.tracks[0], 'The_Clash-Rock_the_Casbah', 'Keys.mp3');
-    this.selectTracks(this.tracks[1], 'The_Clash-Rock_the_Casbah', 'Percussion.mp3');
-
-    console.log(this.tracks[0]);
-    console.log(this.tracks[1]);
-    
-    // this.beginPlayback(this.tracks[0]);
-    // this.beginPlayback(this.tracks[1]);
-
-
-
-    //var track1 = new Audio('Anthony_Constantino-Songs', 'Loop.wav');
-    //track1.init();
-    //track1.startPlayback();
     this.loop();
   },
 

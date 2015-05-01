@@ -5,7 +5,7 @@ function Audio(artist, track)
 	/** CREDIT TO http://www.createjs.com/Demos/SoundJS/MusicVisualizer **/
 	/** CONSTANTS **/
 	this.FFTSIZE = 32; //number of samples for Fourier Transform
-	this.TICK_FREQ = 100; //how often to run tick, in ms
+	this.TICK_FREQ = 80; //how often to run tick, in ms
 	/** VARIABLES 
 
 	//THIS FILE PATH MUST BE HARD CODED TO FUNCTION IN A LOCAL ENVIRONMENT
@@ -51,7 +51,7 @@ function Audio(artist, track)
 		//console.log(context);
 
 		//create analyzer node
-		console.log(this);
+		//console.log(this);
 		this.analyzerNode = context.createAnalyser();
 		this.analyzerNode.fftSize = this.FFTSIZE; //Fast Fourier Transform size
 		this.analyzerNode.smoothingTimeConstant = 0.85; //a value between 0->1 where 0 represents no time average with the last "frame"
@@ -72,7 +72,7 @@ function Audio(artist, track)
 		//console.log(this.freqFloatData);
 
 		this.startPlayback();
-		return this.analyzerNode;
+		//return this.analyzerNode;
 		
 	};
 
