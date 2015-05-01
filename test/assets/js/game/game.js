@@ -6,6 +6,7 @@ game.interlude = {
   bubbles : [], //array of bubbles in the game
 	colors : [],
   popSprites : [],
+  bgObjs : [],
   projectiles : { //Holds all projectiles in the game so we dont make extra
     active : [], //currently active projectiles
     inactive : [] //inactive projectiles
@@ -27,6 +28,7 @@ game.interlude = {
   currBG : 0,
   nextBG : 1,
   bgSpeed : 80,
+  tricounter : 100,
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
@@ -262,8 +264,16 @@ game.interlude = {
     } 
     if(this.nextBG > 3)
       this.nextBG = 0;
+    this.tricounter--;
+    if(this.tricounter <= 0){
+      console.log("tri");
+      var x = Math.random()*10/9 +2/9;
+      this.bgObjs.push(new game.TriStar(x,0));
+      this.tricounter = 100;
+    }
+    this.bgObjs.forEach(function(obj){obj.update(dt);});
+
   },
-	
 	/**
 		Players
 	**/
@@ -274,7 +284,6 @@ game.interlude = {
       self.players[p].update(dt);
     }
   },
-	
 	/**
 		Bubbles
 	**/
@@ -453,6 +462,8 @@ game.interlude = {
     } else {
       game.draw.img(this.bgImgs[this.currBG], 0,8625 - this.bgPos,1920,1080,0,0,16/9,1);
     }
+
+    this.bgObjs.forEach(function(obj){obj.render();});
   },
   //Render function for in game screen
   renderGame : function() {
@@ -565,19 +576,21 @@ game.interlude = {
 	/**
     Animation transition
   **/
-  transitionAnimation : function(video, callBack) {
+  transitionAnimation : function(video, callback) {
     //player asset animation on canvas
     this.state = "TRANS";
     //set up canvas callback for video playing
     video.addEventListener('play', function() {
     var $this = this; //cache
     (function loop() {
-      if (!$this.paused && !$this.ended) {
-        game.draw.ctx.drawImage($this, 0, 0);
-        setTimeout(loop, 1000 / 30); // drawing at 30fps
-      }
-    })();
-  }, 0);
+        if (!$this.paused && !$this.ended) {
+          game.draw.ctx.drawImage($this, 0, 0);
+          setTimeout(loop, 1000 / 30); // drawing at 30fps
+        } else {
+          callback();
+        }
+      })();
+    }, 0);
     //play video
     video.play();
     //when animation is done call callback
