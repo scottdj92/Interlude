@@ -16,6 +16,7 @@ game.interlude = {
   },
   tracks : [],
 	audio : [],
+	audCount : 0,
   currentTrack : undefined,
   scores : {},
   blackHole : undefined,
@@ -29,7 +30,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 4,
+  playersReady : 0,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -192,21 +193,29 @@ game.interlude = {
     });
     return false;
   },
+	
 	//Picks a color from available players
-	chooseBubbleColor : function() {
-		var cols = []
-		//change this shit
-		for(var p in this.players){
-			cols.push(this.players[p].color);
+	chooseBubbleColor : function(id) {
+		if(!id){
+			var cols = []
+			//change this shit
+			for(var p in this.players){
+				cols.push(this.players[p].color);
+			}
+			var n = Math.floor(Math.random()*cols.length);
+			return cols[n];
 		}
-		var n = Math.floor(Math.random()*cols.length);
-		return cols[n];
+		else {
+			return this.players[id].color;
+		}
 	},
 
   //spawns bubbles for the game
-  spawnBubbles : function(dt){
+  spawnBubbles : function(dt, p){
     this.nextBubble--;
-		var freq = this.audio.getByteFrequencyData(0);
+		var id = this.players[p].audio; //id of audio track
+		console.log(id);
+		var freq = this.audio.getByteFrequencyData(id);
 		var length = freq.length;
     if(this.nextBubble <= 0) {
 			//set spawn lane
@@ -222,14 +231,14 @@ game.interlude = {
 					var x = 2/9 + 3/9 * bubbleLane;
 					var y = 1.10 - (Math.random() * 0.1);//spawn off screen
 					var xVel = .07 - Math.random()*.14;
-					var yVel = Math.random()*0.5; 
-					var r = (Math.random() * .07) + .045;//get random size
+					var yVel = Math.random()*0.4; 
+					var r = (Math.random() * .08) + .05;//get random size
 					var color = this.chooseBubbleColor();
 					this.scores[color].total++;
 					this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
 														this.bubbleAssets[color],color, r,
 														x, y, xVel, yVel, (this.state !== "BOSS")));
-					this.nextBubble = 90;
+					this.nextBubble = 150;
 					this.bubbleIDCounter++;
 				}
 			}
@@ -357,7 +366,7 @@ game.interlude = {
     this.updatePopSprites(dt);
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
-    this.spawnBubbles(dt);
+		for(var p in this.players) this.spawnBubbles(dt, p);
   },
 	/**
 		Intro
@@ -882,7 +891,9 @@ game.interlude = {
   	var x = 200, y = 200;
     this.players[data.id] = new game.Player(data.id, data.sockID, x, y, 
                             this.playerSprites);
-    var i = parseInt(data.id);
+		this.players[data.id].audio = this.audCount;
+		this.audCount ++;
+    //var i = parseInt(data.id);
   },
 	
 	/** 

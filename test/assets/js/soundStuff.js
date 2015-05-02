@@ -129,7 +129,7 @@ function Sound(artistFilePath, trackFilePathArray)
 		//copies current analyzernode frequencyBinCount data onto Float32Array freqFloatData
 		//console.log(self.bufferLength);
 		self.freqFloatData = new Float32Array(self.bufferLength);
-		//console.log(self.analysers);
+		console.log(self.analysers);
 		self.analysers[0].getFloatFrequencyData(self.freqFloatData);
 		//console.log(self.freqFloatData);
 
