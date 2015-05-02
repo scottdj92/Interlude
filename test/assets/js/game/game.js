@@ -30,7 +30,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 0,
+  playersReady : 4,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -39,7 +39,7 @@ game.interlude = {
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
-  bossTimer: 50,
+  bossTimer: 5,
   countdownTime: {
     secLeft: 3,
     sec: 1,
@@ -439,9 +439,12 @@ game.interlude = {
         bub.startDistsq = distSq;
       }
 
-      if(distSq <= bh.r/40)
+      if(distSq <= bh.r/40){
         bub.remove = true;
+        bh.r += .001
+      }
     });
+    bh.r -= .0001
   },
 	updateBossEnter : function() {
     var self = this;
