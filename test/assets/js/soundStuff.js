@@ -14,7 +14,7 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.distortion = [];
 	this.gainNode = [];
 	this.curve;
-
+	this.volume = 1;
 	this.context = new AudioContext();
 	
 	
@@ -184,10 +184,22 @@ function Sound(artistFilePath, trackFilePathArray)
 		//console.log(self.timeDomainData);
 	};
 
-	this.changeVolume = function(track, volume)
+	this.decreaseVolume = function()
 	{
 		//volume is a number between 0-1 where 0 is the quietest possible volume and 1 is the loudest possible volume
-		track.gain.value = volume;
+		if(self.volume > 0){
+			self.volume -= 0.005;
+			for(var i=0; i<self.gain.length; i++){
+				self.gain[i].value = volume;
+			}
+		}
+	};
+
+	this.increaseVolume = function(){
+		self.volume = 1;
+		for(var i=0; i<self.gain.length; i++){
+			self.gain[i].value = 1;
+		}
 	};
 
 	this.getCurrentTime = function()

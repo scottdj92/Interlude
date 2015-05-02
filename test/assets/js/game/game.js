@@ -46,6 +46,10 @@ game.interlude = {
     sec: 1,
   },
   room: undefined,
+  bossSmallT : 0,
+  bossShakeT : 0,
+  bossShakeM : .001,
+  bossEndT : 0,
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Initializer
@@ -241,7 +245,8 @@ game.interlude = {
 					this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
 														this.bubbleAssets[color],color, r,
 														x, y, xVel, yVel, (this.state !== "BOSS")));
-					this.nextBubble = 150;
+					this.nextBubble = 160;
+          this.audio.decreaseVolume();
 					this.bubbleIDCounter++;
 				}
 			}
@@ -344,6 +349,7 @@ game.interlude = {
         spt.bad = (bubble.type === "bad");
         self.popSprites.push(spt);
         array.splice(index, 1); //Remove a bubble
+        self.audio.increaseVolume();
       }
     });
   },
@@ -464,8 +470,12 @@ game.interlude = {
 			}
     });
 		if(bh.r > .1){
-    	bh.r -= .001
+      self.bossEndT += dt;
+    	bh.r -= .001;
 		}
+    if(self.bossEndT > 7){
+      this.initBossDie();
+    }
   },
 	updateBossEnter : function() {
     var self = this;
@@ -479,6 +489,24 @@ game.interlude = {
     } else {
       this.state = "BOSS";
     }
+  },
+  updateBossDie : function() {
+    var self = this;
+    var dt = this.getDT();
+    this.bossShakeT += dt;
+    this.bossEndT += dt;
+    this.blackHole.update(dt);
+    this.updatePlayers(dt);
+    this.updateProjectiles(dt);
+    if(this.bossShakeT > .3) {
+      this.bossShakeM *= -1;
+      this.bossShakeT = 0;
+    }
+    this.blackHole.x += this.bossShakeM;
+
+    if(this.bossEndT > 5)
+      //DANNY SWITCH STATE HERE!!!!!!!
+      console.log("end");
   },
 	/**
 		MAIN UPDATE  !!!!!!!
@@ -511,6 +539,9 @@ game.interlude = {
         break;
       case "BOSS ENTER":
         this.updateBossEnter();
+        break;
+      case "BOSS DIE":
+        this.updateBossDie();
         break;
       case "END" :
         break;
@@ -554,6 +585,8 @@ game.interlude = {
       case "BOSS ENTER" :
         this.renderBossEnter();
         break;
+      case "BOSS DIE":
+        this.renderBossEnter();
       case "END" :
 				this.renderEnd();
         break;
@@ -771,6 +804,10 @@ game.interlude = {
   initBoss : function() {
     this.blackHole = new game.BlackHole(8/9, -0.6, 0.4, 150);
     this.state = "BOSS ENTER";
+  },
+
+  initBossDie : function(){
+    this.state = "BOSS DIE";
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
