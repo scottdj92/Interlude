@@ -4,7 +4,7 @@ function Sound(artistFilePath, trackFilePathArray)
 {
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 	//audio variables
-	
+	var self = this;
 	this.FFT = 85;
 	this.assetsPath = '/assets/audio/';
 	this.artistName = artistFilePath;
@@ -38,23 +38,23 @@ function Sound(artistFilePath, trackFilePathArray)
 		for (var i = 0; i < this.tracks.length; i++) {
 			this.src = this.assetsPath + this.artistName + '/' + this.tracks[i];
 			loaderArray.push(this.src);
-			console.log(loaderArray);
+			//console.log(loaderArray);
 		};
 		//this.src = assetsPath + this.artistName + '/' + trackName;
-
+		var self = this;
 		this.bufferLoader = new BufferLoader(
 			this.context,
 			loaderArray,
 			 //source path of all audio files in an array. this must be in this directory:
-			// '/assets/audio/artistName/trackName.extension'
+			//assets/audio/artistName/trackName.extension'
 			this.finishedLoading
 			);
 
 		this.bufferLoader.load();
-		var self = this;
-		window.setInterval(self.getFrequencyData, 500);
-		//window.setInterval(this.getByteFrequencyData, 500);
-		//window.setInterval(this.getTimeDomainData, 500);
+		
+		window.setInterval(this.getFrequencyData(), 100);
+		//window.setInterval(this.getByteFrequencyData(), 100);
+		//window.setInterval(this.getTimeDomainData(), 100);
 	};
 
 
@@ -62,17 +62,17 @@ function Sound(artistFilePath, trackFilePathArray)
 	{
 		console.log(bufferList);
 		//get sources and play them all together for a mix
-
+		console.log(self);
 		for (var i = 0; i < bufferList.length; i++) {
 			//console.log(this.sources[i]);
-			this.sources[i] = this.context.createBufferSource();
-			this.sources[i].buffer = bufferList[i];
+			self.sources.push(self.context.createBufferSource());
+			self.sources[i].buffer = bufferList[i];
 
-			this.sources[i].connect(this.context.destination); //connect to speakers
+			self.sources[i].connect(this.context.destination); //connect to speakers
 		}
 
-		for (var i = 0; i < this.sources.length; i++) {
-			this.sources[i].start(0);
+		for (var i = 0; i < self.sources.length; i++) {
+			self.sources[i].start(0);
 		};
 
 
@@ -108,27 +108,28 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.getFrequencyData = function()
 	{
 		//copies current analyzernode frequencyBinCount data onto Float32Array freqFloatData
-		//this.freqFloatData = this.bufferLength;
-		//return this.freqFloatData;
-		console.log(Sound.analyzer);
-		//this.analyzer.getFreqFloatData
+		//self.freqFloatData = self.bufferLength;
+		self.analyzer.getFloatFrequencyData(self.freqFloatData);
+		console.log(self.freqFloatData);
 		//console.log(this.freqFloatData);
+
+		//return self.freqFloatData;
 	};
 
 	this.getByteFrequencyData = function()
 	{
 		//copies current analyzerNode frequencyBinCount data onto Uint8Array freqByteData
-		this.freqByteData = this.bufferLength;
-		return this.freqByteData;
-		console.log(this.freqByteData);
+		self.freqByteData = self.bufferLength;
+		return self.freqByteData;
+		console.log(self.freqByteData);
 	};
 
 	this.getTimeDomainData = function()
 	{
 		//copies current analyzer node frequencyBinCount onto UintArray timeDomainData
-		this.timeDomainData = this.bufferLength;
-		return this.timeDomainData;
-		console.log(this.timeDomainData);
+		self.timeDomainData = self.bufferLength;
+		return self.timeDomainData;
+		console.log(self.timeDomainData);
 	};
 
 	this.changeVolume = function(track, volume)
