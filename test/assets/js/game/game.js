@@ -50,8 +50,7 @@ game.interlude = {
   bossShakeT : 0,
   bossShakeM : .001,
   bossEndT : 0,
-
-  songList: [['Bass.mp3', 'Keys.mp3', 'Guitar.mp3', 'Drums.mp3', 'Percussion.mp3' ], ['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocal_Synth.mp3']],
+  songUsed: 0,
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Initializer
@@ -157,7 +156,14 @@ game.interlude = {
 		//this.audio = new Sound('The_Clash-Rock_the_Casbah', ['Keys.mp3', 'Percussion.mp3', 'Guitar.mp3', "Bass.mp3", 'Drums.mp3']);
     //var audio = new Sound('Duran_Duran-Hungry_Like_the_Wolf', ['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocals.mp3', 'Vocal_Synth.mp3']);
     //this.audio.init();
-
+    var clash = { artist: 'The_Clash-Rock_the_Casbah',
+                  tracks: ['Bass.mp3', 'Keys.mp3', 'Guitar.mp3', 'Drums.mp3', 'Percussion.mp3' ]}
+    var hector = { artist: 'Hector_Songs',
+                  tracks: ['Funky_Bass.mp3', 'Funky_Brass.mp3', 'Funky_Drums.mp3', 'Funky_Mallets.mp3', 'Funky_Organ.mp3' ]}
+    var anthony = { artist: 'Anthony_Constantino-Songs',
+                  tracks: ['Chords.wav', 'Electric_Bass.wav', 'Stacc_Strings.wav', 'Strings_01.wav', 'Xpand_01.wav' ]}
+    //['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocal_Synth.mp3']
+    this.songList = [clash,hector,anthony];
     this.selectSong();
 	},
   //set up scores
@@ -225,8 +231,8 @@ game.interlude = {
   spawnBubbles : function(dt, p){
     this.nextBubble--;
 		var id = this.players[p].audio; //id of audio track
-		console.log(id);
 		var freq = this.audio.getByteFrequencyData(id);
+    console.log(this.audio.sources[id]);
 		var length = freq.length;
     if(this.nextBubble <= 0) {
 			//set spawn lane
@@ -838,7 +844,7 @@ game.interlude = {
     //console.log('fuck this code in particular');
 
     for (var i = 0; i < this.audio.sources.length; i++) {
-      this.audio.distortion[i].curve = this.audio.makeDistortionCurve(100);
+      this.audio.distortion[i].curve = this.audio.makeDistortionCurve(60);
       this.audio.distortion[i].oversample = "4x";
 
       this.audio.biquad[i].type = 'highpass';
@@ -1145,28 +1151,11 @@ game.interlude = {
 
   selectSong :function()
   {
-    var random = Math.floor(Math.random() * 10);
-    var artist;
-    var artistInt;
-    if (random == 0)
-    {
-      artist = 'The_Clash-Rock_the_Casbah';
-      artistInt = 0;
-    }
-    else if (random == 1)
-    {
-      artist = 'Duran_Duran-Hungry_Like_the_Wolf';
-      artistInt = 1;
-    }
-    else
-    {
-      artist = 'The_Clash-Rock_the_Casbah';
-      artistInt = 0;
-    }
+    var n = Math.floor(Math.random() * 3);
 
-    //console.log(this.songList[artistInt]);
-
-    this.audio = new Sound(artist, this.songList[artistInt]);
+    console.log(this.songList[n]);
+    this.songUsed = n;
+    this.audio = new Sound(this.songList[n].artist, this.songList[n].tracks);
 
     this.audio.init();
   }

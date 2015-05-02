@@ -193,17 +193,17 @@ function Sound(artistFilePath, trackFilePathArray)
 	{
 		//volume is a number between 0-1 where 0 is the quietest possible volume and 1 is the loudest possible volume
 		if(self.volume > 0){
-			self.volume -= 0.005;
-			for(var i=0; i<self.gain.length; i++){
-				self.gain[i].value = volume;
+			self.volume -= 0.01;
+			for(var i=0; i<self.gainNode.length; i++){
+				self.gainNode[i].value = volume;
 			}
 		}
 	};
 
 	this.increaseVolume = function(){
 		self.volume = 1;
-		for(var i=0; i<self.gain.length; i++){
-			self.gain[i].value = 1;
+		for(var i=0; i<self.gainNode.length; i++){
+			self.gainNode[i].value = 1;
 		}
 	};
 
