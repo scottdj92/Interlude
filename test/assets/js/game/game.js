@@ -31,7 +31,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 3,
+  playersReady : 4,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -40,7 +40,7 @@ game.interlude = {
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
-  bossTimer: 70,
+  bossTimer: 60,
   countdownTime: {
     secLeft: 3,
     sec: 1,
@@ -254,7 +254,7 @@ game.interlude = {
 					this.bubbleIDCounter++;
 				}
 			}
-			if(Math.random() < .07 * (120 - this.bossTimer)/120  && this.bossTimer < 100){
+			if(Math.random() < .07 * (120 - this.bossTimer)/120  && this.bossTimer < 110 ){
 				var x = Math.random()*12/9 +2/9;
 				var r = (Math.random() * .08) + .05;//get random size
 				this.bubbles.push(new game.BadBubble(this.bubbleIDCounter, 
@@ -385,7 +385,7 @@ game.interlude = {
     var dt = this.getDT();
     this.bossTimer -= dt;
     if(this.bossTimer <= 0) this.initBoss();
-    else if(this.bossTimer <= 60) console.log("bon jovi");
+    else if(this.bossTimer <= 60) 
     //this.blackHole.update(dt);
     //Loop through all of the players
     this.updateBG(dt);
@@ -408,7 +408,7 @@ game.interlude = {
     this.updatePopSprites(dt);
    //console.log(this.players);
     //if all bubbles are popped switch to countdown
-    if(this.bubbles.length < 4 && this.popSprites.length < 1){
+    if(this.bubbles.length < 5 && this.popSprites.length < 1){
       this.initCountdown();
     }
   },
@@ -527,7 +527,7 @@ game.interlude = {
 			this.nextBubble = 20;
     }
 		if(this.bossEndT > 8) {	//DANNY SWITCH STATE HERE!!!!!!!
-      console.log("end");
+      this.initEnd();
 		}
 		
   },
@@ -567,6 +567,7 @@ game.interlude = {
         this.updateBossDie();
         break;
       case "END" :
+				this.updateBG(this.getDT());
         break;
       case "TRANS":
         break;
@@ -739,8 +740,8 @@ game.interlude = {
   },
 
   renderEnd : function() {
-    this.renderBG();
-    game.draw.text("Bruh it's over", 8/9, 0.55, .2, "#fff");
+    //this.renderBG();
+		
   },
 	
   ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -851,6 +852,11 @@ game.interlude = {
   initBossDie : function(){
     this.state = "BOSS DIE";
   },
+	
+	initEnd : function(){
+		this.state = "END";
+		$("#end").fadeIn(500);
+	},
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
