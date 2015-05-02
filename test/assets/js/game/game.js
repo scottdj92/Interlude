@@ -26,6 +26,7 @@ game.interlude = {
   nextBubble: 0, //time until next bubble spawn
   state : "START", //current game state
   bgImgs : [],
+  badBubImg : undefined,
   bubbleAssets : {},
   playerSprites : undefined,
   bubbleIDCounter : 0,
@@ -136,6 +137,7 @@ game.interlude = {
     this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
     this.playerSprites = this.loadImg("assets/img/crosshair.png");
     this.videos.instructions = document.querySelector("#instructions");
+    this.badBubImg = this.loadImg("assets/img/bad-sprite.png");
   },
   //retune the image object with the source passed in
   loadImg : function(src) {
