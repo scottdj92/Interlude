@@ -93,12 +93,13 @@ io.on('connection', function(socket){
 	socket.on("color getAvail", function(data){
 		io.to(data.room).emit('color checkAvail', data.color);
 	});
+	
 	// game -> mobile (all)
 	// let all mobile clients know that a color is taken (return response)
   //---------------------------- MUST GO TO ALL PLAYERS IN THAT GAME ----------------------------------------------//
 	socket.on("color selected", function(data){
 		data.players.forEach(function(p){
-			io.to(p).emit('color selected', data.colors);
+			io.to(p).emit('color selected', data);
 		});
 	});
 	
@@ -113,10 +114,9 @@ io.on('connection', function(socket){
 	 GAME START
 	**/
 	// game -> mobile (all)
-	socket.on('game start', function(data){
-		console.log(data.players);
+	socket.on('game started', function(data){
 		data.players.forEach(function(p){
-			io.to(p).emit('game start', true);
+			io.to(p).emit('game start', data);
 		});
 	});
 	

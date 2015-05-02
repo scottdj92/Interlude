@@ -68,6 +68,7 @@ mobileClient = {
 		});
 		
 		socket.on('game start', function(data){
+			console.log(data);
 			self.gameStart();
 		});
 		
@@ -311,6 +312,7 @@ mobileClient = {
 	},
 	
 	markSelectedColors: function(colors){
+		console.log(colors);
 		colors.forEach(function(color){
 			var col = document.getElementsByClassName(color)[0];
 			if( !$(col).hasClass("selected") )

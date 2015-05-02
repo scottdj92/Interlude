@@ -31,7 +31,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 4,
+  playersReady : 3,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -440,26 +440,28 @@ game.interlude = {
     //accelerate bubbles to black hole
     //This is hella ugly
     this.bubbles.forEach(function(bub){
-      var xDist = bub.x - bh.x;
-      var yDist = bub.y - bh.y;
+			if(bub.type !== "bad") {
+				var xDist = bub.x - bh.x;
+				var yDist = bub.y - bh.y;
 
-      var distSq = xDist * xDist + yDist * yDist;
-      var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
-      var pull = .06/distSq;
-      pull *= distSq <= bh.r/10 ? 2 : 1/4;
-      var yAcc = fwd.y*pull;
-      var xAcc = -fwd.x*pull;
-      bub.setAccleration(xAcc, yAcc);
-      if(distSq <= bh.r/10)
-        bub.r = bub.startR * distSq/bub.startDistsq;
-      else {
-        bub.startDistsq = distSq;
-      }
+				var distSq = xDist * xDist + yDist * yDist;
+				var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
+				var pull = .06/distSq;
+				pull *= distSq <= bh.r/10 ? 2 : 1/4;
+				var yAcc = fwd.y*pull;
+				var xAcc = -fwd.x*pull;
+				bub.setAccleration(xAcc, yAcc);
+				if(distSq <= bh.r/10)
+					bub.r = bub.startR * distSq/bub.startDistsq;
+				else {
+					bub.startDistsq = distSq;
+				}
 
-      if(distSq <= bh.r/40){
-        bub.remove = true;
-        bh.r += .05
-      }
+				if(distSq <= bh.r/40){
+					bub.remove = true;
+					bh.r += .05
+				}
+			}
     });
 		if(bh.r > .1){
     	bh.r -= .001
@@ -727,17 +729,19 @@ game.interlude = {
 	//Intro screen where players learn mechanics
   initIntro : function() {
     var self = this;
+		var socket = game.sockets.socket;
     setTimeout( function(){
         //get rid of dom elements
         self.removeLobby();
       }, 900);
+		
 		this.transitionAnimation(this.videos.instructions, function(){
       //set state
       var r = .12;		
       self.state = "INTRO";
   		var players = self.getPlayersById();
-  		game.sockets.socket.emit('game start', {players: players}); 
-  		
+  		socket.emit('game started', {players: players}); 
+			console.log(socket);
       //add bubbles for them to pop
       self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
                         2/9, 3/5 - .1, 0, 0, false));
