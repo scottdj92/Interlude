@@ -35,7 +35,7 @@ game.interlude = {
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
-  bossTimer: 120,
+  bossTimer: 5,
   countdownTime: {
     secLeft: 3,
     sec: 1,
@@ -330,7 +330,7 @@ game.interlude = {
     var self = this;
     var dt = this.getDT();
     this.bossTimer -= dt;
-    if(this.bossTimer <= 0) console.log("Boss Baby");
+    if(this.bossTimer <= 0) this.initBoss();
     else if(this.bossTimer <= 60) console.log("bon jovi");
     //this.blackHole.update(dt);
     //Loop through all of the players
@@ -416,7 +416,19 @@ game.interlude = {
         bub.remove = true;
     });
   },
-	
+	updateBossEnter : function() {
+    var self = this;
+    var dt = this.getDT();
+    this.updateBG(dt);
+    this.blackHole.update(dt);
+    this.updatePlayers(dt);
+    this.updateProjectiles(dt);
+    if(this.blackHole.y < 0.2){
+      this.blackHole.y += 0.008;
+    } else {
+      this.state = "BOSS";
+    }
+  },
 	/**
 		MAIN UPDATE  !!!!!!!
 	**/
@@ -437,14 +449,17 @@ game.interlude = {
         this.updateIntro();
         break;
       case "COUNTDOWN":
-        this.reset();
-				//this.updateCountdown();
+        //this.reset();
+				this.updateCountdown();
         break;
       case "GAME" :
         this.updateGame();//call game update function
         break;
       case "BOSS" :
         this.updateBoss();
+        break;
+      case "BOSS ENTER":
+        this.updateBossEnter();
         break;
       case "END" :
         break;
@@ -484,6 +499,9 @@ game.interlude = {
         break;
       case "BOSS" :
         this.renderBoss();
+        break;
+      case "BOSS ENTER" :
+        this.renderBossEnter();
         break;
       case "END" :
 				this.renderEnd();
@@ -579,7 +597,18 @@ game.interlude = {
       self.players[p].render();
     }
   },
-	
+	renderBossEnter : function() {
+    var self = this;//Save a reference to this
+    this.renderBG();
+    this.blackHole.render();
+    this.projectiles.active.forEach(function(proj){
+      proj.render();
+    });
+    //loop through players
+    for(var p in this.players){
+      self.players[p].render();
+    }
+  },
 	/**
 		BG
 	**/
@@ -683,10 +712,8 @@ game.interlude = {
   },
 
   initBoss : function() {
-    this.state = "BOSS";
-
-    this.blackHole = new game.BlackHole(8/9, 0.3, 0.4, 150);
-
+    this.blackHole = new game.BlackHole(8/9, -0.6, 0.4, 150);
+    this.state = "BOSS ENTER";
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
