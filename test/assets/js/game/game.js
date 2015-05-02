@@ -14,6 +14,9 @@ game.interlude = {
   videos : {
     instructions : undefined
   },
+  tracks : [],
+	audio : [],
+  currentTrack : undefined,
   scores : {},
   blackHole : undefined,
   canvas : undefined, //canvas for drawing
@@ -35,7 +38,7 @@ game.interlude = {
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
-  bossTimer: 5,
+  bossTimer: 50,
   countdownTime: {
     secLeft: 3,
     sec: 1,
@@ -59,6 +62,7 @@ game.interlude = {
 	  game.draw.init(this.canvas, this.ctx);
 
     this.loadImages();
+		this.loadAudio();
     this.setUpScores();
   	//get passwords
   	this.password = this.generatePassword();
@@ -138,6 +142,13 @@ game.interlude = {
     asset.src = src;
     return asset;
   },
+	//load audio
+	loadAudio : function(){
+		//need to make random
+		this.audio = new Sound('The_Clash-Rock_the_Casbah', ['Keys.mp3', 'Percussion.mp3', 'Guitar.mp3', "Bass.mp3", 'Drums.mp3']);
+    //var audio = new Sound('Duran_Duran-Hungry_Like_the_Wolf', ['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocals.mp3', 'Vocal_Synth.mp3']);
+    this.audio.init();
+	},
   //set up scores
   setUpScores : function() {
     this.scores["blue"]={total:0, hit:0};
@@ -191,31 +202,37 @@ game.interlude = {
 		var n = Math.floor(Math.random()*cols.length);
 		return cols[n];
 	},
-	
+
   //spawns bubbles for the game
   spawnBubbles : function(dt){
     this.nextBubble--;
-
+		var freq = this.audio.getByteFrequencyData(0);
+		var length = freq.length;
     if(this.nextBubble <= 0) {
-      //set spawn lane
-      var bubbleLane = Math.floor(Math.random()*5);
-      while(bubbleLane === this.lastLane){
-        bubbleLane = Math.floor(Math.random()*5);
-      }
-      this.lastLane = bubbleLane;
+			//set spawn lane
+			if( length > 8 ){
+				if( (freq[length-1] - freq[length-2]) - (freq[length-3] - freq[length-4]) > 
+					 (freq[length-5] - freq[length-6]) - (freq[length-7] - freq[length-8]) ) {
+					var bubbleLane = Math.floor(Math.random()*5);
+					while(bubbleLane === this.lastLane){
+						bubbleLane = Math.floor(Math.random()*5);
+					}
+					this.lastLane = bubbleLane;
 
-      var x = 2/9 + 3/9 * bubbleLane;
-      var y = 1.15;//spawn off screen
-      var xVel = .07 - Math.random()*.14;
-      var yVel = Math.random()*.04; 
-      var r = (Math.random() * .08) + .07;//get random size
-			var color = this.chooseBubbleColor();
-      this.scores[color].total++;
-      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
-                        this.bubbleAssets[color],color, r,
-                        x, y, xVel, yVel, (this.state !== "BOSS")));
-      this.nextBubble = 100;
-      this.bubbleIDCounter++;
+					var x = 2/9 + 3/9 * bubbleLane;
+					var y = 1.10 - (Math.random() * 0.1);//spawn off screen
+					var xVel = .07 - Math.random()*.14;
+					var yVel = Math.random()*0.5; 
+					var r = (Math.random() * .07) + .045;//get random size
+					var color = this.chooseBubbleColor();
+					this.scores[color].total++;
+					this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
+														this.bubbleAssets[color],color, r,
+														x, y, xVel, yVel, (this.state !== "BOSS")));
+					this.nextBubble = 90;
+					this.bubbleIDCounter++;
+				}
+			}
     }
   },
   //returns the delta time from the last call in seconds
@@ -319,6 +336,7 @@ game.interlude = {
         array.splice(index, 1); //Remove a sprite
     });
   },
+
   ///////////////
   // MAIN UPDATES
   ///////////////
@@ -672,6 +690,7 @@ game.interlude = {
     this.state = "LOGIN";
     //transition screens
     $("#lobby .pwd-sect").addClass("down");
+
   },
 	
 	//Intro screen where players learn mechanics
@@ -709,6 +728,9 @@ game.interlude = {
 	
   initGame : function() {
     this.state = "GAME";
+		this.removeLobby();
+	
+		this.playAudio();
   },
 
   initBoss : function() {
@@ -746,6 +768,7 @@ game.interlude = {
 		$(document.getElementById(data.id)).find('.name').html(data.name);
 	},
 	
+
 	//remove lobby
 	removeLobby: function(){
 		$("#lobby .pwd-sect").removeClass('down').addClass("done");
@@ -946,5 +969,54 @@ game.interlude = {
 			ids.push(p);
 		};
 		return ids;
-	}
+	},
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  // AUDIO
+  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  selectTracks: function (selectedTrack, artist, track)
+  {
+
+    //establish which song and track you want to play and initialize
+    //song is the name of the variable of the audio you want to play
+    //ex: selectTracks(0, 'Anthony_Constantino-Songs/', 'Loop.wav'); plays the intro music
+    selectedTrack.artistName = artist;
+    selectedTrack.trackName = track;
+
+    //console.log(selectedTrack);
+
+    //seek song in file destination and initalize if possible
+    selectedTrack.init();
+
+    //add error prevention here
+  },
+
+  beginPlayback: function(track)
+  {
+    //console.log('beginPlayback fired');
+    //bada bing bada boom
+    track.startPlayback();
+  },
+
+  haltPlayback: function(track)
+  {
+    //prematurely ejaculate...I mean stop if necessary
+     track.stopPlayback();
+  },
+
+  changeVolume: function(track, float)
+  {
+    //change the volume to a float between 0-1 where 1 is the loudest possible volume
+     track.changeVolume(float);
+  },
+	
+	playAudio : function(){
+		for(var i=0; i<this.audio.sources.length; i++){
+			this.audio.startPlayback(i);
+		}
+	},
 }
