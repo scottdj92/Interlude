@@ -31,7 +31,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 4,
+  playersReady : 3,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -408,7 +408,7 @@ game.interlude = {
     this.updatePopSprites(dt);
    //console.log(this.players);
     //if all bubbles are popped switch to countdown
-    if(this.bubbles.length < 5 && this.popSprites.length < 1){
+    if(this.bubbles.length < 4 && this.popSprites.length < 1){
       this.initCountdown();
     }
   },
@@ -450,7 +450,7 @@ game.interlude = {
     //accelerate bubbles to black hole
     //This is hella ugly
     this.bubbles.forEach(function(bub){
-			if(bub.type !== "bad") {
+			if(bub.type !== "bad" && self.state !== "BOSS DIE") {
 				var xDist = bub.x - bh.x;
 				var yDist = bub.y - bh.y;
 
@@ -474,10 +474,12 @@ game.interlude = {
 			}
     });
 		if(bh.r > .1){
-      self.bossEndT += dt;
+      
     	bh.r -= .001;
+		} else {
+			self.bossEndT += dt;
 		}
-    if(self.bossEndT > 7){
+    if(self.bossEndT > 12){
       this.initBossDie();
     }
   },
@@ -502,15 +504,32 @@ game.interlude = {
     this.blackHole.update(dt);
     this.updatePlayers(dt);
     this.updateProjectiles(dt);
+		this.updateBubbles(dt);
     if(this.bossShakeT > .3) {
       this.bossShakeM *= -1;
       this.bossShakeT = 0;
     }
     this.blackHole.x += this.bossShakeM;
-
-    if(this.bossEndT > 5)
-      //DANNY SWITCH STATE HERE!!!!!!!
+		
+		this.nextBubble--;
+    if(this.bossEndT > 5 && this.nextBubble < 0) {
+			var r = .05;
+     self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
+                        this.blackHole.x, this.blackHole.y, .1, .1, false));
+      self.bubbles.push(new game.Bubble(1,self.bubbleAssets["purple"],"purple",r,
+                        this.blackHole.x, this.blackHole.y, -.1, .1, false));
+      self.bubbles.push(new game.Bubble(2,self.bubbleAssets["pink"],"pink",r,
+                        this.blackHole.x, this.blackHole.y, 0, .1, false));
+      self.bubbles.push(new game.Bubble(3,self.bubbleAssets["blue"],"blue",r,
+                        this.blackHole.x, this.blackHole.y, .1, 0, false));
+      self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
+                        this.blackHole.x, this.blackHole.y, -.1, 0, false));
+			this.nextBubble = 20;
+    }
+		if(this.bossEndT > 8) {	//DANNY SWITCH STATE HERE!!!!!!!
       console.log("end");
+		}
+		
   },
 	/**
 		MAIN UPDATE  !!!!!!!
@@ -575,7 +594,7 @@ game.interlude = {
         this.renderStart();
         break;
       case "INTRO":
-        this.renderGame();
+        this.renderIntro();
         break;
       case "COUNTDOWN":
         this.renderCountdown();
@@ -590,7 +609,8 @@ game.interlude = {
         this.renderBossEnter();
         break;
       case "BOSS DIE":
-        this.renderBossEnter();
+        this.renderBoss();
+				break;
       case "END" :
 				this.renderEnd();
         break;
@@ -661,7 +681,10 @@ game.interlude = {
       self.players[p].render();
     }
   },
-	
+	renderIntro : function(){
+		this.renderGame();
+		game.draw.text("POP YOUR BUBBLE", 8/9, 0.26, .11, "#fff");
+	},
 	/**
 		Boss
 	**/
@@ -739,6 +762,7 @@ game.interlude = {
         if (!self.paused && !self.ended) {
           game.draw.ctx.drawImage(self, 0, 0,
                   game.draw.canvas.width, game.draw.canvas.height);
+					game.draw.text("TO AIM YOUR SLINGSHOT", 8/9, 0.07, .06, "#fff");
           setTimeout(loop, 1000 / 30); // drawing at 30fps
         } else {
           callback();
