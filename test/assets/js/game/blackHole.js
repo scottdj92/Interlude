@@ -29,6 +29,7 @@ game.BlackHole = function() {
       particle.update();
       particle.centerX = self.x;
       particle.centerY = self.y;
+			particle.maxDistance = self.r;
     });
   };
   /** Generates the array of particles to be used by the blackhole

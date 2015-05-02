@@ -443,10 +443,12 @@ game.interlude = {
 
       if(distSq <= bh.r/40){
         bub.remove = true;
-        bh.r += .001
+        bh.r += .05
       }
     });
-    bh.r -= .0001
+		if(bh.r > .1){
+    	bh.r -= .001
+		}
   },
 	updateBossEnter : function() {
     var self = this;
@@ -704,7 +706,7 @@ game.interlude = {
     this.state = "LOGIN";
     //transition screens
     $("#lobby .pwd-sect").addClass("down");
-
+    $("#lobby .logo").fadeOut(400);
   },
 	
 	//Intro screen where players learn mechanics
@@ -793,6 +795,7 @@ game.interlude = {
 	resetLobby: function(){
 		this.resetPlayers();
 		this.resetPasswordSect();
+		$("#lobby .logo").show();
 		$("#lobby").fadeIn(500);
 	},
 	
