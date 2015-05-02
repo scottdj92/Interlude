@@ -10,10 +10,14 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.artistName = artistFilePath;
 	this.tracks = trackFilePathArray;
 	this.sources = [];
+	this.analysers = [];
+	this.distortion = [];
+	this.gainNode = [];
+	this.curve;
 
 	this.context = new AudioContext();
 	
-	this.analysers = [];
+	
 	this.bufferLength = 85/2;
 
 	//this.source = this.context.createMediaStreamSource()
@@ -28,9 +32,6 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.timeDomainDataAvg;
 
 	this.duration;
-
-
-	this.gainNode = this.context.createGain();
 
 	this.bufferLoader = undefined;
 	//console.log(this.tracks);
@@ -79,16 +80,48 @@ function Sound(artistFilePath, trackFilePathArray)
 			self.analysers[i].minDecibels = -90;
 			self.analysers[i].maxDecibels = -10;
 			self.analysers[i].smoothingTimeConstant = 0.85;
-			console.log(self.analysers[i]);
+			//console.log(self.analysers[i]);
 			//self.sources[i].connect(this.context.destination); //connect to speakers
 			self.sources[i].connect( self.analysers[i] );
+
+			//create distortion nodes
+			self.distortion.push(self.context.createWaveShaper());
+			//connect distortion nodes
+			self.analysers[i].connect(self.distortion[i]);
+
+			//create gain nodes (volume)
+			self.gainNode.push(self.context.createGain());
+			self.distortion[i].connect(self.gainNode[i]);
+			//connect gain nodes to final destination
+
+			// ITS THE FINALL COUNTDOOOOOWN
+			self.gainNode[i].connect(self.context.destination);
+			//console.log(self);
+
 			
-			self.analysers[i].connect(this.context.destination);
+			//self.analysers[i].connect(this.context.destination);
 		}
 		//window.setInterval(self.getFrequencyData, 100);
 		//window.setInterval(self.getByteFrequencyData, 100);
 		//window.setInterval(self.getTimeDomainData, 100);
 		window.setInterval(self.getCurrentTime, 100);
+	};
+
+	this.makeDistortionCurve = function(amount) 
+	{
+	  var k = typeof amount === 'number' ? amount : 50,
+	    n_samples = 44100,
+	    curve = new Float32Array(n_samples),
+	    deg = Math.PI / 180,
+	    i = 0,
+	    x;
+	  for ( ; i < n_samples; ++i ) {
+	    x = i * 2 / n_samples - 1;
+	    curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+	  }
+	  return this.curve;
+	  //apply the curve to the waveShaperNode.curve property to give a distortion effect.
+	  //a good amount is 400 with a 4x oversample (waveShaperNode.oversample property)
 	};
 
 	this.getFrequencyData = function()
@@ -174,5 +207,5 @@ function Sound(artistFilePath, trackFilePathArray)
 		for (var i = 0; i < self.sources.length; i++) {
 			self.sources[i].disconnect();
 		};
-	}
+	};
 };
