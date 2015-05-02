@@ -417,7 +417,7 @@ game.interlude = {
     this.updatePopSprites(dt);
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
-    this.spawnBubbles(dt);
+    for(var p in this.players){ this.spawnBubbles(dt, p); }
     //save black hole ref
     var bh = this.blackHole;
     //accelerate bubbles to black hole

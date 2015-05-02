@@ -61,10 +61,10 @@ mobileClient = {
 		});
 		
 		// Lists of taken colors recieved from game
-		socket.on('color selected', function(colors){
+		socket.on('color selected', function(data){
 			// marks that a color is selected
 			// msg is an array containing colors taken and the name of user (if availble)
-			self.markSelectedColors(colors);
+			self.markSelectedColors(data.colors);
 		});
 		
 		socket.on('game start', function(data){
