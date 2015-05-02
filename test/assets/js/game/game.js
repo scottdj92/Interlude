@@ -40,7 +40,7 @@ game.interlude = {
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
-  bossTimer: 5,
+  bossTimer: 70,
   countdownTime: {
     secLeft: 3,
     sec: 1,
@@ -154,11 +154,12 @@ game.interlude = {
 	},
   //set up scores
   setUpScores : function() {
-    this.scores["blue"]={total:0, hit:0};
-    this.scores["white"]={total:0, hit:0};
-    this.scores["green"]={total:0, hit:0};
-    this.scores["purple"]={total:0, hit:0};
-    this.scores["pink"]={total:0, hit:0};
+    this.scores["blue"]={total:0, hits:0};
+    this.scores["white"]={total:0, hits:0};
+    this.scores["green"]={total:0, hits:0};
+    this.scores["purple"]={total:0, hits:0};
+    this.scores["pink"]={total:0, hits:0};
+    this.scores["bad"]={total:0, hits:0};
   },
   //Main loop that gets called on each frame
   loop : function () {
@@ -186,7 +187,7 @@ game.interlude = {
   checkBubbleCollison : function(c1) {
     var self = this;
     this.bubbles.forEach(function(bubble){
-      if((c1.type === bubble.type || bubble.type ==="bad") && self.circleCollison(bubble, c1)) {
+      if((c1.type === bubble.type || bubble.type ==="bad" || c1.bad === true) && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
         if((self.state !== "GAME" || self.state !== "BOSS") && !(c1.bad === true))
           self.scores[bubble.type].hits++;
@@ -243,6 +244,13 @@ game.interlude = {
 					this.nextBubble = 150;
 					this.bubbleIDCounter++;
 				}
+			}
+			if(Math.random() < .07 * this.bossTimer/120  && this.bossTimer < 100){
+				var x = Math.random()*12/9 +2/9;
+				var r = (Math.random() * .08) + .05;//get random size
+				this.bubbles.push(new game.BadBubble(this.bubbleIDCounter, 
+														"bad","bad", r,
+														x, 0, 0, -0.1, (this.state !== "BOSS")));
 			}
     }
   },
@@ -346,7 +354,8 @@ game.interlude = {
     this.popSprites.forEach(function(sprite, index, array) {
       sprite.update(dt); //call sprites's update function
       if(sprite.bad){
-        if()
+				console.log("bad");
+        self.checkBubbleCollison(sprite);
       }
 
       if(sprite.remove) //Check to see if the sprite should be removed

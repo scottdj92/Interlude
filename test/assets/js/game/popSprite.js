@@ -22,7 +22,7 @@ game.PopSprite = function(){
   p.update = function(dt){
     this.timeToNext -= dt;
     if(this.bad)
-      this.r += .03*dt
+      this.r += .3*dt;
     if(this.timeToNext <= 0){
       this.timeToNext = this.fps;
       this.currentFrame++;
