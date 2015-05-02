@@ -24,8 +24,11 @@ game.BlackHole = function() {
    */
   b.update = function(dt) {
     //update each particle
+    var self = this;
     this.particles.forEach(function(particle){
       particle.update();
+      particle.centerX = self.x;
+      particle.centerY = self.y;
     });
   };
   /** Generates the array of particles to be used by the blackhole
