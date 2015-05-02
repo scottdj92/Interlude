@@ -11,18 +11,20 @@ game.Player = function() {
    * @param x : start x position
    * @param y : start y position
    */
-  var Player = function(id, sockID, x, y){
+  var Player = function(id, sockID, x, y, img){
     this.x = x;
     this.y = y;
-    this.r = .02; //radius
-    this.speed = .01; 
+    this.r = .06; //radius
+    this.speed = .001; 
     this.id = id;
 	  this.sockID = sockID;
+    this.img = img;
     //this.color = color;
     this.mu = 0.95;
     this.target = {x:0,y:0}; //target position for the cursor
     this.startRotation = undefined;
     this.ready = false;
+    this.primed = false;
   }
   //create a reference to the player prototype
   var p = Player.prototype;
@@ -38,20 +40,20 @@ game.Player = function() {
   p.move = function(dt) {
     var self = this;//save a reference to this
     //make a vector with the x and y distance
-    /*var dist = {
+    var dist = {
         x:self.x - self.target.x, 
         y: self.y - self.target.y
-      };
+    };
     var normal = this.normalize(dist);//normalize the distance
     var yMag = Math.abs(dist.y);//get the magnitude of x distance
     var xMag = Math.abs(dist.x);//get the magnitude of y distance
-
-    if(dist.x > .01 || dist.x < -.01)//if far enough away in the x direction
-      this.x -= normal.x * (this.speed * xMag/40);//move to the target loaction
-    if(dist.y > .01 || dist.y < -.01)
-      this.y -= normal.y * (this.speed * yMag/40);  
+    
+    if(dist.x > .0004 || dist.x < -.0004)//if far enough away in the x direction
+      this.x -= normal.x * (this.speed * xMag/100);//move to the target loaction
+    if(dist.y > .0004 || dist.y < -.0004)
+      this.y -= normal.y * (this.speed * yMag/100);  
     //console.log(this.x + ".." +this.y);
-    //console.log(this.target);*/
+    //console.log(this.target);
     this.x =this.target.x;
     this.y =this.target.y;
   };
@@ -74,15 +76,36 @@ game.Player = function() {
   /** render function for a player
    * @param ctx : drawing context
    */
-  p.render = function(ctx) {
-    // ctx.save();//save the draw state
-    // ctx.fillStyle = this.color;//set the color
-    // ctx.beginPath();
-    // ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);//draw the player circle
-    // ctx.closePath();
-    // ctx.fill();//fill the path
-    // ctx.restore();//restore the draw state
-    game.draw.circle(this.x,this.y, this.r, this.color);
+  p.render = function() {
+    var y = this.primed ? 182 : 0;
+    game.draw.ctx.save();
+    game.draw.ctx.globalAlpha = .7;
+    switch(this.color){
+      case "blue":
+        game.draw.img(this.img, 0, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      case "pink":
+        game.draw.img(this.img, 182, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      case "green":
+        game.draw.img(this.img, 364, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      case "white":
+        game.draw.img(this.img, 546, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      case "purple":
+        game.draw.img(this.img, 728, y, 182, 182, 
+              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+        break;
+      default:
+        console.log('Annie are you ok?');
+        break;
+    }
+    game.draw.ctx.restore();
   };
   /** sets the player's target positon
    * @param x : target x coord

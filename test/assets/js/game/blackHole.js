@@ -24,8 +24,11 @@ game.BlackHole = function() {
    */
   b.update = function(dt) {
     //update each particle
+    var self = this;
     this.particles.forEach(function(particle){
       particle.update();
+      particle.centerX = self.x;
+      particle.centerY = self.y;
     });
   };
   /** Generates the array of particles to be used by the blackhole
@@ -51,6 +54,16 @@ game.BlackHole = function() {
    * @param ctx : drawing context
    */
   b.render = function() {
+    var scale = game.draw.canvas.height;
+    var grd = game.draw.ctx.createRadialGradient(this.x*scale, this.y*scale, 
+                   this.r/100 * scale, this.x*scale, 
+                   this.y*scale, this.r*.9 * scale);
+    grd.addColorStop(0,"white");
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    game.draw.ctx.save();
+    game.draw.ctx.globalAlpha = .5;
+    game.draw.circle(this.x,this.y,this.r,grd);
+    game.draw.ctx.restore();
     game.draw.particle(this.r*3/5, this.x, this.y, "black", 0.7);
     this.particles.forEach(function(particle){
       particle.render();

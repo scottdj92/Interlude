@@ -8,15 +8,13 @@ mobileClient = {
 	color: null,
 	hex: null,
 	state: 0,
+	room: undefined, // socket id of game
 	
 	// INITIALIZER 
 	init : function () {
 		// create new instance of socket.io
-		this.id = Math.floor(Math.random()*10);
 		//setting client's own properties (MIGHT NOT BE THE BEST PRACTICE);
 		this.socket = io.connect( window.location.origin);
-		// initial data sent by socket
-		this.connectData = { id: this.id };
 		// start socket listeners
 		this.initSocket();
 		this.initListeners();
@@ -31,10 +29,20 @@ mobileClient = {
 	// Init each socket listener
 	initSocket : function( callback ) {
 		var socket = this.socket;
+		// initial data sent by socket
+		console.log(this.id);
+		this.connectData = { id: socket.id };
+		
 		var self = this;
+		//set own id
+		socket.on('player id', function(id){
+			console.log(id);
+			self.id = id;
+		});
 		socket.on('response joined', function(msg){
 			//when player has successfully joined
 			$("#status").html(msg);
+			self.room = msg.room;
 			self.changeState();
 		});
 
@@ -53,10 +61,14 @@ mobileClient = {
 		});
 		
 		// Lists of taken colors recieved from game
-		socket.on('color selected', function(msg){
+		socket.on('color selected', function(data){
 			// marks that a color is selected
 			// msg is an array containing colors taken and the name of user (if availble)
-			self.markSelectedColors(msg);
+			self.markSelectedColors(data.colors);
+		});
+		
+		socket.on('game start', function(data){
+			self.gameStart();
 		});
 		
 		if(jQuery.isFunction(callback)){
@@ -78,7 +90,7 @@ mobileClient = {
 				var yTilt = e.beta;
 				// alpha is the compass direction the device is facing in degrees
 				var rot = e.alpha
-				var data = { id: self.id, xAcc : xTilt, yAcc : yTilt, rot: rot, };
+				var data = { id: self.id, xAcc : xTilt, yAcc : yTilt, rot: rot, room:self.room};
 				self.socket.emit('phone tilt', data);
 			}, false);
 		}
@@ -154,7 +166,9 @@ mobileClient = {
 		var m = this;
 		$("#join_btn").on("click touchend", function(e){ 
 			e.preventDefault();
+			e.stopImmediatePropagation();
 			m.changeState(); 
+			$(this).off();
 		});
 	},
 	
@@ -180,6 +194,7 @@ mobileClient = {
 			
 			var input = $("#pw_input").val().toUpperCase();
 			self.connectData.password = input;
+			self.connectData.room = self.room;
 			// clear onscreen input
 			$("#pw_input").val('');
 			self.clearInputFill();
@@ -208,7 +223,7 @@ mobileClient = {
 		});
 		
 		var self = this;
-		this.socket.emit("color getAvail", this.id);
+		this.socket.emit("color getAvail", {id:self.id, room:self.room});
 		// color selection listeners
 		$(".color").on("touchend click", function(e){
 			e.preventDefault();
@@ -216,7 +231,7 @@ mobileClient = {
 			// send message to server for game to check colors
 			// need to create function for socket listeners
 			//self.selectColor(color); // will be called after response of socket listener
-			var data = { id: self.id, color: color };
+			var data = { id: self.id, color: color, room:self.room };
 			self.socket.emit('player color', data);
 		});
 		
@@ -260,7 +275,7 @@ mobileClient = {
 	
 	// 6 //
 	gameStart: function(){
-	
+		$("#game_controls #info").fadeOut(400);
 	},
 
 	
@@ -305,7 +320,7 @@ mobileClient = {
 	
 	// Notify Game that Player is ready
 	sendReady: function(){
-		var data = { id:this.id, name:this.name };
+		var data = { id:this.id, name:this.name, room: this.room };
 		this.socket.emit("player ready", data);
 		this.changeState(); 
 	},

@@ -1,0 +1,139 @@
+$def-font: "proxima-nova-condensed", "Lato", sans-serif 
+@import "loading.css"
+@import "mixins"
+
+html
+	margin: 0
+	padding: 0
+	background-color: #000
+	box-sizing: border-box 
+	height: 100%
+
+	.hidden
+		display: none
+	
+	.center 
+		position: absolute 
+		left: 50% 
+		top: 45%  
+		transform: translate(-50%, -45%) 
+		-webkit-transform: translate(-50%, -45%) 
+		-moz-transform: translate(-50%, -45%) 
+		-o-transform: translate(-50%, -45%)
+
+	.container:after 
+		padding-top: 56.25% 
+		display: block 
+		content: '' 
+	
+	.container.fullscreen
+		width: 100%
+		margin: auto
+		margin-top: 2%
+
+	.container 
+		width: 85%
+		margin-top: 2.5%
+		margin-left: 7.5%
+		display: inline-block
+		position: relative
+		font-family: $def-font
+		
+		#lobby
+			height: 100% 
+			width: 100% 
+			display: block 
+			.pwd-sect.done
+				margin-top: 20%
+				opacity: 0
+			.pwd-sect.down
+				margin-top: 10%
+			.pwd-sect
+				top: 50% 
+				background: none 
+				border: 2px solid rgba(255,255,255,0.5)
+				padding: 2% 
+				padding-left: 2.5% 
+				background: none 
+				position: absolute 
+				font-weight: 100 
+				font-size: 1.5em 
+				color: #eee 
+				text-transform: uppercase
+				+transition(0.4s)
+				#password
+					font-weight: 500
+					color: #fff 
+					background: none 
+					padding: 0 5px 0 5px
+					letter-spacing: 3px
+			#players
+				width: 60%
+				height: 20%
+				top: 38%
+				text-transform: uppercase
+				.player.join
+					display: inline-block
+				.player
+					text-align: center
+					width: 20%
+					height: 100%
+					display: none
+					float: left
+					color: #fff
+					+transition(0.4s)
+					.icon
+						display: block
+						margin: auto
+						background-size: 100% auto
+						background-repeat: no-repeat
+						background-position: center
+						width: 90%
+						height: 90%
+						border: 1px solid rgba(255,255,255,0.15)
+						border-radius: 50%
+						+transition(0.4s)
+					.name
+						margin-top: 15px
+					.icon.white
+						border-color: #fff
+						background-image: url('/assets/img/icon-white-strings.svg')
+						background-size: 55% auto
+					.icon.pink
+						border-color: #ff4399
+						background-image: url('/assets/img/icon-pink-brass.svg')
+						background-size: 55% auto
+					.icon.blue
+						border-color: #2cfff4
+						background-image: url('/assets/img/icon-blue-keyboards.svg')
+						background-size: 55% auto
+					.icon.purple
+						border-color: #6c7cff
+						background-image: url('/assets/img/icon-purple-percussion.svg')
+						background-size: 55% auto
+					.icon.green
+						border-color: #29ff7f
+						background-image: url('/assets/img/icon-green-woodwinds.svg')
+						background-size: 25% auto
+				.player:nth-child(odd)
+					margin-top: -10%
+					+slideUpP(0.8s)
+					//+rotateRight(0.8s)
+				.player:nth-child(even)
+					margin-top: 5%
+					+slideDownP(0.8s)
+			
+	#canvas-holder 
+		position: absolute 
+		top: 0 
+		bottom: 0 
+		right: 0 
+		left: 0 
+	
+	#fullscreen_btn
+		font-weight: 100
+		color: #fff
+		position: absolute
+		top: 10px
+		right: 10px
+		opacity: 0.7

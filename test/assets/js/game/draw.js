@@ -35,6 +35,27 @@ game.draw = {
     this.ctx.fill();
     this.ctx.restore();//restore the draw state
   },
+  /** strokes an arc at the coordinates provided
+   * @param x : X coordinate
+   * @param y : Y coordinate
+   * @param r : radius of circle
+   * @param color : color of circle
+   */
+  strokeArc : function(x, y, r, color, lineWidth, startPi, endPi) {
+    var Xscaled = x * this.canvas.height;
+    var Yscaled = y * this.canvas.height;
+    var Rscaled = r * this.canvas.height;
+    var lw = lineWidth * this.canvas.height; 
+
+    this.ctx.save();//save the draw state
+    this.ctx.lineWidth = lw;
+    this.ctx.strokeStyle = color;
+    this.ctx.beginPath();
+    this.ctx.arc(Xscaled, Yscaled, Rscaled, startPi, endPi);
+    this.ctx.stroke();
+    this.ctx.closePath();
+    this.ctx.restore();//restore the draw state
+  },
   /** Draw function for the particle object
    *
    *
@@ -54,5 +75,43 @@ game.draw = {
   img : function(image, imgX, imgY, imgW, imgH, x, y, w, h) {
     this.ctx.drawImage(image, imgX, imgY, imgW, imgH, 
       x*this.canvas.height, y*this.canvas.height, w*this.canvas.height, h*this.canvas.height);
-  }
+  },
+  /** Draws text to the screen
+   * @param string : text to be rendered
+   * @param x : x coord of text
+   * @param y : y coord of text
+   * @param size : size of text
+   * @param col : color of text
+   */
+    text: function( string, x, y, size, col) {
+      x *= this.canvas.height;
+      y *= this.canvas.height;
+      size *= this.canvas.height;  
+      this.ctx.save();
+      this.ctx.font = size+'px Lato';
+      this.ctx.textAlign = "center";
+      this.ctx.fillStyle = col;
+      this.ctx.fillText(string, x, y);
+      this.ctx.restore();
+    },
+    triStar: function(x,y,theta) {
+      var xs = x*this.canvas.height;
+      var ys = y*this.canvas.height;
+      var x1 = .01* this.canvas.height;
+      var y1 = 1.73/6 * 2*x1;
+      var y2 = 1.73/3 * 2*x1;
+      this.ctx.save();
+      this.ctx.globalAlpha = .6;
+      this.ctx.fillStyle = "#fff";
+      this.ctx.translate(xs,ys);
+      this.ctx.rotate(theta);
+      this.ctx.beginPath();
+      this.ctx.moveTo(0,y2);
+      this.ctx.lineTo(-x1,-y1);
+      this.ctx.lineTo(x1,y1);
+      this.ctx.lineTo(0,y2);
+      this.ctx.fill();
+      this.ctx.closePath();
+      this.ctx.restore();
+    }
 }
