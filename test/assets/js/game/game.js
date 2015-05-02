@@ -31,7 +31,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 3,
+  playersReady : 4,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -250,7 +250,7 @@ game.interlude = {
 					this.bubbleIDCounter++;
 				}
 			}
-			if(Math.random() < .07 * this.bossTimer/120  && this.bossTimer < 100){
+			if(Math.random() < .07 * (120 - this.bossTimer)/120  && this.bossTimer < 100){
 				var x = Math.random()*12/9 +2/9;
 				var r = (Math.random() * .08) + .05;//get random size
 				this.bubbles.push(new game.BadBubble(this.bubbleIDCounter, 
