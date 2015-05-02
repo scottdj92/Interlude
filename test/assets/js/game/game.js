@@ -11,6 +11,9 @@ game.interlude = {
     active : [], //currently active projectiles
     inactive : [] //inactive projectiles
   },
+  videos : {
+    instructions : undefined
+  },
   scores : {},
   blackHole : undefined,
   canvas : undefined, //canvas for drawing
@@ -127,6 +130,7 @@ game.interlude = {
     this.bubbleAssets['white'] = this.loadImg("assets/img/white-sprite.png");
     this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
     this.playerSprites = this.loadImg("assets/img/crosshair.png");
+    this.videos.instructions = document.querySelector("#instructions");
   },
   //retune the image object with the source passed in
   loadImg : function(src) {
@@ -425,7 +429,9 @@ game.interlude = {
         break;
       case "LOGIN" :
         this.updateBG(this.getDT());
-        if(this.canstart) this.initIntro();
+        if(this.canstart) {
+          this.initIntro();
+        }
         break;
       case "INTRO":
         this.updateIntro();
@@ -610,10 +616,12 @@ game.interlude = {
     this.state = "TRANS";
     //set up canvas callback for video playing
     video.addEventListener('play', function() {
-    var $this = this; //cache
+    var self = this; //cache
     (function loop() {
-        if (!$this.paused && !$this.ended) {
-          game.draw.ctx.drawImage($this, 0, 0);
+        console.log('playing');
+        if (!self.paused && !self.ended) {
+          game.draw.ctx.drawImage(self, 0, 0,
+                  game.draw.canvas.width, game.draw.canvas.height);
           setTimeout(loop, 1000 / 30); // drawing at 30fps
         } else {
           callback();
@@ -639,30 +647,30 @@ game.interlude = {
 	
 	//Intro screen where players learn mechanics
   initIntro : function() {
-		//set state
-    var r = .12;		
-		var self = this;
-		console.log(this);
-    this.state = "INTRO";
-		var players = this.getPlayersById();
-		game.sockets.socket.emit('game start', {players: players}); 
-		
-    //add bubbles for them to pop
-    self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
-                      2/9, 3/5 - .1, 0, 0, false));
-    self.bubbles.push(new game.Bubble(1,self.bubbleAssets["purple"],"purple",r,
-                      5/9, 4/5- .1, 0, 0, false));
-    self.bubbles.push(new game.Bubble(2,self.bubbleAssets["pink"],"pink",r,
-                      8/9, 3/5- .1, 0, 0, false));
-    self.bubbles.push(new game.Bubble(3,self.bubbleAssets["blue"],"blue",r,
-                      11/9, 4/5- .1, 0, 0, false));
-    self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
-                      14/9, 3/5- .1, 0, 0, false));
-		
-		setTimeout( function(){
-      //get rid of dom elements
-  		self.removeLobby();
-    }, 900);
+    var self = this;
+    setTimeout( function(){
+        //get rid of dom elements
+        self.removeLobby();
+      }, 900);
+		this.transitionAnimation(this.videos.instructions, function(){
+      //set state
+      var r = .12;		
+      self.state = "INTRO";
+  		var players = self.getPlayersById();
+  		game.sockets.socket.emit('game start', {players: players}); 
+  		
+      //add bubbles for them to pop
+      self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
+                        2/9, 3/5 - .1, 0, 0, false));
+      self.bubbles.push(new game.Bubble(1,self.bubbleAssets["purple"],"purple",r,
+                        5/9, 4/5- .1, 0, 0, false));
+      self.bubbles.push(new game.Bubble(2,self.bubbleAssets["pink"],"pink",r,
+                        8/9, 3/5- .1, 0, 0, false));
+      self.bubbles.push(new game.Bubble(3,self.bubbleAssets["blue"],"blue",r,
+                        11/9, 4/5- .1, 0, 0, false));
+      self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
+                        14/9, 3/5- .1, 0, 0, false));
+    });
   },
   //initializes countdown state
   initCountdown : function(){
