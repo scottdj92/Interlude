@@ -188,7 +188,7 @@ game.interlude = {
     this.bubbles.forEach(function(bubble){
       if((c1.type === bubble.type || bubble.type ==="bad") && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
-        if(self.state !== "GAME" || self.state !== "BOSS")
+        if((self.state !== "GAME" || self.state !== "BOSS") && !(c1.bad === true))
           self.scores[bubble.type].hits++;
         return true;
       }
@@ -332,7 +332,9 @@ game.interlude = {
       }
       bubble.update(dt); //call bubble's update function
       if(bubble.remove) {//Check to see if the bubble should be removed
-        self.popSprites.push(new game.PopSprite(bubble.img, bubble.r, bubble.x, bubble.y));
+        var spt = new game.PopSprite(bubble.img, bubble.r, bubble.x, bubble.y);
+        spt.bad = (bubble.type === "bad");
+        self.popSprites.push(spt);
         array.splice(index, 1); //Remove a bubble
       }
     });
@@ -343,6 +345,10 @@ game.interlude = {
     //Loop through all of the sprites
     this.popSprites.forEach(function(sprite, index, array) {
       sprite.update(dt); //call sprites's update function
+      if(sprite.bad){
+        if()
+      }
+
       if(sprite.remove) //Check to see if the sprite should be removed
         array.splice(index, 1); //Remove a sprite
     });
