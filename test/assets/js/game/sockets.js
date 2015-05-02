@@ -58,7 +58,7 @@ game.sockets = {
     this.socket.on('player ready', function(data){
 			app.setPlayerReady(data);
       if(app.playersReady >= 5)
-        app.canStart = true;
+        app.canstart = true;
     });
   
     /** HANDLING PLAYER ACTIONS ****************************************/

@@ -86,6 +86,7 @@ game.interlude = {
     document.querySelector('#password').innerHTML = this.password;
 
     this.state = "START";
+		
     //reset time values
     this.lastUpdate = 0;
     this.bossTimer = 120;
@@ -103,6 +104,8 @@ game.interlude = {
     this.bubbles = []; //array of bubbles in the game
     this.colors = [];
     this.popSprites = [];
+		
+		this.resetLobby();
 
     this.loop();
   },
@@ -123,7 +126,7 @@ game.interlude = {
     this.bubbleAssets['purple'] = this.loadImg("assets/img/purple-sprite.png");
     this.bubbleAssets['white'] = this.loadImg("assets/img/white-sprite.png");
     this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
-    this.playerSprites = this.loadImg("assets/img/crosshair.png")
+    this.playerSprites = this.loadImg("assets/img/crosshair.png");
   },
   //retune the image object with the source passed in
   loadImg : function(src) {
@@ -266,7 +269,6 @@ game.interlude = {
       this.nextBG = 0;
     this.tricounter--;
     if(this.tricounter <= 0){
-      console.log("tri");
       var x = Math.random()*10/8 +2/9;
       this.bgObjs.push(new game.TriStar(x,0));
       this.tricounter = 340;
@@ -335,44 +337,6 @@ game.interlude = {
     this.updateBubbles(dt);
     this.spawnBubbles(dt);
   },
-  /**
-    Boss
-  **/
-  updateBoss : function() {
-    var self = this;
-    var dt = this.getDT();
-    this.updateBG(dt);
-    this.blackHole.update(dt);
-    this.updatePlayers(dt);
-    this.updatePopSprites(dt);
-    this.updateProjectiles(dt);
-    this.updateBubbles(dt);
-    this.spawnBubbles(dt);
-    //save black hole ref
-    var bh = this.blackHole;
-    //accelerate bubbles to black hole
-    //This is hella ugly
-    this.bubbles.forEach(function(bub){
-      var xDist = bub.x - bh.x;
-      var yDist = bub.y - bh.y;
-
-      var distSq = xDist * xDist + yDist * yDist;
-      var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
-      var pull = .06/distSq;
-      pull *= distSq <= bh.r/10 ? 2 : 1/4;
-      var yAcc = fwd.y*pull;
-      var xAcc = -fwd.x*pull;
-      bub.setAccleration(xAcc, yAcc);
-      if(distSq <= bh.r/10)
-        bub.r = bub.startR * distSq/bub.startDistsq;
-      else {
-        bub.startDistsq = distSq;
-      }
-
-      if(distSq <= bh.r/40)
-        bub.remove = true;
-    });
-  },
 	/**
 		Intro
 	**/
@@ -411,6 +375,45 @@ game.interlude = {
     }
   },
 	/**
+    Boss
+  **/
+  updateBoss : function() {
+    var self = this;
+    var dt = this.getDT();
+    this.updateBG(dt);
+    this.blackHole.update(dt);
+    this.updatePlayers(dt);
+    this.updatePopSprites(dt);
+    this.updateProjectiles(dt);
+    this.updateBubbles(dt);
+    this.spawnBubbles(dt);
+    //save black hole ref
+    var bh = this.blackHole;
+    //accelerate bubbles to black hole
+    //This is hella ugly
+    this.bubbles.forEach(function(bub){
+      var xDist = bub.x - bh.x;
+      var yDist = bub.y - bh.y;
+
+      var distSq = xDist * xDist + yDist * yDist;
+      var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
+      var pull = .06/distSq;
+      pull *= distSq <= bh.r/10 ? 2 : 1/4;
+      var yAcc = fwd.y*pull;
+      var xAcc = -fwd.x*pull;
+      bub.setAccleration(xAcc, yAcc);
+      if(distSq <= bh.r/10)
+        bub.r = bub.startR * distSq/bub.startDistsq;
+      else {
+        bub.startDistsq = distSq;
+      }
+
+      if(distSq <= bh.r/40)
+        bub.remove = true;
+    });
+  },
+	
+	/**
 		MAIN UPDATE  !!!!!!!
 	**/
   //Main update function
@@ -422,13 +425,14 @@ game.interlude = {
         break;
       case "LOGIN" :
         this.updateBG(this.getDT());
-        if(this.canStart) this.initIntro();
+        if(this.canstart) this.initIntro();
         break;
       case "INTRO":
         this.updateIntro();
         break;
       case "COUNTDOWN":
-        this.updateCountdown();
+        this.reset();
+				//this.updateCountdown();
         break;
       case "GAME" :
         this.updateGame();//call game update function
@@ -450,61 +454,50 @@ game.interlude = {
 	// RENDER 
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	renderBG : function() {
-    //render
-    if(this.bgPos > 8625 && this.bgPos < 9705) {
-      var y1 = this.bgPos - 8625;
-      var h1 = y1;
-      var h2 = 1080 - y1;
-      game.draw.img(this.bgImgs[this.nextBG], 0, 8625 - y1,1920,h1,0,0,16/9,h1/1080);
-      game.draw.img(this.bgImgs[this.currBG], 0, 0,1920,h2,0, h1/1080,16/9,h2/1080);  
-      //draw other bg
-    } else {
-      game.draw.img(this.bgImgs[this.currBG], 0,8625 - this.bgPos,1920,1080,0,0,16/9,1);
+	
+	/**
+		Main
+	**/
+  //Main render function
+  render : function () {
+    switch(this.state) {
+      case "START" :
+        this.renderStart();
+        break;
+      case "LOGIN" :
+        this.renderStart();
+        break;
+      case "INTRO":
+        this.renderGame();
+        break;
+      case "COUNTDOWN":
+        this.renderCountdown();
+        break;
+      case "GAME" :
+        this.renderGame();//render in game screen
+        break;
+      case "BOSS" :
+        this.renderBoss();
+        break;
+      case "END" :
+				this.renderEnd();
+        break;
+      case "TRANS":
+        break;
+      default :
+        break;
     }
-
-    this.bgObjs.forEach(function(obj){obj.render();});
   },
-  //Render function for in game screen
-  renderGame : function() {
-    var self = this;//Save a reference to this
+	
+	/**
+		Start
+	**/
+  //render function for start screen
+  renderStart : function() {
     this.renderBG();
-    //loop through bubbles
-    this.bubbles.forEach(function(bubble) {
-      bubble.render(self.ctx);//draw each bubble
-    });
-    this.popSprites.forEach(function(sprite) {
-      sprite.render();//draw each bubble
-    });
-    this.projectiles.active.forEach(function(proj){
-      proj.render();
-    });
-    //loop through players
-    for(var p in this.players){
-      self.players[p].render();
-    }
   },
-  //render function for boss screen
-  renderBoss : function () {
-    var self = this;//Save a reference to this
-    this.renderBG();
-    this.blackHole.render();
-    //loop through bubbles
-    this.bubbles.forEach(function(bubble) {
-      bubble.render(self.ctx);//draw each bubble
-    });
-    this.popSprites.forEach(function(sprite) {
-      sprite.render();//draw each bubble
-    });
-    this.projectiles.active.forEach(function(proj){
-      proj.render();
-    });
-    //loop through players
-    for(var p in this.players){
-      self.players[p].render();
-    }
-  },
-  /**
+	
+	/**
     countdown
   **/
   renderCountdown : function() {
@@ -534,38 +527,79 @@ game.interlude = {
 
     game.draw.text(this.countdownTime.secLeft, 8/9, 0.55, .2, "#fff");
   },
-  //render function for start screen
-  renderStart : function() {
+	/**
+		Game
+	**/
+  //Render function for in game screen
+  renderGame : function() {
+    var self = this;//Save a reference to this
     this.renderBG();
-  },
-  //Main render function
-  render : function () {
-    switch(this.state) {
-      case "START" :
-        this.renderStart();
-        break;
-      case "LOGIN" :
-        this.renderStart();
-        break;
-      case "INTRO":
-        this.renderGame();
-        break;
-      case "COUNTDOWN":
-        this.renderCountdown();
-        break;
-      case "GAME" :
-        this.renderGame();//render in game screen
-        break;
-      case "BOSS" :
-        this.renderBoss();
-        break;
-      case "END" :
-        break;
-      case "TRANS":
-        break;
-      default :
-        break;
+    //loop through bubbles
+    this.bubbles.forEach(function(bubble) {
+      bubble.render(self.ctx);//draw each bubble
+    });
+    this.popSprites.forEach(function(sprite) {
+      sprite.render();//draw each bubble
+    });
+    this.projectiles.active.forEach(function(proj){
+      proj.render();
+    });
+    //loop through players
+    for(var p in this.players){
+      self.players[p].render();
     }
+  },
+	
+	/**
+		Boss
+	**/
+  //render function for boss screen
+  renderBoss : function () {
+    var self = this;//Save a reference to this
+    this.renderBG();
+    this.blackHole.render();
+    //loop through bubbles
+    this.bubbles.forEach(function(bubble) {
+      bubble.render(self.ctx);//draw each bubble
+    });
+    this.popSprites.forEach(function(sprite) {
+      sprite.render();//draw each bubble
+    });
+    this.projectiles.active.forEach(function(proj){
+      proj.render();
+    });
+    //loop through players
+    for(var p in this.players){
+      self.players[p].render();
+    }
+  },
+	
+	/**
+		End
+	**/
+	renderEnd : function() {
+		// Black hole should fade out
+		// Ending animation 
+		// transition to final credits screen
+	},
+	
+	/**
+		BG
+	**/
+	renderBG : function() {
+    //render
+    if(this.bgPos > 8625 && this.bgPos < 9705) {
+      var y1 = this.bgPos - 8625;
+      var h1 = y1;
+      var h2 = 1080 - y1;
+      game.draw.img(this.bgImgs[this.nextBG], 0, 8625 - y1,1920,h1,0,0,16/9,h1/1080);
+      game.draw.img(this.bgImgs[this.currBG], 0, 0,1920,h2,0, h1/1080,16/9,h2/1080);  
+      //draw other bg
+    } else {
+      game.draw.img(this.bgImgs[this.currBG], 0,8625 - this.bgPos,1920,1080,0,0,16/9,1);
+    }
+
+    this.bgObjs.forEach(function(obj){obj.render();});
   },
 	
   ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -596,6 +630,7 @@ game.interlude = {
     //when animation is done call callback
     //video finished do callback
   },
+	
 	/**
 		Lobby
 	**/
@@ -612,7 +647,7 @@ game.interlude = {
 		//set state
     var r = .12;		
 		var self = this;
-
+		console.log(this);
     this.state = "INTRO";
 		var players = this.getPlayersById();
 		game.sockets.socket.emit('game start', {players: players}); 
@@ -628,11 +663,11 @@ game.interlude = {
                       11/9, 4/5- .1, 0, 0, false));
     self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
                       14/9, 3/5- .1, 0, 0, false));
+		
 		setTimeout( function(){
       //get rid of dom elements
   		self.removeLobby();
     }, 900);
-
   },
   //initializes countdown state
   initCountdown : function(){
@@ -686,6 +721,28 @@ game.interlude = {
 		$("#lobby .pwd-sect").removeClass('down').addClass("done");
 		$("#players").fadeOut(700, function(){ $('#lobby').hide(); });
 	},
+	
+	// MAIN reset lobby
+	resetLobby: function(){
+		this.resetPlayers();
+		this.resetPasswordSect();
+		$("#lobby").fadeIn(500);
+	},
+	
+	//reset players
+	resetPlayers: function(){
+		var html = '';
+		// this be so dirty (but time is little)
+		var player = "<div class='player'><div class='icon'></div><div class='name'></div></div>";
+		for(var i=0; i<5; i++) { html += player }
+		$("#players").html(html);
+		$("#players").show();
+	},
+	
+	resetPasswordSect: function(){
+		$(".pwd-sect").removeClass('done');
+	},
+	
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
