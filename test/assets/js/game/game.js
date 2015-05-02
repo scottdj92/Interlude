@@ -11,6 +11,7 @@ game.interlude = {
     inactive : [] //inactive projectiles
   },
   tracks : [],
+	audio : [],
   currentTrack : undefined,
   scores : {},
   blackHole : undefined,
@@ -47,6 +48,7 @@ game.interlude = {
 	  game.draw.init(this.canvas, this.ctx);
 
     this.loadImages();
+		this.loadAudio();
     this.setUpScores();
   	//get passwords
   	this.password = this.generatePassword();
@@ -59,11 +61,7 @@ game.interlude = {
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
-
-    var audio = new Sound('The_Clash-Rock_the_Casbah', ['Keys.mp3', 'Percussion.mp3', 'Guitar.mp3', "Bass.mp3", 'Drums.mp3']);
-    //var audio = new Sound('Duran_Duran-Hungry_Like_the_Wolf', ['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocals.mp3', 'Vocal_Synth.mp3']);
-    audio.init();
-		
+	
 
     this.loop();
   },
@@ -82,7 +80,7 @@ game.interlude = {
     this.bubbleAssets['purple'] = this.loadImg("assets/img/purple-sprite.png");
     this.bubbleAssets['white'] = this.loadImg("assets/img/white-sprite.png");
     this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
-    this.playerSprites = this.loadImg("assets/img/crosshair.png")
+    this.playerSprites = this.loadImg("assets/img/crosshair.png");
   },
   //retune the image object with the source passed in
   loadImg : function(src) {
@@ -90,6 +88,13 @@ game.interlude = {
     asset.src = src;
     return asset;
   },
+	//load audio
+	loadAudio : function(){
+		//need to make random
+		this.audio = new Sound('The_Clash-Rock_the_Casbah', ['Keys.mp3', 'Percussion.mp3', 'Guitar.mp3', "Bass.mp3", 'Drums.mp3']);
+    //var audio = new Sound('Duran_Duran-Hungry_Like_the_Wolf', ['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocals.mp3', 'Vocal_Synth.mp3']);
+    this.audio.init();
+	},
   //set up scores
   setUpScores : function() {
     this.scores["blue"]={total:0, hit:0};
@@ -147,27 +152,34 @@ game.interlude = {
   //spawns bubbles for the game
   spawnBubbles : function(dt){
     this.nextBubble--;
-
+		var freq = this.audio.getByteFrequencyData(0);
+		var length = freq.length;
+		console.log(freq[length-1]);
     if(this.nextBubble <= 0) {
-      //set spawn lane
-      var bubbleLane = Math.floor(Math.random()*5);
-      while(bubbleLane === this.lastLane){
-        bubbleLane = Math.floor(Math.random()*5);
-      }
-      this.lastLane = bubbleLane;
+			//set spawn lane
+			if( length > 8 ){
+				if( (freq[length-1] - freq[length-2]) - (freq[length-3] - freq[length-4]) > 
+					 (freq[length-5] - freq[length-6]) - (freq[length-7] - freq[length-8]) ) {
+					var bubbleLane = Math.floor(Math.random()*5);
+					while(bubbleLane === this.lastLane){
+						bubbleLane = Math.floor(Math.random()*5);
+					}
+					this.lastLane = bubbleLane;
 
-      var x = 2/9 + 3/9 * bubbleLane;
-      var y = 1.15;//spawn off screen
-      var xVel = .07 - Math.random()*.14;
-      var yVel = Math.random()*.04; 
-      var r = (Math.random() * .08) + .07;//get random size
-			var color = this.chooseBubbleColor();
-      this.scores[color].total++;
-      this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
-                        this.bubbleAssets[color],color, r,
-                        x, y, xVel, yVel, (this.state !== "BOSS")));
-      this.nextBubble = 100;
-      this.bubbleIDCounter++;
+					var x = 2/9 + 3/9 * bubbleLane;
+					var y = 1.10 - (Math.random() * 0.1);//spawn off screen
+					var xVel = .07 - Math.random()*.14;
+					var yVel = Math.random()*0.5; 
+					var r = (Math.random() * .08) + .05;//get random size
+					var color = this.chooseBubbleColor();
+					this.scores[color].total++;
+					this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
+														this.bubbleAssets[color],color, r,
+														x, y, xVel, yVel, (this.state !== "BOSS")));
+					this.nextBubble = 90;
+					this.bubbleIDCounter++;
+				}
+			}
     }
   },
 	
@@ -330,7 +342,8 @@ game.interlude = {
       case "START" :
         break;
       case "LOGIN" :
-        if(this.canStart) this.initIntro();
+        if(this.canStart) this.initGame();
+				//this.initIntro();
         break;
       case "INTRO":
         this.updateIntro();
@@ -475,29 +488,8 @@ game.interlude = {
 	
   initGame : function() {
     this.state = "GAME";
-    //stop all songs, this is a failsafe to make sure that we dont accidentally play overlapping songs
-    for (var i = 0; i < this.tracks.length; i++) {
-      this.tracks[i].stopPlayback();
-    };
-
-    //play random song from selection
-    /*
-    switch (var num = floor(Math.random())
-    {
-      case num = 0:
-        this.selectTracks(0, 'The_Clash-Rock_the_Casbah', 'Bass.mp3');
-        this.selectTracks(1, 'The_Clash-Rock_the_Casbah', 'Drums.mp3');
-        this.selectTracks(2, 'The_Clash-Rock_the_Casbah', 'Guitar.mp3');
-        this.selectTracks(3, 'The_Clash-Rock_the_Casbah', 'Percussion.mp3');
-        this.selectTracks(4, 'The_Clash-Rock_the_Casbah', 'Keys.mp3');
-        break;
-      case num = 1:
-        this.selectTracks(0, 'Hector_Songs', 'Funk2.mp3');
-        break;
-      case num = 2:
-        this.selectTracks(0, 'Anthony_Constantino-Songs', 'Funk_Loop.wav');
-    }
-    */
+		this.removeLobby();
+		this.audio.startPlayback(0);
 		
   },
 

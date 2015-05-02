@@ -24,7 +24,7 @@ function Sound(artistFilePath, trackFilePathArray)
 	
 	this.currentTime;
 	this.freqFloatDataAvg;
-	this.freqByteDataAvg;
+	this.freqByteDataAvg = [];
 	this.timeDomainDataAvg;
 
 	this.duration;
@@ -85,43 +85,10 @@ function Sound(artistFilePath, trackFilePathArray)
 			
 			self.analysers[i].connect(this.context.destination);
 		}
-
-		for (var i = 0; i < self.sources.length; i++) {
-			self.sources[i].start(0);
-		};
-
 		//window.setInterval(self.getFrequencyData, 100);
 		//window.setInterval(self.getByteFrequencyData, 100);
 		//window.setInterval(self.getTimeDomainData, 100);
 		window.setInterval(self.getCurrentTime, 100);
-
-		// var source1 = this.context.createBufferSource();
-		// var source2 = this.context.createBufferSource();
-		// var source3 = this.context.createBufferSource();
-		// var source4 = this.context.createBufferSource();
-		// var source5 = this.context.createBufferSource();
-		// //var source6 = this.context.createBufferSource();
-
-		// source1.buffer = bufferList[0];
-		// source2.buffer = bufferList[1];
-		// source3.buffer = bufferList[2];
-		// source4.buffer = bufferList[3];
-		// source5.buffer = bufferList[4];
-		// //source6.buffer = bufferList[5];
-
-		// source1.connect(this.context.destination);
-		// source2.connect(this.context.destination);
-		// source3.connect(this.context.destination);
-		// source4.connect(this.context.destination);
-		// source5.connect(this.context.destination);
-		// //source6.connect(this.context.destination);
-
-		// source1.start(0);
-		// source2.start(0);
-		// source3.start(0);
-		// source4.start(0);
-		// source5.start(0);
-		// //source6.start(0);
 	};
 
 	this.getFrequencyData = function()
@@ -143,25 +110,25 @@ function Sound(artistFilePath, trackFilePathArray)
 		self.freqFloatDataAvg = avg;
 
 		return self.freqFloatData;
-		return self.freqFloatDataAvg;
+		//return self.freqFloatDataAvg;
 	};
 
-	this.getByteFrequencyData = function()
+	this.getByteFrequencyData = function(track)
 	{
 		//copies current analyzerNode frequencyBinCount data onto Uint8Array freqByteData
 		self.freqByteData = new Uint8Array(self.bufferLength);
 
-		self.analysers[0].getByteFrequencyData(self.freqByteData);
+		self.analysers[track].getByteFrequencyData(self.freqByteData);
 
 		var sum = 0;
 		for (var i = 0; i < self.freqByteData.length; i++) {
-			sum += self.freqByteData[i];
+			sum += self.freqByteData[track];
 		};
 		var avg = sum/self.freqByteData.length;
 		//console.log(avg);
-		self.freqByteDataAvg = avg;
+		self.freqByteDataAvg.push(avg);
 		//console.log(self.freqByteData);
-		return self.freqByteData;
+		//return self.freqByteData;
 		return self.freqByteDataAvg;
 	};
 
@@ -179,7 +146,7 @@ function Sound(artistFilePath, trackFilePathArray)
 		//console.log(avg);
 		self.timeDomainDataAvg = avg;
 
-		return self.timeDomainData;
+		//return self.timeDomainData;
 		return self.timeDomainDataAvg;
 		//console.log(self.timeDomainData);
 	};
@@ -195,6 +162,11 @@ function Sound(artistFilePath, trackFilePathArray)
 		this.currentTime = self.context.currentTime;
 		//console.log(this.currentTime);
 		return this.currentTime;
+	};
+	
+	this.startPlayback = function(track)
+	{
+		self.sources[track].start(0);
 	};
 
 	this.stopPlayback = function()
