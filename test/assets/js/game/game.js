@@ -186,7 +186,7 @@ game.interlude = {
   checkBubbleCollison : function(c1) {
     var self = this;
     this.bubbles.forEach(function(bubble){
-      if(c1.type === bubble.type && self.circleCollison(bubble, c1)) {
+      if((c1.type === bubble.type || bubble.type ==="bad") && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
         if(self.state !== "GAME" || self.state !== "BOSS")
           self.scores[bubble.type].hits++;
