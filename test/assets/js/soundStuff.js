@@ -26,8 +26,6 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.timeDomainData = new Uint8Array();
 
 	this.gainNode = this.context.createGain();
-	//this.context.connect(this.gainNode);
-	this.gainNode.connect(this.context.destination);
 
 	this.bufferLoader = undefined;
 	//console.log(this.tracks);
@@ -40,7 +38,7 @@ function Sound(artistFilePath, trackFilePathArray)
 		for (var i = 0; i < this.tracks.length; i++) {
 			this.src = this.assetsPath + this.artistName + '/' + this.tracks[i];
 			loaderArray.push(this.src);
-			//console.log(loaderArray);
+			console.log(loaderArray);
 		};
 		//this.src = assetsPath + this.artistName + '/' + trackName;
 
@@ -62,49 +60,49 @@ function Sound(artistFilePath, trackFilePathArray)
 
 	this.finishedLoading = function(bufferList)
 	{
-		//console.log(bufferList);
+		console.log(bufferList);
 		//get sources and play them all together for a mix
 
-		// for (var i = 0; i < bufferList.length; i++) {
-		// 	console.log(this.sources[i]);
-		// 	this.sources[i] = this.context.createBufferSource();
-		// 	this.sources[i].buffer = bufferList[i];
+		for (var i = 0; i < bufferList.length; i++) {
+			//console.log(this.sources[i]);
+			this.sources[i] = this.context.createBufferSource();
+			this.sources[i].buffer = bufferList[i];
 
-		// 	this.sources[i].connect(this.context.destination); //connect to speakers
-		// }
+			this.sources[i].connect(this.context.destination); //connect to speakers
+		}
 
-		// for (var i = 0; i < this.sources.length; i++) {
-		// 	this.sources[i].start(0);
-		// };
+		for (var i = 0; i < this.sources.length; i++) {
+			this.sources[i].start(0);
+		};
 
 
-		var source1 = this.context.createBufferSource();
-		var source2 = this.context.createBufferSource();
-		var source3 = this.context.createBufferSource();
-		var source4 = this.context.createBufferSource();
-		var source5 = this.context.createBufferSource();
-		var source6 = this.context.createBufferSource();
+		// var source1 = this.context.createBufferSource();
+		// var source2 = this.context.createBufferSource();
+		// var source3 = this.context.createBufferSource();
+		// var source4 = this.context.createBufferSource();
+		// var source5 = this.context.createBufferSource();
+		// //var source6 = this.context.createBufferSource();
 
-		source1.buffer = bufferList[0];
-		source2.buffer = bufferList[1];
-		source3.buffer = bufferList[2];
-		source4.buffer = bufferList[3];
-		source5.buffer = bufferList[4];
-		source6.buffer = bufferList[5];
+		// source1.buffer = bufferList[0];
+		// source2.buffer = bufferList[1];
+		// source3.buffer = bufferList[2];
+		// source4.buffer = bufferList[3];
+		// source5.buffer = bufferList[4];
+		// //source6.buffer = bufferList[5];
 
-		source1.connect(this.context.destination);
-		source2.connect(this.context.destination);
-		source3.connect(this.context.destination);
-		source4.connect(this.context.destination);
-		source5.connect(this.context.destination);
-		source6.connect(this.context.destination);
+		// source1.connect(this.context.destination);
+		// source2.connect(this.context.destination);
+		// source3.connect(this.context.destination);
+		// source4.connect(this.context.destination);
+		// source5.connect(this.context.destination);
+		// //source6.connect(this.context.destination);
 
-		source1.start(0);
-		source2.start(0);
-		source3.start(0);
-		source4.start(0);
-		source5.start(0);
-		source6.start(0);
+		// source1.start(0);
+		// source2.start(0);
+		// source3.start(0);
+		// source4.start(0);
+		// source5.start(0);
+		// //source6.start(0);
 	};
 
 	this.getFrequencyData = function()

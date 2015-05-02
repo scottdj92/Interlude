@@ -60,7 +60,8 @@ game.interlude = {
       this.projectiles.inactive.push(new game.Projectile());
     }
 
-    var audio = new Sound('The_Clash-Rock_the_Casbah', ['Keys.mp3', 'Percussion.mp3', 'Guitar.mp3', "Bass.mp3", 'Drums.mp3', 'Vocals.mp3']);
+    //var audio = new Sound('The_Clash-Rock_the_Casbah', ['Keys.mp3', 'Percussion.mp3', 'Guitar.mp3', "Bass.mp3", 'Drums.mp3', 'Vocals.mp3']);
+    var audio = new Sound('Duran_Duran-Hungry_Like_the_Wolf', ['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocals.mp3', 'Vocal_Synth.mp3']);
     audio.init();
 
     this.loop();
