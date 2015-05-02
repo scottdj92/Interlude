@@ -13,6 +13,7 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.analysers = [];
 	this.distortion = [];
 	this.gainNode = [];
+	this.biquad = [];
 	this.curve;
 	this.volume = 1;
 	this.context = new AudioContext();
@@ -89,9 +90,13 @@ function Sound(artistFilePath, trackFilePathArray)
 			//connect distortion nodes
 			self.analysers[i].connect(self.distortion[i]);
 
+			//create biquad filters
+			self.biquad.push(self.context.createBiquadFilter());
+			self.distortion[i].connect(self.biquad[i]);
+
 			//create gain nodes (volume)
 			self.gainNode.push(self.context.createGain());
-			self.distortion[i].connect(self.gainNode[i]);
+			self.biquad[i].connect(self.gainNode[i]);
 			//connect gain nodes to final destination
 
 			// ITS THE FINALL COUNTDOOOOOWN
@@ -119,7 +124,7 @@ function Sound(artistFilePath, trackFilePathArray)
 	    x = i * 2 / n_samples - 1;
 	    curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
 	  }
-	  return this.curve;
+	  return curve;
 	  //apply the curve to the waveShaperNode.curve property to give a distortion effect.
 	  //a good amount is 400 with a 4x oversample (waveShaperNode.oversample property)
 	};

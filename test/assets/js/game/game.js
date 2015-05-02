@@ -50,6 +50,8 @@ game.interlude = {
   bossShakeT : 0,
   bossShakeM : .001,
   bossEndT : 0,
+
+  songList: [['Bass.mp3', 'Keys.mp3', 'Guitar.mp3', 'Drums.mp3', 'Percussion.mp3' ], ['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocal_Synth.mp3']],
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Initializer
@@ -152,9 +154,11 @@ game.interlude = {
 	//load audio
 	loadAudio : function(){
 		//need to make random
-		this.audio = new Sound('The_Clash-Rock_the_Casbah', ['Keys.mp3', 'Percussion.mp3', 'Guitar.mp3', "Bass.mp3", 'Drums.mp3']);
+		//this.audio = new Sound('The_Clash-Rock_the_Casbah', ['Keys.mp3', 'Percussion.mp3', 'Guitar.mp3', "Bass.mp3", 'Drums.mp3']);
     //var audio = new Sound('Duran_Duran-Hungry_Like_the_Wolf', ['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocals.mp3', 'Vocal_Synth.mp3']);
-    this.audio.init();
+    //this.audio.init();
+
+    this.selectSong();
 	},
   //set up scores
   setUpScores : function() {
@@ -804,6 +808,20 @@ game.interlude = {
   initBoss : function() {
     this.blackHole = new game.BlackHole(8/9, -0.6, 0.4, 150);
     this.state = "BOSS ENTER";
+
+    console.log(this.audio.sources);
+    //console.log('fuck this code in particular');
+
+    for (var i = 0; i < this.audio.sources.length; i++) {
+      this.audio.distortion[i].curve = this.audio.makeDistortionCurve(100);
+      this.audio.distortion[i].oversample = "4x";
+
+      this.audio.biquad[i].type = 'highpass';
+      this.audio.biquad[i].frequency.value = 1000;
+      this.audio.biquad[i].gain.value = 25;
+    };
+    //console.log(this.audio.distortion[0]);
+    //console.log(this.audio.makeDistortionCurve(400));
   },
 
   initBossDie : function(){
@@ -1094,4 +1112,32 @@ game.interlude = {
 			this.audio.startPlayback(i);
 		}
 	},
+
+  selectSong :function()
+  {
+    var random = Math.floor(Math.random() * 10);
+    var artist;
+    var artistInt;
+    if (random == 0)
+    {
+      artist = 'The_Clash-Rock_the_Casbah';
+      artistInt = 0;
+    }
+    else if (random == 1)
+    {
+      artist = 'Duran_Duran-Hungry_Like_the_Wolf';
+      artistInt = 1;
+    }
+    else
+    {
+      artist = 'The_Clash-Rock_the_Casbah';
+      artistInt = 0;
+    }
+
+    //console.log(this.songList[artistInt]);
+
+    this.audio = new Sound(artist, this.songList[artistInt]);
+
+    this.audio.init();
+  }
 }
