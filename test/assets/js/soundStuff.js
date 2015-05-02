@@ -21,6 +21,14 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.freqFloatData = new Float32Array();
 	this.freqByteData = new Uint8Array();
 	this.timeDomainData = new Uint8Array();
+	
+	this.currentTime;
+	this.freqFloatDataAvg;
+	this.freqByteDataAvg;
+	this.timeDomainDataAvg;
+
+	this.duration;
+
 
 	this.gainNode = this.context.createGain();
 
@@ -59,7 +67,8 @@ function Sound(artistFilePath, trackFilePathArray)
 	{
 		console.log(bufferList);
 		//get sources and play them all together for a mix
-		console.log(self);
+		//console.log(self);
+		self.duration = bufferList[0].duration;
 		for (var i = 0; i < bufferList.length; i++) {
 			//console.log(this.sources[i]);
 			self.sources.push(self.context.createBufferSource());
@@ -81,7 +90,11 @@ function Sound(artistFilePath, trackFilePathArray)
 			self.sources[i].start(0);
 		};
 
-		window.setInterval(self.getFrequencyData, 100);
+		//window.setInterval(self.getFrequencyData, 100);
+		//window.setInterval(self.getByteFrequencyData, 100);
+		//window.setInterval(self.getTimeDomainData, 100);
+		window.setInterval(self.getCurrentTime, 100);
+
 		// var source1 = this.context.createBufferSource();
 		// var source2 = this.context.createBufferSource();
 		// var source3 = this.context.createBufferSource();
@@ -116,28 +129,59 @@ function Sound(artistFilePath, trackFilePathArray)
 		//copies current analyzernode frequencyBinCount data onto Float32Array freqFloatData
 		//console.log(self.bufferLength);
 		self.freqFloatData = new Float32Array(self.bufferLength);
-		console.log(self.analysers);
+		//console.log(self.analysers);
 		self.analysers[0].getFloatFrequencyData(self.freqFloatData);
-		console.log(self.freqFloatData);
-		//console.log(this.freqFloatData);
+		//console.log(self.freqFloatData);
 
-		//return self.freqFloatData;
+		var sum = 0;
+		for (var i = 0; i < self.freqFloatData.length; i++) {
+			sum += self.freqFloatData[i];
+		};
+		var avg = sum/self.freqFloatData.length;
+		//console.log(avg);
+		//console.log(this.freqFloatData);
+		self.freqFloatDataAvg = avg;
+
+		return self.freqFloatData;
+		return self.freqFloatDataAvg;
 	};
 
 	this.getByteFrequencyData = function()
 	{
 		//copies current analyzerNode frequencyBinCount data onto Uint8Array freqByteData
 		self.freqByteData = new Uint8Array(self.bufferLength);
+
+		self.analysers[0].getByteFrequencyData(self.freqByteData);
+
+		var sum = 0;
+		for (var i = 0; i < self.freqByteData.length; i++) {
+			sum += self.freqByteData[i];
+		};
+		var avg = sum/self.freqByteData.length;
+		//console.log(avg);
+		self.freqByteDataAvg = avg;
+		//console.log(self.freqByteData);
 		return self.freqByteData;
-		console.log(self.freqByteData);
+		return self.freqByteDataAvg;
 	};
 
 	this.getTimeDomainData = function()
 	{
 		//copies current analyzer node frequencyBinCount onto UintArray timeDomainData
-		self.timeDomainData = self.bufferLength;
+		self.timeDomainData = new Uint8Array(self.bufferLength);
+		self.analysers[0].getFloatTimeDomainData(self.timeDomainData);
+
+		var sum = 0;
+		for (var i = 0; i < self.timeDomainData.length; i++) {
+			sum += self.timeDomainData[i];
+		};
+		var avg = sum/self.timeDomainData.length;
+		//console.log(avg);
+		self.timeDomainDataAvg = avg;
+
 		return self.timeDomainData;
-		console.log(self.timeDomainData);
+		return self.timeDomainDataAvg;
+		//console.log(self.timeDomainData);
 	};
 
 	this.changeVolume = function(track, volume)
@@ -145,4 +189,18 @@ function Sound(artistFilePath, trackFilePathArray)
 		//volume is a number between 0-1 where 0 is the quietest possible volume and 1 is the loudest possible volume
 		track.gain.value = volume;
 	};
+
+	this.getCurrentTime = function()
+	{
+		this.currentTime = self.context.currentTime;
+		//console.log(this.currentTime);
+		return this.currentTime;
+	};
+
+	this.stopPlayback = function()
+	{
+		for (var i = 0; i < self.sources.length; i++) {
+			self.sources[i].disconnect();
+		};
+	}
 };
