@@ -482,14 +482,17 @@ html {
   html #end {
     color: #fff;
     text-align: center;
-    display: none; }
+    display: none;
+    padding: 6% 3%;
+    background: rgba(255, 255, 255, 0.03); }
     html #end h3 {
       font-size: 260%;
-      font-weight: 300; }
+      font-weight: 300;
+      margin-top: 0; }
     html #end p {
       font-size: 120%;
       font-weight: 100;
-      width: 65%;
+      width: 70%;
       margin: auto; }
     html #end h4 {
       font-size: 120%;

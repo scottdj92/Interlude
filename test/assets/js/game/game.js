@@ -248,7 +248,7 @@ game.interlude = {
 					var x = 2/9 + 3/9 * bubbleLane;
 					var y = 1.10 - (Math.random() * 0.1);//spawn off screen
 					var xVel = .07 - Math.random()*.14;
-					var yVel = Math.random()*0.4; 
+					var yVel = Math.random()*0.35; 
 					var r = (Math.random() * .08) + .05;//get random size
 					var color = this.chooseBubbleColor();
 					this.scores[color].total++;
@@ -260,7 +260,7 @@ game.interlude = {
 					this.bubbleIDCounter++;
 				}
 			}
-			if(Math.random() < .07 * (120 - this.bossTimer)/120  && this.bossTimer < 110 ){
+			if(Math.random() < (150 - this.bossTimer)/120  && this.bossTimer < 100 ){
 				var x = Math.random()*12/9 +2/9;
 				var r = (Math.random() * .08) + .05;//get random size
 				this.bubbles.push(new game.BadBubble(this.bubbleIDCounter, 
@@ -844,12 +844,12 @@ game.interlude = {
     //console.log('fuck this code in particular');
 
     for (var i = 0; i < this.audio.sources.length; i++) {
-      this.audio.distortion[i].curve = this.audio.makeDistortionCurve(60);
+      this.audio.distortion[i].curve = this.audio.makeDistortionCurve(20);
       this.audio.distortion[i].oversample = "4x";
 
       this.audio.biquad[i].type = 'highpass';
       this.audio.biquad[i].frequency.value = 1000;
-      this.audio.biquad[i].gain.value = 25;
+      this.audio.biquad[i].gain.value = 1.1;
     };
     //console.log(this.audio.distortion[0]);
     //console.log(this.audio.makeDistortionCurve(400));
