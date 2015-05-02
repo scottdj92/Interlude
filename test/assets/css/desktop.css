@@ -369,7 +369,7 @@ html {
       html .container #lobby .pwd-sect.down {
         margin-top: 10%; }
       html .container #lobby .pwd-sect {
-        top: 50%;
+        top: 55%;
         background: none;
         border: 2px solid rgba(255, 255, 255, 0.5);
         padding: 2%;
@@ -389,6 +389,19 @@ html {
           background: none;
           padding: 0 5px 0 5px;
           letter-spacing: 3px; }
+      html .container #lobby .logo.center {
+        top: 35%; }
+      html .container #lobby .logo {
+        text-transform: uppercase;
+        color: #FFF;
+        font-size: 280%;
+        background-image: url("/assets/img/logo.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 150px;
+        width: 300px;
+        margin: auto; }
       html .container #lobby #players {
         width: 60%;
         height: 20%;
