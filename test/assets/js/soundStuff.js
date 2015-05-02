@@ -14,6 +14,7 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.context = new AudioContext();
 	
 	this.analyzer = this.context.createAnalyser();
+	this.bufferLength = this.analyzer.frequencyBinCount;
 	this.analyzer.minDecibels = -90;
 	this.analyzer.maxDecibels = -10;
 	this.analyzer.smoothingTimeConstant = 0.85;
@@ -24,7 +25,9 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.freqByteData = new Uint8Array();
 	this.timeDomainData = new Uint8Array();
 
-	this.volume = this.context.createGain();
+	this.gainNode = this.context.createGain();
+	//this.context.connect(this.gainNode);
+	this.gainNode.connect(this.context.destination);
 
 	this.bufferLoader = undefined;
 	//console.log(this.tracks);
@@ -50,8 +53,8 @@ function Sound(artistFilePath, trackFilePathArray)
 			);
 
 		this.bufferLoader.load();
-
-		window.setInterval(this.getFreqFloatData, 500);
+		var self = this;
+		window.setInterval(self.getFrequencyData, 500);
 		//window.setInterval(this.getByteFrequencyData, 500);
 		//window.setInterval(this.getTimeDomainData, 500);
 	};
@@ -104,20 +107,20 @@ function Sound(artistFilePath, trackFilePathArray)
 		source6.start(0);
 	};
 
-	this.getFreqFloatData = function()
+	this.getFrequencyData = function()
 	{
 		//copies current analyzernode frequencyBinCount data onto Float32Array freqFloatData
-		var bufferLength = this.analyzer(this.analyzer.frequencyBinCount);
-		this.freqFloatData = bufferLength;
-		return this.freqFloatData;
-		console.log(this.freqFloatData);
+		//this.freqFloatData = this.bufferLength;
+		//return this.freqFloatData;
+		console.log(Sound.analyzer);
+		//this.analyzer.getFreqFloatData
+		//console.log(this.freqFloatData);
 	};
 
 	this.getByteFrequencyData = function()
 	{
 		//copies current analyzerNode frequencyBinCount data onto Uint8Array freqByteData
-		var bufferLength = this.analyzer(this.analyzer.frequencyBinCount);
-		this.freqByteData = bufferLength;
+		this.freqByteData = this.bufferLength;
 		return this.freqByteData;
 		console.log(this.freqByteData);
 	};
@@ -125,8 +128,7 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.getTimeDomainData = function()
 	{
 		//copies current analyzer node frequencyBinCount onto UintArray timeDomainData
-		var bufferLength = this.analyzer(this.analyzer.frequencyBinCount);
-		this.timeDomainData = bufferLength;
+		this.timeDomainData = this.bufferLength;
 		return this.timeDomainData;
 		console.log(this.timeDomainData);
 	};
