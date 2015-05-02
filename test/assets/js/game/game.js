@@ -575,15 +575,6 @@ game.interlude = {
   },
 	
 	/**
-		End
-	**/
-	renderEnd : function() {
-		// Black hole should fade out
-		// Ending animation 
-		// transition to final credits screen
-	},
-	
-	/**
 		BG
 	**/
 	renderBG : function() {
@@ -599,7 +590,11 @@ game.interlude = {
       game.draw.img(this.bgImgs[this.currBG], 0,8625 - this.bgPos,1920,1080,0,0,16/9,1);
     }
 
-    this.bgObjs.forEach(function(obj){obj.render();});
+  },
+
+  renderEnd : function() {
+    this.renderBG();
+    game.draw.text("Bruh it's over", 8/9, 0.55, .2, "#fff");
   },
 	
   ////////////////////////////////////////////////////////////////////////////////////////////////////
