@@ -10,14 +10,11 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.artistName = artistFilePath;
 	this.tracks = trackFilePathArray;
 	this.sources = [];
-	
+
 	this.context = new AudioContext();
 	
-	this.analyzer = this.context.createAnalyser();
-	this.bufferLength = this.analyzer.frequencyBinCount;
-	this.analyzer.minDecibels = -90;
-	this.analyzer.maxDecibels = -10;
-	this.analyzer.smoothingTimeConstant = 0.85;
+	this.analysers = [];
+	this.bufferLength = 85/2;
 
 	//this.source = this.context.createMediaStreamSource()
 
@@ -52,7 +49,7 @@ function Sound(artistFilePath, trackFilePathArray)
 
 		this.bufferLoader.load();
 		
-		window.setInterval(this.getFrequencyData(), 100);
+		//window.setInterval(this.getFrequencyData, 100);
 		//window.setInterval(this.getByteFrequencyData(), 100);
 		//window.setInterval(this.getTimeDomainData(), 100);
 	};
@@ -67,15 +64,24 @@ function Sound(artistFilePath, trackFilePathArray)
 			//console.log(this.sources[i]);
 			self.sources.push(self.context.createBufferSource());
 			self.sources[i].buffer = bufferList[i];
-
-			self.sources[i].connect(this.context.destination); //connect to speakers
+			
+			//create analysers
+			self.analysers.push(self.context.createAnalyser());
+			self.analysers[i].minDecibels = -90;
+			self.analysers[i].maxDecibels = -10;
+			self.analysers[i].smoothingTimeConstant = 0.85;
+			console.log(self.analysers[i]);
+			//self.sources[i].connect(this.context.destination); //connect to speakers
+			self.sources[i].connect( self.analysers[i] );
+			
+			self.analysers[i].connect(this.context.destination);
 		}
 
 		for (var i = 0; i < self.sources.length; i++) {
 			self.sources[i].start(0);
 		};
 
-
+		window.setInterval(self.getFrequencyData, 100);
 		// var source1 = this.context.createBufferSource();
 		// var source2 = this.context.createBufferSource();
 		// var source3 = this.context.createBufferSource();
@@ -108,8 +114,10 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.getFrequencyData = function()
 	{
 		//copies current analyzernode frequencyBinCount data onto Float32Array freqFloatData
-		//self.freqFloatData = self.bufferLength;
-		self.analyzer.getFloatFrequencyData(self.freqFloatData);
+		//console.log(self.bufferLength);
+		self.freqFloatData = new Float32Array(self.bufferLength);
+		console.log(self.analysers);
+		self.analysers[0].getFloatFrequencyData(self.freqFloatData);
 		console.log(self.freqFloatData);
 		//console.log(this.freqFloatData);
 
@@ -119,7 +127,7 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.getByteFrequencyData = function()
 	{
 		//copies current analyzerNode frequencyBinCount data onto Uint8Array freqByteData
-		self.freqByteData = self.bufferLength;
+		self.freqByteData = new Uint8Array(self.bufferLength);
 		return self.freqByteData;
 		console.log(self.freqByteData);
 	};
