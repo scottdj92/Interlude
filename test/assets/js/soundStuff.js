@@ -201,9 +201,9 @@ function Sound(artistFilePath, trackFilePathArray)
 	};
 
 	this.increaseVolume = function(){
-		self.volume = 1;
+		self.volume += 1;
 		for(var i=0; i<self.gainNode.length; i++){
-			self.gainNode[i].value = 1;
+			self.gainNode[i].value += 1;
 		}
 	};
 

@@ -31,7 +31,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 4,
+  playersReady : 0,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -94,7 +94,7 @@ game.interlude = {
   
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   reset : function() {
-    this.setUpScores();
+    /*this.setUpScores();
     //get passwords
     this.password = this.generatePassword();
     document.querySelector('#password').innerHTML = this.password;
@@ -103,25 +103,26 @@ game.interlude = {
 		
     //reset time values
     this.lastUpdate = 0;
-    this.bossTimer = 120;
+    this.bossTimer = 60;
     this.countdownTime= {
       secLeft: 3,
       sec: 1,
     };
-
+		
     this.bubbleIDCounter = 0;
     this.canstart = false;
     this.playersReady = 0;
-    this.backgroundPos = 0;
+    this.bgPos = 1080;
 
     this.players = {}; //array of players in the game
     this.bubbles = []; //array of bubbles in the game
     this.colors = [];
     this.popSprites = [];
-		
+		this.songUsed = 0;
 		this.resetLobby();
-
-    this.loop();
+		
+    this.loop();*/
+	  document.location.reload(true);
   },
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -160,10 +161,12 @@ game.interlude = {
                   tracks: ['Bass.mp3', 'Keys.mp3', 'Guitar.mp3', 'Drums.mp3', 'Percussion.mp3' ]}
     var hector = { artist: 'Hector_Songs',
                   tracks: ['Funky_Bass.mp3', 'Funky_Brass.mp3', 'Funky_Drums.mp3', 'Funky_Mallets.mp3', 'Funky_Organ.mp3' ]}
-    var anthony = { artist: 'Anthony_Constantino-Songs',
-                  tracks: ['Chords.wav', 'Electric_Bass.wav', 'Stacc_Strings.wav', 'Strings_01.wav', 'Xpand_01.wav' ]}
+		var eastman = { artist: 'eastman',
+                  tracks: ['Drum_Stem.wav', 'Strings_Stem.wav', 'Guitar_Stem.wav', 'Bass_Stem.wav', 'Horns_Stem.wav' ]}
+    //var anthony = { artist: 'Anthony_Constantino-Songs', tracks: ['Chords.wav', 'Electric_Bass.wav', 'Stacc_Strings.wav', 'Strings_01.wav', 'Xpand_01.wav' ]}
     //['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocal_Synth.mp3']
-    this.songList = [clash,hector,anthony];
+    //this.songList = [clash,hector,hector, clash];
+    this.songList = [hector,clash,eastman, eastman];
     this.selectSong();
 	},
   //set up scores
@@ -260,7 +263,7 @@ game.interlude = {
 					this.bubbleIDCounter++;
 				}
 			}
-			if(Math.random() < (150 - this.bossTimer)/120  && this.bossTimer < 100 ){
+			if(Math.random() < (60 - this.bossTimer)/100  && this.bossTimer < 100 ){
 				var x = Math.random()*12/9 +2/9;
 				var r = (Math.random() * .08) + .05;//get random size
 				this.bubbles.push(new game.BadBubble(this.bubbleIDCounter, 
@@ -276,7 +279,7 @@ game.interlude = {
     if(this.lastUpdate===0) dt = 0;
     this.lastUpdate = now;
 
-    return dt;
+    return dt*.8;
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -414,7 +417,7 @@ game.interlude = {
     this.updatePopSprites(dt);
    //console.log(this.players);
     //if all bubbles are popped switch to countdown
-    if(this.bubbles.length < 5 && this.popSprites.length < 1){
+    if(this.bubbles.length < 1 && this.popSprites.length < 1){
       this.initCountdown();
     }
   },
@@ -479,13 +482,13 @@ game.interlude = {
 				}
 			}
     });
-		if(bh.r > .1){
+		if(bh.r > .12){
       
     	bh.r -= .001;
 		} else {
 			self.bossEndT += dt;
 		}
-    if(self.bossEndT > 12){
+    if(self.bossEndT > 5){
       this.initBossDie();
     }
   },
@@ -518,9 +521,9 @@ game.interlude = {
     this.blackHole.x += this.bossShakeM;
 		
 		this.nextBubble--;
-    if(this.bossEndT > 5 && this.nextBubble < 0) {
+    if(this.bossEndT > 8 && this.nextBubble < 0) {
 			var r = .05;
-     self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
+     	self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
                         this.blackHole.x, this.blackHole.y, .1, .1, false));
       self.bubbles.push(new game.Bubble(1,self.bubbleAssets["purple"],"purple",r,
                         this.blackHole.x, this.blackHole.y, -.1, .1, false));
@@ -530,7 +533,7 @@ game.interlude = {
                         this.blackHole.x, this.blackHole.y, .1, 0, false));
       self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
                         this.blackHole.x, this.blackHole.y, -.1, 0, false));
-			this.nextBubble = 20;
+			this.nextBubble = 50;
     }
 		if(this.bossEndT > 8) {	//DANNY SWITCH STATE HERE!!!!!!!
       this.initEnd();
@@ -576,6 +579,7 @@ game.interlude = {
 				this.updateBG(this.getDT());
         break;
       case "TRANS":
+    		this.updatePlayers(this.getDT());
         break;
       default :
         break;
@@ -622,6 +626,9 @@ game.interlude = {
 				this.renderEnd();
         break;
       case "TRANS":
+				for(var p in this.players){
+      		this.players[p].render();
+    		}
         break;
       default :
         break;
@@ -857,11 +864,14 @@ game.interlude = {
 
   initBossDie : function(){
     this.state = "BOSS DIE";
+		this.bubbles = [];
+		this.popSprites = [];
   },
 	
 	initEnd : function(){
 		this.state = "END";
 		$("#end").fadeIn(500);
+		this.fadeToReset();
 	},
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -869,6 +879,14 @@ game.interlude = {
 	// LOBBY 
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	fadeToReset : function(){
+		var self = this;
+		setTimeout( function(){
+			self.reset();
+			self.haltPlayback();
+		}, 15000)
+	},
 	
 	// Add player to Lobby
 	addPlayertoLobby: function(data){
@@ -903,6 +921,7 @@ game.interlude = {
 	
 	// MAIN reset lobby
 	resetLobby: function(){
+		$("#end").fadeOut(300);
 		this.resetPlayers();
 		this.resetPasswordSect();
 		$("#lobby .logo").show();
@@ -1154,6 +1173,7 @@ game.interlude = {
     var n = Math.floor(Math.random() * 3);
 
     console.log(this.songList[n]);
+		if(n > 1) {this.bossTimer = 30;}
     this.songUsed = n;
     this.audio = new Sound(this.songList[n].artist, this.songList[n].tracks);
 
