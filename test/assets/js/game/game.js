@@ -4,7 +4,7 @@ var game = game || {};
 game.interlude = {
   players : {}, //array of players in the game
   numPlayers : 0,
-  introBubbles : []//hacky way of knowing which bubbles to put in the game
+  introBubbles : [],//hacky way of knowing which bubbles to put in the game
   bubbles : [], //array of bubbles in the game
 	colors : [],
   popSprites : [],
@@ -33,7 +33,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 4,
+  playersReady : 0,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
