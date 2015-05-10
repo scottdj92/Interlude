@@ -11,7 +11,6 @@ html,body
 	background-size: cover
 	background-repeat: no-repeat
 	background-position: center
-	font: 90%
 	font-weight: 300
 	color: #FFF
 	overflow: hidden
@@ -208,6 +207,8 @@ html,body
 						border-bottom: 1px solid rgba(255,255,255,0.9)
 						padding: 1%
 						outline: none
+					input::-webkit-input-placeholder 
+						opacity: 0.3
 				#colors_instr
 					font-size: 175%
 					font-weight: 100
@@ -299,4 +300,55 @@ html,body
 				border-width: 2px
 				+transition(0.4s)
 			#ready.clicked
-				opacity: 0.3
+				opacity: 0.2
+		
+//
+// ON NON-IPAD SCREENS (GENERAL)
+//
+@media only screen and (max-width : 540px) and (max-device-width: 960px)
+	html,body
+		font-size: 85%
+		#mobile_body
+			.sect
+				article
+					width: 90%
+					margin: auto
+					margin-bottom: 20%
+			#pre-game
+				.logo
+					width: 75%
+					height: 95px
+				#intro
+					p
+						font-size: 115%
+				#game_login
+					#boxes
+						.box
+							width: 50px
+							height: 50px
+					input
+						width: 300px
+						padding-left: 25px
+						letter-spacing: 41px
+						height: 50px
+						font-size: 30px
+						margin-top: -62px
+			#in-game 
+				#game_prep 
+					.instructions #name_instr
+						margin-top: 85%
+						input
+							width: 130%
+							margin-left: -15%
+							font-size: 130%
+				#game_controls
+					#ready
+						font-size: 130%
+						top: 85%
+					.instructions
+						max-width: 250px
+			
+@media only screen and (max-width : 360px) and (max-device-width : 480px) 
+	html,body
+		font-size: 80%
+				

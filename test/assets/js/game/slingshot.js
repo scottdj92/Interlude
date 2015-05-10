@@ -5,10 +5,10 @@ mobileClient.slingshot = {
 		// Creating slingshot
 		var R = Raphael(0, 0, window.innerWidth, window.innerHeight);
 		// Parameters
-		var cWidth = 60;
+		var cWidth = 55;
 		var cXpos = window.innerWidth/2;
-		var cYpos = window.innerHeight*(1.1/2) - cWidth/2+10;
-		var lYpos = window.innerHeight*(1.1/2);
+		var cYpos = window.innerHeight*(1.07/2) - cWidth/4+5;
+		var lYpos = window.innerHeight*(1.07/2);
 		var lXpos = window.innerWidth;
 		// Line
 		var l = R.path("M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos);

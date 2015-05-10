@@ -336,7 +336,6 @@ html, body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  font: 90%;
   font-weight: 300;
   color: #FFF;
   overflow: hidden;
@@ -528,6 +527,8 @@ html, body {
             border-bottom: 1px solid rgba(255, 255, 255, 0.9);
             padding: 1%;
             outline: none; }
+          #mobile_body #in-game #game_prep .instructions #name_instr input::-webkit-input-placeholder {
+            opacity: 0.3; }
         #mobile_body #in-game #game_prep .instructions #colors_instr {
           font-size: 175%;
           font-weight: 100; }
@@ -713,6 +714,43 @@ html, body {
         -moz-transition: all 0.4s ease;
         -webkit-transition: all 0.4s ease-in-out; }
       #mobile_body #in-game #game_controls #ready.clicked {
-        opacity: 0.3; }
+        opacity: 0.2; }
+
+@media only screen and (max-width: 540px) and (max-device-width: 960px) {
+  html, body {
+    font-size: 85%; }
+    html #mobile_body .sect article, body #mobile_body .sect article {
+      width: 90%;
+      margin: auto;
+      margin-bottom: 20%; }
+    html #mobile_body #pre-game .logo, body #mobile_body #pre-game .logo {
+      width: 75%;
+      height: 95px; }
+    html #mobile_body #pre-game #intro p, body #mobile_body #pre-game #intro p {
+      font-size: 115%; }
+    html #mobile_body #pre-game #game_login #boxes .box, body #mobile_body #pre-game #game_login #boxes .box {
+      width: 50px;
+      height: 50px; }
+    html #mobile_body #pre-game #game_login input, body #mobile_body #pre-game #game_login input {
+      width: 300px;
+      padding-left: 25px;
+      letter-spacing: 41px;
+      height: 50px;
+      font-size: 30px;
+      margin-top: -62px; }
+    html #mobile_body #in-game #game_prep .instructions #name_instr, body #mobile_body #in-game #game_prep .instructions #name_instr {
+      margin-top: 85%; }
+      html #mobile_body #in-game #game_prep .instructions #name_instr input, body #mobile_body #in-game #game_prep .instructions #name_instr input {
+        width: 130%;
+        margin-left: -15%;
+        font-size: 130%; }
+    html #mobile_body #in-game #game_controls #ready, body #mobile_body #in-game #game_controls #ready {
+      font-size: 130%;
+      top: 85%; }
+    html #mobile_body #in-game #game_controls .instructions, body #mobile_body #in-game #game_controls .instructions {
+      max-width: 250px; } }
+@media only screen and (max-width: 360px) and (max-device-width: 480px) {
+  html, body {
+    font-size: 80%; } }
 
 /*# sourceMappingURL=mobile.css.map */
