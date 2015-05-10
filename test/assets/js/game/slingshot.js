@@ -7,8 +7,8 @@ mobileClient.slingshot = {
 		// Parameters
 		var cWidth = 60;
 		var cXpos = window.innerWidth/2;
-		var cYpos = window.innerHeight*(1.07/2) - cWidth/2+10;
-		var lYpos = window.innerHeight*(1.07/2);
+		var cYpos = window.innerHeight*(1.0/2) - cWidth/2+10;
+		var lYpos = window.innerHeight*(1.0/2);
 		var lXpos = window.innerWidth;
 		// Line
 		var l = R.path("M0 "+lYpos+"L"+cXpos+" "+lYpos+"L"+lXpos+" "+lYpos);
