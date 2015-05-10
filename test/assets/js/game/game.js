@@ -145,6 +145,7 @@ game.interlude = {
     this.bubbleAssets['green'] = this.loadImg("assets/img/green-sprite.png");
     this.playerSprites = this.loadImg("assets/img/crosshair.png");
     this.videos.instructions = document.querySelector("#instructions");
+    this.videos.outro = document.querySelector("#outro");
     this.badBubImg = this.loadImg("assets/img/bad-sprite.png");
   },
   //retune the image object with the source passed in
@@ -779,8 +780,9 @@ game.interlude = {
         console.log('playing');
         if (!self.paused && !self.ended) {
           game.draw.ctx.drawImage(self, 0, 0,
-                  game.draw.canvas.width, game.draw.canvas.height);
-					game.draw.text("TO AIM YOUR SLINGSHOT", 8/9, 0.07, .06, "#fff");
+          game.draw.canvas.width, game.draw.canvas.height);
+          if(self.instructions)
+					  game.draw.text("TO AIM YOUR SLINGSHOT", 8/9, 0.07, .06, "#fff");
           setTimeout(loop, 1000 / 30); // drawing at 30fps
         } else {
           callback();
@@ -813,9 +815,10 @@ game.interlude = {
         //get rid of dom elements
         self.removeLobby();
       }, 900);
+    self.instructions=true;
 		
 		this.transitionAnimation(this.videos.instructions, function(){
-
+      self.instructions=false;
       //set state
       var r = .12;		
       self.state = "INTRO";
@@ -860,9 +863,13 @@ game.interlude = {
   },
 
   initBossDie : function(){
+    var self = this;
     this.state = "BOSS DIE";
 		this.bubbles = [];
 		this.popSprites = [];
+    this.transitionAnimation(this.videos.outro, function(){
+      self.initEnd();
+    });
   },
 	
 	initEnd : function(){
