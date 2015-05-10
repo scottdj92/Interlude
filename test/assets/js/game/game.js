@@ -33,7 +33,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 0,
+  playersReady : 4,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -835,6 +835,7 @@ game.interlude = {
   initGame : function() {
     this.state = "GAME";
 		this.removeLobby();
+    this.drawMeter();
 	
 		this.playAudio();
   },
@@ -869,6 +870,18 @@ game.interlude = {
 		$("#end").fadeIn(500);
 		this.fadeToReset();
 	},
+
+  drawMeter : function()
+  {
+    //draw meter background
+    this.ctx.fillStyle = '#000';
+    this.ctx.clearRect(0, 0, this.canvas.width * .90, this.canvas.height * .90);
+    this.ctx.fillRect(0, 0, 50, 50);
+
+    //draw meter fill
+    this.ctx.fillStyle = '#2917CE';
+    this.ctx.fillRect(0, 0, this.canvas.width * .75, this.canvas.height * .75);
+  },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
