@@ -33,7 +33,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 5,
+  playersReady : 0,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -1097,16 +1097,24 @@ game.interlude = {
 		game.sockets.socket.emit("color selected", {players: pIds, colors:colors, room: this.room});
 	},
 	
+	/** 
+  	* setPlayerName():
+	* adds player name
+	* parameter [data object from socket]
+  */
+	setPlayerName: function(data){
+		this.players[data.id].setName(data.name);
+		this.updateLobbyPlayerName(data);
+	},
 	
 	/** 
   	* setPlayerReady():
-	* adds player name
+	* sets player readt
 	* parameter [data object from socket]
   */
 	setPlayerReady: function(data){
 		this.players[data.id].ready = true;
-		this.players[data.id].setName(data.name);
-		this.updateLobbyPlayerName(data);
+		//write to set ready notification on player
 		this.playersReady ++;
 		console.log(this.playersReady);
 	},
