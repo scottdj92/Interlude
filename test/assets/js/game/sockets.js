@@ -18,7 +18,7 @@ game.sockets = {
 				// check password
 				if( data.password === app.password ){ 
 					// check number of players
-					if( app.playersReady < 5 ){
+					if( app.playersReady < app.numPlayers ){
 						self.socket.emit('player joined', {id:data.sockID, room: app.room}); // emit successful join
 						app.createPlayer(data); // create new player
 						app.addPlayertoLobby(data); //Add player to lobby
@@ -57,7 +57,7 @@ game.sockets = {
     //recieves event once a player has typed in the code and selected a color
     this.socket.on('player ready', function(data){
 			app.setPlayerReady(data);
-      if(app.playersReady >= 5)
+      if(app.playersReady >= app.numPlayers && app.numPlayers > 1)
         app.canstart = true;
     });
   

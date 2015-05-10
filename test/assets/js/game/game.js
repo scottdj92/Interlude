@@ -3,6 +3,7 @@ var game = game || {};
 
 game.interlude = {
   players : {}, //array of players in the game
+  numPlayers : 0,
   bubbles : [], //array of bubbles in the game
 	colors : [],
   popSprites : [],
@@ -933,7 +934,7 @@ game.interlude = {
 		var html = '';
 		// this be so dirty (but time is little)
 		var player = "<div class='player'><div class='icon'></div><div class='name'></div></div>";
-		for(var i=0; i<5; i++) { html += player }
+		for(var i=0; i<this.numPlayers; i++) { html += player }
 		$("#players").html(html);
 		$("#players").show();
 	},
@@ -1030,6 +1031,7 @@ game.interlude = {
                             this.playerSprites);
 		this.players[data.id].audio = this.audCount;
 		this.audCount ++;
+    this.numPlayers++;
     //var i = parseInt(data.id);
   },
 	
