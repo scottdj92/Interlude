@@ -4,6 +4,7 @@ var game = game || {};
 game.interlude = {
   players : {}, //array of players in the game
   numPlayers : 0,
+  introBubbles : []//hacky way of knowing which bubbles to put in the game
   bubbles : [], //array of bubbles in the game
 	colors : [],
   popSprites : [],
@@ -812,23 +813,17 @@ game.interlude = {
       }, 900);
 		
 		this.transitionAnimation(this.videos.instructions, function(){
+
       //set state
       var r = .12;		
       self.state = "INTRO";
   		var players = self.getPlayersById();
-  		socket.emit('game started', {players: players}); 
-			console.log(socket);
-      //add bubbles for them to pop
-      self.bubbles.push(new game.Bubble(0,self.bubbleAssets["white"],"white",r,
-                        2/9, 3/5 - .1, 0, 0, false));
-      self.bubbles.push(new game.Bubble(1,self.bubbleAssets["purple"],"purple",r,
-                        5/9, 4/5- .1, 0, 0, false));
-      self.bubbles.push(new game.Bubble(2,self.bubbleAssets["pink"],"pink",r,
-                        8/9, 3/5- .1, 0, 0, false));
-      self.bubbles.push(new game.Bubble(3,self.bubbleAssets["blue"],"blue",r,
-                        11/9, 4/5- .1, 0, 0, false));
-      self.bubbles.push(new game.Bubble(4,self.bubbleAssets["green"],"green",r,
-                        14/9, 3/5- .1, 0, 0, false));
+      socket.emit('game started', {players: players});
+      for(var i = 0; i < self.numPlayers; i++){
+        var color = self.introBubbles[i];
+        self.bubbles.push(new game.Bubble(0,self.bubbleAssets[color],color,r,
+                        2/9 + 3/9*i, 3/5 - .1, 0, 0, false));  
+      } 
     });
   },
   //initializes countdown state
@@ -1064,6 +1059,7 @@ game.interlude = {
 			game.sockets.socket.emit("player colorcheck", response);
 			self.updateLobbyPlayerColor(data);
 			self.getSelectedColors();
+      self.introBubbles.push(data.color);
 		}
 	},
 	
