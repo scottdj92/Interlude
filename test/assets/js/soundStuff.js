@@ -195,7 +195,7 @@ function Sound(artistFilePath, trackFilePathArray)
 		if(self.volume > 0){
 			self.volume -= 0.01;
 			for(var i=0; i<self.gainNode.length; i++){
-				self.gainNode[i].value = volume;
+				self.gainNode[i].value = self.volume;
 			}
 		}
 	};

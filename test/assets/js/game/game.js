@@ -4,7 +4,7 @@ var game = game || {};
 game.interlude = {
   players : {}, //array of players in the game
   numPlayers : 0,
-  introBubbles : []//hacky way of knowing which bubbles to put in the game
+  introBubbles : [],//hacky way of knowing which bubbles to put in the game
   bubbles : [], //array of bubbles in the game
 	colors : [],
   popSprites : [],
@@ -33,7 +33,7 @@ game.interlude = {
   playerSprites : undefined,
   bubbleIDCounter : 0,
   canstart: false,
-  playersReady : 4,
+  playersReady : 5,
   bgPos: 1080,
   currBG : 0,
   nextBG : 1,
@@ -237,7 +237,7 @@ game.interlude = {
     this.nextBubble--;
 		var id = this.players[p].audio; //id of audio track
 		var freq = this.audio.getByteFrequencyData(id);
-    console.log(this.audio.sources[id]);
+    //console.log(this.audio.sources[id]);
 		var length = freq.length;
     if(this.nextBubble <= 0) {
 			//set spawn lane
@@ -696,6 +696,8 @@ game.interlude = {
     for(var p in this.players){
       self.players[p].render();
     }
+    
+    this.drawMeter();
   },
 	renderIntro : function(){
 		this.renderGame();
@@ -834,9 +836,7 @@ game.interlude = {
 	
   initGame : function() {
     this.state = "GAME";
-		this.removeLobby();
-    this.drawMeter();
-	
+		this.removeLobby();	
 		this.playAudio();
   },
 
@@ -874,13 +874,20 @@ game.interlude = {
   drawMeter : function()
   {
     //draw meter background
-    this.ctx.fillStyle = '#000';
-    this.ctx.clearRect(0, 0, this.canvas.width * .90, this.canvas.height * .90);
-    this.ctx.fillRect(0, 0, 50, 50);
+    // game.draw.ctx.fillStyle = '#000';
+    // game.draw.ctx.clearRect(this.canvas.width/2, this.canvas.height/2, this.canvas.width * .90, this.canvas.height * .90);
+    // game.draw.ctx.fillRect(20, 20, 50, 50);
 
     //draw meter fill
-    this.ctx.fillStyle = '#2917CE';
-    this.ctx.fillRect(0, 0, this.canvas.width * .75, this.canvas.height * .75);
+    game.draw.ctx.fillStyle = '#2917CE';
+    game.draw.ctx.fillRect(this.canvas.width * .90, 25, 40, this.canvas.height * .85);
+  },
+
+  updateMeter : function() 
+  {
+    //update meter here
+
+    //update whenever a bubble is popped
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
