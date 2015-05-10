@@ -886,15 +886,27 @@ game.interlude = {
     // game.draw.ctx.fillRect(20, 20, 50, 50);
 
     //draw meter fill
-    game.draw.ctx.fillStyle = '#2917CE';
-    game.draw.ctx.fillRect(this.canvas.width * .90, 25, 40, this.canvas.height * .85);
+    game.draw.ctx.strokeStyle = '#BFBFBF';
+    game.draw.ctx.strokeRect(this.canvas.width * .96, 15, 20, this.canvas.height * .95);
   },
 
   updateMeter : function() 
   {
     //update meter here
 
-    //update whenever a bubble is popped
+    if (this.checkBubbleCollison == true)
+    {
+      //find color of bubble
+      game.draw.ctx.fillStyle = '#CE2C40'; //test color
+      game.draw.fillRect(this.canvas.width * .96, ((this.canvas.height * 95) - 15), 40, 15);
+    }
+
+    // game.draw.ctx.fillStyle = '#CE2C40'; //test color
+    // game.draw.ctx.fillRect(this.canvas.width * .96, (this.canvas.height * 95 - 15), 40, 15);
+
+    //update whenever a bubble is popped and put in a rectange of 20x15 within the "meter"
+    //find out which color bubble was popped
+    //based on overall bubbles created?
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
