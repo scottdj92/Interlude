@@ -54,9 +54,9 @@ io.on('connection', function(socket){
 		PLAYER JOINED 
 	**/
   // Sent from game to notify that player has been accepted
+	// players.push(data.id); //add new player's socketID
+	// emit to individual player that they hve just joined the game
   socket.on('player joined', function(data){
-  	//players.push(data.id); //add new player's socketID
-		//emit to individual player that they hve just joined the game
 		var msg = data;
 		io.to(data.id).emit('response joined', msg);
   });
@@ -65,8 +65,8 @@ io.on('connection', function(socket){
 		PLAYER REJECT 
 	**/
   // Sent from game to notify that player has been rejected
+	// data should be socket id of client
   socket.on('player reject', function(data){
-		//data should be socket id of client
   	io.to(data.id).emit('response reject', data.msg);
   });
 
@@ -101,6 +101,14 @@ io.on('connection', function(socket){
 		data.players.forEach(function(p){
 			io.to(p).emit('color selected', data);
 		});
+	});
+	
+	/** 
+		PLAYER NAME 
+	**/
+	socket.on('player name', function(data){
+		console.log(data.room);
+		io.to(data.room).emit('player name', data);
 	});
 	
 	/** 
