@@ -53,6 +53,7 @@ game.interlude = {
   bossShakeM : .001,
   bossEndT : 0,
   songUsed: 0,
+  maxMeterHeight,
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Initializer
@@ -88,6 +89,8 @@ game.interlude = {
     for(var i = 0; i < 50; i++){
       this.projectiles.inactive.push(new game.Projectile());
     }
+
+    this.maxMeterHeight = this.canvas.height * .95;
     this.loop();
   },
   ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -894,19 +897,37 @@ game.interlude = {
   {
     //update meter here
 
-    if (this.checkBubbleCollison == true)
+    //check if projectile hit bubble
+    if (this.checkBubbleCollison(proj) == true)
     {
       //find color of bubble
-      game.draw.ctx.fillStyle = '#CE2C40'; //test color
-      game.draw.fillRect(this.canvas.width * .96, ((this.canvas.height * 95) - 15), 40, 15);
+      if (this.Players[hash].color == '#2CFFF4')
+      {
+        game.draw.ctx.fillStyle = '#2CFFF4'; //blue
+        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      }
+      else if (this.Players[hash].color = '#FFFFFF')
+      {
+        game.draw.ctx.fillStyle = '##FFFFFF'; //white
+        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      }
+      else if (this.Players[hash].color == '#6E7CFF')
+      {
+        game.draw.ctx.fillStyle = '#6E7CFF'; //purple
+        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      }
+      else if (this.Players[hash].color == '#29FF7F')
+      {
+        game.draw.ctx.fillStyle = '#29FF7F'; //green
+        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      }
+      else if (this.Players[hash].color == '#FF4399')
+      {
+        game.draw.ctx.fillStyle = '#FF4399'; //pink
+        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      }
+      this.maxMeterHeight - 15; //shrink max height of meter
     }
-
-    // game.draw.ctx.fillStyle = '#CE2C40'; //test color
-    // game.draw.ctx.fillRect(this.canvas.width * .96, (this.canvas.height * 95 - 15), 40, 15);
-
-    //update whenever a bubble is popped and put in a rectange of 20x15 within the "meter"
-    //find out which color bubble was popped
-    //based on overall bubbles created?
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
