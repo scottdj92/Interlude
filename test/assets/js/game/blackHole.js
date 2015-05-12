@@ -14,6 +14,7 @@ game.BlackHole = function() {
     this.x = x;
     this.y = y;
     this.r = r;//radius
+    this.bad = true;
     this.speed = 0.003;
     this.particles = this.generateParticles(numParticles);
   }

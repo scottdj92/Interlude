@@ -48,9 +48,6 @@ game.interlude = {
     sec: 1,
   },
   room: undefined,
-  bossSmallT : 0,
-  bossShakeT : 0,
-  bossShakeM : .001,
   bossEndT : 0,
   songUsed: 0,
   maxMeterHeight,
@@ -99,6 +96,37 @@ game.interlude = {
   
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   reset : function() {
+    //Change room
+    this.password = this.generatePassword();
+    document.querySelector('#password').innerHTML = this.password;
+    /*
+    change room code on server
+    */
+
+    //set state
+    this.state = "START";
+    //reset scores
+    this.setUpScores();
+    //reset timer values
+    this.lastUpdate = 0;
+    this.bossTimer = 60;
+    this.countdownTime= {
+      secLeft: 3,
+      sec: 1,
+    };
+    //reset/disconnect players
+    //game.sockets.disconnectPlayers(players);
+    //clear bubbles, popsprites, and background
+    this.players = {};
+    this.numPlayers = 0;
+    this.introBubbles = [];
+    this.bubbles = [];
+    this.colors = [];
+    this.popSprites = [];
+    this.bgObjs = [];
+    this.resetLobby();
+    //Music son
+
     /*this.setUpScores();
     //get passwords
     this.password = this.generatePassword();
@@ -212,7 +240,7 @@ game.interlude = {
     this.bubbles.forEach(function(bubble){
       if((c1.type === bubble.type || bubble.type ==="bad" || c1.bad === true) && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
-        if((self.state !== "GAME" || self.state !== "BOSS") && !(c1.bad === true))
+        if((self.state === "GAME" || self.state === "BOSS") && !(c1.bad))
           self.scores[bubble.type].hits++;
         return true;
       }
