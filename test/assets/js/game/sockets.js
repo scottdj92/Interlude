@@ -64,7 +64,7 @@ game.sockets = {
     this.socket.on('player ready', function(data){
 			console.log(data.id+" is ready");
 			app.setPlayerReady(data);
-      if(app.playersReady >= app.numPlayers && app.numPlayers > 1)
+      if(app.playersReady >= app.numPlayers && app.numPlayers > 0)
         app.canstart = true;
     });
   

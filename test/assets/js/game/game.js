@@ -180,7 +180,7 @@ game.interlude = {
     //var anthony = { artist: 'Anthony_Constantino-Songs', tracks: ['Chords.wav', 'Electric_Bass.wav', 'Stacc_Strings.wav', 'Strings_01.wav', 'Xpand_01.wav' ]}
     //['Bass.mp3', 'Drums.mp3', 'Guitar.mp3', 'Vocal_Synth.mp3']
     //this.songList = [clash,hector,hector, clash];
-    this.songList = [hector,clash,eastman, eastman];
+    this.songList = [hector,clash,eastman, eastman, hector, eastman, hector];
     this.selectSong();
 	},
 	

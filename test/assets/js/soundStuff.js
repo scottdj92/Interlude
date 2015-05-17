@@ -218,9 +218,9 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.startPlayback = function(track)
 	{
 		self.sources[track].start(0);
-		self.sources[track].oversample = "4x";
-		self.sources[track].frequency.value = 1000;
-		self.sources[track].gain.value = 1.1;
+		self.distortion[track].oversample = "4x";
+		self.biquad[track].frequency.value = 1000;
+		self.biquad[track].gain.value = 1.0;
 	};
 
 	this.stopPlayback = function()
