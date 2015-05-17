@@ -71,6 +71,10 @@ mobileClient = {
 			console.log(data);
 			self.gameStart();
 		});
+
+		socket.on('disconnect players', function(data){
+			document.location.reload(true);
+		});
 		
 		if(jQuery.isFunction(callback)){
 			callback();

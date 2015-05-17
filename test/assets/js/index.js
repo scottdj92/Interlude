@@ -32,11 +32,9 @@ io.on('connection', function(socket){
   //forces ids passed in out of the game
   socket.on('disconnect players', function(data){
   	data.sockets.forEach(function(sock){
-  		io.sockets.sockets[sock].disconnect();
+  		io.to(sock).emit('disconnect players', data);
   	});
   });
-
-
 	// DISCONNECT
 	// handle disconnects
 	socket.on('disconnect', function(){
