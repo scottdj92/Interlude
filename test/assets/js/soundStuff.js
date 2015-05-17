@@ -55,7 +55,7 @@ function Sound(artistFilePath, trackFilePathArray)
 			 //source path of all audio files in an array. this must be in this directory:
 			//assets/audio/artistName/trackName.extension'
 			this.finishedLoading
-			);
+		);
 
 		this.bufferLoader.load();
 		
@@ -79,7 +79,7 @@ function Sound(artistFilePath, trackFilePathArray)
 			//create analysers
 			self.analysers.push(self.context.createAnalyser());
 			self.analysers[i].minDecibels = -90;
-			self.analysers[i].maxDecibels = -10;
+			self.analysers[i].maxDecibels = 100;
 			self.analysers[i].smoothingTimeConstant = 0.85;
 			//console.log(self.analysers[i]);
 			//self.sources[i].connect(this.context.destination); //connect to speakers
@@ -100,6 +100,7 @@ function Sound(artistFilePath, trackFilePathArray)
 			//connect gain nodes to final destination
 
 			// ITS THE FINALL COUNTDOOOOOWN
+			self.gainNode[i].value = 10;
 			self.gainNode[i].connect(self.context.destination);
 			//console.log(self);
 
@@ -114,7 +115,7 @@ function Sound(artistFilePath, trackFilePathArray)
 
 	this.makeDistortionCurve = function(amount) 
 	{
-	  var k = typeof amount === 'number' ? amount : 50,
+	  var k = typeof amount === 'number' ? amount : 60,
 	    n_samples = 44100,
 	    curve = new Float32Array(n_samples),
 	    deg = Math.PI / 180,
@@ -217,6 +218,9 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.startPlayback = function(track)
 	{
 		self.sources[track].start(0);
+		self.sources[track].oversample = "4x";
+		self.sources[track].frequency.value = 1000;
+		self.sources[track].gain.value = 1.1;
 	};
 
 	this.stopPlayback = function()

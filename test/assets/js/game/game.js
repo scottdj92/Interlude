@@ -11,7 +11,7 @@ game.interlude = {
   bgObjs : [],
   projectiles : { //Holds all projectiles in the game so we dont make extra
     active : [], //currently active projectiles
-    inactive : [] //inactive projectiles
+    inactive : [], //inactive projectiles
   },
   videos : {
     instructions : undefined
@@ -50,7 +50,7 @@ game.interlude = {
   room: undefined,
   bossEndT : 0,
   songUsed: 0,
-  maxMeterHeight,
+  maxMeterHeight: 0,
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Initializer
@@ -157,12 +157,14 @@ game.interlude = {
     this.videos.outro = document.querySelector("#outro");
     this.badBubImg = this.loadImg("assets/img/bad-sprite.png");
   },
+	
   //retune the image object with the source passed in
   loadImg : function(src) {
     var asset = new Image();
     asset.src = src;
     return asset;
   },
+	
 	//load audio
 	loadAudio : function(){
 		//need to make random
@@ -181,6 +183,7 @@ game.interlude = {
     this.songList = [hector,clash,eastman, eastman];
     this.selectSong();
 	},
+	
   //set up scores
   setUpScores : function() {
     this.scores["blue"]={total:0, hits:0};
@@ -190,6 +193,7 @@ game.interlude = {
     this.scores["pink"]={total:0, hits:0};
     this.scores["bad"]={total:0, hits:0};
   },
+	
   //Main loop that gets called on each frame
   loop : function () {
     requestAnimationFrame(this.loop.bind(this));//Set up next loop call
@@ -284,6 +288,7 @@ game.interlude = {
 			}
     }
   },
+	
   //returns the delta time from the last call in seconds
   getDT : function() {
     var now = Date.now();
@@ -323,6 +328,7 @@ game.interlude = {
       }
     });
   },
+	
   /**
     Background
   **/
@@ -346,6 +352,7 @@ game.interlude = {
     this.bgObjs.forEach(function(obj){obj.update(dt);});
 
   },
+	
 	/**
 		Players
 	**/
@@ -356,6 +363,7 @@ game.interlude = {
       self.players[p].update(dt);
     }
   },
+	
 	/**
 		Bubbles
 	**/
@@ -378,6 +386,7 @@ game.interlude = {
       }
     });
   },
+	
   //updates all bubble pop sprites
 	updatePopSprites : function(dt) {
     var self = this;
@@ -453,6 +462,7 @@ game.interlude = {
       this.initGame();
     }
   },
+	
 	/**
     Boss
   **/
@@ -504,6 +514,7 @@ game.interlude = {
       this.initBossDie();
     }
   },
+	
 	updateBossEnter : function() {
     var self = this;
     var dt = this.getDT();
@@ -517,6 +528,7 @@ game.interlude = {
       this.state = "BOSS";
     }
   },
+	
   updateBossDie : function() {
     var self = this;
     var dt = this.getDT();

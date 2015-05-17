@@ -104,11 +104,11 @@ game.sockets = {
   },
   //Disconnects all currently connected players
   disconnectPlayers : function(players){
-	var playerIDs = [];
-	for(var p in players){
-		playerIDs.push(p);
-	};
-	var data = { sockets: playerIDs};
-	this.socket.emit('disconnect players', data);
+		var playerIDs = [];
+		for(var p in players){
+			playerIDs.push(p);
+		};
+		var data = { sockets: playerIDs};
+		this.socket.emit('disconnect players', data);
   }
 }
