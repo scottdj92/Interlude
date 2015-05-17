@@ -28,6 +28,14 @@ io.on('connection', function(socket){
 	//broadcast that a user has connected
 	//pass an object containing user informatiojn?
   io.to(socket.id).emit('game init', {id:socket.id});
+  //DISCONNECT PLAYERS
+  //forces ids passed in out of the game
+  socket.on('disconnect players', function(data){
+  	data.sockets.forEach(function(sock){
+  		io.sockets.sockets[socket.id].disconnect();
+  	});
+  });
+
 
 	// DISCONNECT
 	// handle disconnects
