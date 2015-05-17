@@ -115,7 +115,7 @@ function Sound(artistFilePath, trackFilePathArray)
 
 	this.makeDistortionCurve = function(amount) 
 	{
-	  var k = typeof amount === 'number' ? amount : 60,
+	  var k = typeof amount === 'number' ? amount : 70,
 	    n_samples = 44100,
 	    curve = new Float32Array(n_samples),
 	    deg = Math.PI / 180,
