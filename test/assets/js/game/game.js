@@ -99,9 +99,6 @@ game.interlude = {
     //Change room
     this.password = this.generatePassword();
     document.querySelector('#password').innerHTML = this.password;
-    /*
-    change room code on server
-    */
 
     //set state
     this.state = "START";
@@ -115,7 +112,7 @@ game.interlude = {
       sec: 1,
     };
     //reset/disconnect players
-    //game.sockets.disconnectPlayers(players);
+    game.sockets.disconnectPlayers(this.players);
     //clear bubbles, popsprites, and background
     this.players = {};
     this.numPlayers = 0;
@@ -125,37 +122,18 @@ game.interlude = {
     this.popSprites = [];
     this.bgObjs = [];
     this.resetLobby();
-    //Music son
-
-    /*this.setUpScores();
-    //get passwords
-    this.password = this.generatePassword();
-    document.querySelector('#password').innerHTML = this.password;
-
-    this.state = "START";
-		
-    //reset time values
-    this.lastUpdate = 0;
-    this.bossTimer = 60;
-    this.countdownTime= {
-      secLeft: 3,
-      sec: 1,
-    };
-		
+    
     this.bubbleIDCounter = 0;
     this.canstart = false;
     this.playersReady = 0;
     this.bgPos = 1080;
 
-    this.players = {}; //array of players in the game
-    this.bubbles = []; //array of bubbles in the game
-    this.colors = [];
-    this.popSprites = [];
-		this.songUsed = 0;
-		this.resetLobby();
-		
-    this.loop();*/
-	  document.location.reload(true);
+    //Music son
+
+		this.state = "START";
+    this.loop();
+
+	  //document.location.reload(true);
   },
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 	
