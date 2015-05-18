@@ -872,12 +872,13 @@ game.interlude = {
     //console.log('fuck this code in particular');
 
     for (var i = 0; i < this.audio.sources.length; i++) {
-      this.audio.distortion[i].curve = this.audio.makeDistortionCurve(20);
+      this.audio.distortion[i].curve = this.audio.makeDistortionCurve(100);
       this.audio.distortion[i].oversample = "4x";
 
-      this.audio.biquad[i].type = 'highpass';
+      this.audio.biquad[i].type = 'allpass';
       this.audio.biquad[i].frequency.value = 1000;
-      this.audio.biquad[i].gain.value = 1.1;
+      this.audio.biquad[i].Q.value = 2000;
+      this.audio.biquad[i].gain.value = 0.7;
     };
     //console.log(this.audio.distortion[0]);
     //console.log(this.audio.makeDistortionCurve(400));
@@ -958,7 +959,7 @@ game.interlude = {
 		var self = this;
 		setTimeout( function(){
 			self.reset();
-			self.haltPlayback();
+			self.stopAudioPlayback();
 		}, 15000)
 	},
 	
@@ -1237,7 +1238,7 @@ game.interlude = {
   haltPlayback: function(track)
   {
     //prematurely ejaculate...I mean stop if necessary
-     track.stopPlayback();
+    track.stopPlayback();
   },
 
   changeVolume: function(track, float)
@@ -1251,10 +1252,14 @@ game.interlude = {
 			this.audio.startPlayback(i);
 		}
 	},
+	
+	stopAudio : function(){
+			this.audio.stopPlayback();
+	},
 
   selectSong :function()
   {
-    var n = Math.floor(Math.random() * 3);
+    var n = Math.floor(Math.random() * this.songList.length);
 
     console.log(this.songList[n]);
 		if(n > 1) {this.bossTimer = 30;}

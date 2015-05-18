@@ -17,7 +17,7 @@ function Sound(artistFilePath, trackFilePathArray)
 	this.curve;
 	this.volume = 1;
 	this.context = new AudioContext();
-	
+	this.panner = [];
 	
 	this.bufferLength = 85/2;
 
@@ -58,7 +58,7 @@ function Sound(artistFilePath, trackFilePathArray)
 		);
 
 		this.bufferLoader.load();
-		
+		this.panner.panningModel = "HRTF";
 		//window.setInterval(this.getFrequencyData, 100);
 		//window.setInterval(this.getByteFrequencyData(), 100);
 		//window.setInterval(this.getTimeDomainData(), 100);
@@ -84,7 +84,11 @@ function Sound(artistFilePath, trackFilePathArray)
 			//console.log(self.analysers[i]);
 			//self.sources[i].connect(this.context.destination); //connect to speakers
 			self.sources[i].connect( self.analysers[i] );
-
+			
+			//create panner nodes
+			self.panner.push(self.context.createPanner());
+			self.panner[i].panningModel = "HRTF";
+			
 			//create distortion nodes
 			self.distortion.push(self.context.createWaveShaper());
 			//connect distortion nodes
@@ -115,7 +119,7 @@ function Sound(artistFilePath, trackFilePathArray)
 
 	this.makeDistortionCurve = function(amount) 
 	{
-	  var k = typeof amount === 'number' ? amount : 70,
+	  var k = typeof amount === 'number' ? amount : 80,
 	    n_samples = 44100,
 	    curve = new Float32Array(n_samples),
 	    deg = Math.PI / 180,
@@ -219,13 +223,17 @@ function Sound(artistFilePath, trackFilePathArray)
 	{
 		self.sources[track].start(0);
 		self.distortion[track].oversample = "4x";
-		self.biquad[track].frequency.value = 1000;
-		self.biquad[track].gain.value = 1.0;
+		self.distortion[track].curve = self.makeDistortionCurve(10);
+		self.biquad[track].Q.value = 10;
+		self.biquad[track].type = 'allpass';
+		self.biquad[track].frequency.value = 1300;
+		self.biquad[track].gain.value = 2;
 	};
 
 	this.stopPlayback = function()
 	{
 		for (var i = 0; i < self.sources.length; i++) {
+			self.sources[i].stop();
 			self.sources[i].disconnect();
 		};
 	};
