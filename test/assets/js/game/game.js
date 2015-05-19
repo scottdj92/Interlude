@@ -225,8 +225,8 @@ game.interlude = {
         if((self.state === "GAME" || self.state === "BOSS") && !(c1.bad))
         {
           self.scores[bubble.type].hits++;
-          console.log(self.scores[bubble.type] + ':' + self.scores[bubble.type].hits);
-          self.updateMeter();
+          console.log(bubble.type + ':' + self.scores[bubble.type].hits);
+          //self.updateMeter();
         }
         return true;
       }
@@ -428,8 +428,8 @@ game.interlude = {
     this.updatePopSprites(dt);
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
-    this.drawMeter();
-    this.updateMeter();
+    //this.drawMeter();
+    //this.updateMeter();
 		for(var p in this.players) this.spawnBubbles(dt, p);
   },
 	/**
@@ -727,7 +727,7 @@ game.interlude = {
     }
     
     this.drawMeter();
-    //this.updateMeter();
+    this.updateMeter();
   },
 	renderIntro : function(){
 		this.renderGame();
@@ -756,7 +756,7 @@ game.interlude = {
       self.players[p].render();
     }
 
-    this.drawMeter();
+    //this.drawMeter();
     //this.updateMeter();
   },
 	renderBossEnter : function() {
@@ -927,14 +927,17 @@ game.interlude = {
   updateMeter : function() 
   {
     //update meter here
+    // this.maxMeterHeight - 15.0; //shrink max height of meter
+    // console.log(this.maxMeterHeight);
     //score is updated each time a bubble is popped
     //squares are drawn, but drawn over as soon as the next frame is drawn
-    if (this.scores['blue'].hits > 0 && this.scores['blue'].hits == this.scores['blue'].total)
+    if (this.scores['blue'].hits + 1)
     {
-      console.log('blue square drawn');
+      //console.log('blue square drawn');
       game.draw.ctx.fillStyle = '#2CFFF4'; //blue
       game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
-      this.maxMeterHeight - 15; //shrink max height of meter
+      this.maxMeterHeight - 15.0; //shrink max height of meter
+      console.log(this.maxMeterHeight);
     }
     else if (this.scores['white'].hits % 2 == 1 || this.scores['white'].hits % 2 == 0 && this.scores['white'].hits > 0)
     {
@@ -957,7 +960,7 @@ game.interlude = {
       game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
     }
     
-    console.log(this.maxMeterHeight);
+    // console.log(this.maxMeterHeight);
 
     //test to see if max meter height has been reached
     if (this.maxMeterHeight <= 14)
