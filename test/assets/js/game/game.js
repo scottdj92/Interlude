@@ -50,7 +50,7 @@ game.interlude = {
   room: undefined,
   bossEndT : 0,
   songUsed: 0,
-  maxMeterHeight: 0,
+  maxMeterHeight : undefined,
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Initializer
@@ -223,7 +223,10 @@ game.interlude = {
       if((c1.type === bubble.type || bubble.type ==="bad" || c1.bad === true) && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
         if((self.state === "GAME" || self.state === "BOSS") && !(c1.bad))
+        {
           self.scores[bubble.type].hits++;
+          this.updateMeter();
+        }
         return true;
       }
     });
@@ -902,6 +905,7 @@ game.interlude = {
 
   drawMeter : function()
   {
+    this.maxMeterHeight = this.canvas.height * .95;
     //draw meter background
     // game.draw.ctx.fillStyle = '#000';
     // game.draw.ctx.clearRect(this.canvas.width/2, this.canvas.height/2, this.canvas.width * .90, this.canvas.height * .90);
@@ -909,44 +913,43 @@ game.interlude = {
 
     //draw meter fill
     game.draw.ctx.strokeStyle = '#BFBFBF';
-    game.draw.ctx.strokeRect(this.canvas.width * .96, 15, 20, this.canvas.height * .95);
+    game.draw.ctx.strokeRect(this.canvas.width * .98, 15, 20, this.maxMeterHeight);
   },
 
   updateMeter : function() 
   {
     //update meter here
 
-    //check if projectile hit bubble
-    if (this.checkBubbleCollison(proj) == true)
+    //find color of bubble
+    if (this.scores['blue'].hits % 2 == 1 || this.scores['blue'].hits % 2 == 0)
     {
-      //find color of bubble
-      if (this.Players[hash].color == '#2CFFF4')
-      {
-        game.draw.ctx.fillStyle = '#2CFFF4'; //blue
-        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
-      }
-      else if (this.Players[hash].color = '#FFFFFF')
-      {
-        game.draw.ctx.fillStyle = '##FFFFFF'; //white
-        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
-      }
-      else if (this.Players[hash].color == '#6E7CFF')
-      {
-        game.draw.ctx.fillStyle = '#6E7CFF'; //purple
-        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
-      }
-      else if (this.Players[hash].color == '#29FF7F')
-      {
-        game.draw.ctx.fillStyle = '#29FF7F'; //green
-        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
-      }
-      else if (this.Players[hash].color == '#FF4399')
-      {
-        game.draw.ctx.fillStyle = '#FF4399'; //pink
-        game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
-      }
-      this.maxMeterHeight - 15; //shrink max height of meter
+      game.draw.ctx.fillStyle = '#2CFFF4'; //blue
+      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
     }
+    else if (this.scores['white'].hits % 2 == 1 || this.scores['white'].hits % 2 == 0)
+    {
+      game.draw.ctx.fillStyle = '##FFFFFF'; //white
+      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+    }
+    else if (this.scores['purple'].hits % 2 == 1 || this.scores['purple'].hits % 2 == 0)
+    {
+      game.draw.ctx.fillStyle = '#6E7CFF'; //purple
+      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+    }
+    else if (this.scores['green'].hits % 2 == 1 || this.scores['green'] % 2 == 0)
+    {
+      game.draw.ctx.fillStyle = '#29FF7F'; //green
+      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+    }
+    else if (this.scores['pink'].hits % 2 == 1 || this.scores['pink'].hits % 2 == 0)
+    {
+      game.draw.ctx.fillStyle = '#FF4399'; //pink
+      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+    }
+    this.maxMeterHeight - 15; //shrink max height of meter
+
+    //test to see if max meter height has been reached
+
   },
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
