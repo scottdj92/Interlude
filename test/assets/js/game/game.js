@@ -50,7 +50,7 @@ game.interlude = {
   room: undefined,
   bossEndT : 0,
   songUsed: 0,
-  maxMeterHeight : undefined,
+  maxMeterHeight: undefined,
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Initializer
@@ -225,6 +225,7 @@ game.interlude = {
         if((self.state === "GAME" || self.state === "BOSS") && !(c1.bad))
         {
           self.scores[bubble.type].hits++;
+          console.log(self.scores[bubble.type] + ':' + self.scores[bubble.type].hits);
           self.updateMeter();
         }
         return true;
@@ -274,6 +275,7 @@ game.interlude = {
 					var r = (Math.random() * .08) + .05;//get random size
 					var color = this.chooseBubbleColor();
 					this.scores[color].total++;
+          //console.log('bubble total increased');
 					this.bubbles.push(new game.Bubble(this.bubbleIDCounter, 
 														this.bubbleAssets[color],color, r,
 														x, y, xVel, yVel, (this.state !== "BOSS")));
@@ -426,6 +428,8 @@ game.interlude = {
     this.updatePopSprites(dt);
     this.updateProjectiles(dt);
     this.updateBubbles(dt);
+    this.drawMeter();
+    this.updateMeter();
 		for(var p in this.players) this.spawnBubbles(dt, p);
   },
 	/**
@@ -723,6 +727,7 @@ game.interlude = {
     }
     
     this.drawMeter();
+    //this.updateMeter();
   },
 	renderIntro : function(){
 		this.renderGame();
@@ -750,6 +755,9 @@ game.interlude = {
     for(var p in this.players){
       self.players[p].render();
     }
+
+    this.drawMeter();
+    //this.updateMeter();
   },
 	renderBossEnter : function() {
     var self = this;//Save a reference to this
@@ -905,7 +913,7 @@ game.interlude = {
 
   drawMeter : function()
   {
-    this.maxMeterHeight = this.canvas.height * .95;
+    //this.maxMeterHeight = this.canvas.height * .95;
     //draw meter background
     // game.draw.ctx.fillStyle = '#000';
     // game.draw.ctx.clearRect(this.canvas.width/2, this.canvas.height/2, this.canvas.width * .90, this.canvas.height * .90);
@@ -913,41 +921,49 @@ game.interlude = {
 
     //draw meter fill
     game.draw.ctx.strokeStyle = '#BFBFBF';
-    game.draw.ctx.strokeRect(this.canvas.width * .98, 15, 20, this.maxMeterHeight);
+    game.draw.ctx.strokeRect(this.canvas.width * .98, 15, 20, this.canvas.height * .95);
   },
 
   updateMeter : function() 
   {
     //update meter here
-    //find color of bubble
-    if (this.scores['blue'].hits % 2 == 1 || this.scores['blue'].hits % 2 == 0)
+    //score is updated each time a bubble is popped
+    //squares are drawn, but drawn over as soon as the next frame is drawn
+    if (this.scores['blue'].hits > 0 && this.scores['blue'].hits == this.scores['blue'].total)
     {
+      console.log('blue square drawn');
       game.draw.ctx.fillStyle = '#2CFFF4'; //blue
-      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
+      this.maxMeterHeight - 15; //shrink max height of meter
     }
-    else if (this.scores['white'].hits % 2 == 1 || this.scores['white'].hits % 2 == 0)
+    else if (this.scores['white'].hits % 2 == 1 || this.scores['white'].hits % 2 == 0 && this.scores['white'].hits > 0)
     {
       game.draw.ctx.fillStyle = '##FFFFFF'; //white
-      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
     }
-    else if (this.scores['purple'].hits % 2 == 1 || this.scores['purple'].hits % 2 == 0)
+    else if (this.scores['purple'].hits % 2 == 1 || this.scores['purple'].hits % 2 == 0 && this.scores['purple'].hits > 0) 
     {
       game.draw.ctx.fillStyle = '#6E7CFF'; //purple
-      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
     }
-    else if (this.scores['green'].hits % 2 == 1 || this.scores['green'] % 2 == 0)
+    else if (this.scores['green'].hits % 2 == 1 || this.scores['green'] % 2 == 0 && this.scores['green'].hits > 0)
     {
       game.draw.ctx.fillStyle = '#29FF7F'; //green
-      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
     }
-    else if (this.scores['pink'].hits % 2 == 1 || this.scores['pink'].hits % 2 == 0)
+    else if (this.scores['pink'].hits % 2 == 1 || this.scores['pink'].hits % 2 == 0 && this.scores['pink'].hits > 0)
     {
       game.draw.ctx.fillStyle = '#FF4399'; //pink
-      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
     }
-    this.maxMeterHeight - 15; //shrink max height of meter
+    
+    console.log(this.maxMeterHeight);
 
     //test to see if max meter height has been reached
+    if (this.maxMeterHeight <= 14)
+    {
+      console.log('max meter reached');
+    }
 
   },
 	
