@@ -225,7 +225,7 @@ game.interlude = {
         if((self.state === "GAME" || self.state === "BOSS") && !(c1.bad))
         {
           self.scores[bubble.type].hits++;
-          this.updateMeter();
+          self.updateMeter();
         }
         return true;
       }
@@ -919,32 +919,31 @@ game.interlude = {
   updateMeter : function() 
   {
     //update meter here
-
     //find color of bubble
     if (this.scores['blue'].hits % 2 == 1 || this.scores['blue'].hits % 2 == 0)
     {
       game.draw.ctx.fillStyle = '#2CFFF4'; //blue
-      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
     }
     else if (this.scores['white'].hits % 2 == 1 || this.scores['white'].hits % 2 == 0)
     {
       game.draw.ctx.fillStyle = '##FFFFFF'; //white
-      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
     }
     else if (this.scores['purple'].hits % 2 == 1 || this.scores['purple'].hits % 2 == 0)
     {
       game.draw.ctx.fillStyle = '#6E7CFF'; //purple
-      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
     }
     else if (this.scores['green'].hits % 2 == 1 || this.scores['green'] % 2 == 0)
     {
       game.draw.ctx.fillStyle = '#29FF7F'; //green
-      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
     }
     else if (this.scores['pink'].hits % 2 == 1 || this.scores['pink'].hits % 2 == 0)
     {
       game.draw.ctx.fillStyle = '#FF4399'; //pink
-      game.draw.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
+      game.draw.ctx.fillRect(this.canvas.width * .96, (this.maxMeterHeight - 15), 40, 15);
     }
     this.maxMeterHeight - 15; //shrink max height of meter
 
@@ -962,7 +961,7 @@ game.interlude = {
 		var self = this;
 		setTimeout( function(){
 			self.reset();
-			self.stopAudioPlayback();
+			self.stopAudio();
 		}, 15000)
 	},
 	
