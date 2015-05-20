@@ -1145,7 +1145,6 @@ game.interlude = {
 																									"<div class='bar'></div>"+
 																								"</div>");
 		};
-		alert("reset");
 	},
 	
 	
