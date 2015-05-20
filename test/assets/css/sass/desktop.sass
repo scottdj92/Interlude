@@ -150,6 +150,72 @@ html
 		top: 10px
 		right: 10px
 		opacity: 0.7
+
+	
+	#scores
+		color: #fff
+		text-align: center
+		display: none
+		top: 33%
+		padding: 6% 3%
+		h3
+			font-size: 240%
+			font-weight: 300
+			margin-top: 0
+		h4
+			font-size: 170%
+			font-weight: 100
+			opacity: 0.8
+			margin-bottom: 35%
+		#total
+			font-size: 120%
+			font-weight: 400
+			opacity: 1
+		#player_score
+			position: absolute
+			width: 100%
+			bottom: -17%
+			.score_item
+				display: inline-block
+				width: 18%
+				margin-right: 1%
+				vertical-align: bottom
+				.bar
+					width: 100%
+					height: 0
+					vertical-align: bottom
+					+transition(0.65s)
+				.bar.white
+					background-color: #fff
+				.bar.pink
+					background-color: #ff4399
+				.bar.blue
+					background-color: #2cfff4
+				.bar.purple
+					background-color: #6c7cff
+				.bar.green
+					background-color: #29ff7f
+				.name
+					margin-bottom: 2%
+					font-weight: 400
+					font-size: 130%
+					text-transform: uppercase
+					display: block
+				.name.white
+					color: #fff
+				.name.pink
+					color: #ff4399
+				.name.blue
+					color: #2cfff4
+				.name.purple
+					color: #6c7cff
+				.name.green
+					color: #29ff7f
+				.score
+					margin-bottom: 10%
+					font-weight: 100
+					font-size: 120%
+					display: block
 	
 	#end
 		color: #fff
