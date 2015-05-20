@@ -479,6 +479,72 @@ html {
     top: 10px;
     right: 10px;
     opacity: 0.7; }
+  html #scores {
+    color: #fff;
+    text-align: center;
+    display: none;
+    top: 33%;
+    padding: 6% 3%; }
+    html #scores h3 {
+      font-size: 240%;
+      font-weight: 300;
+      margin-top: 0; }
+    html #scores h4 {
+      font-size: 170%;
+      font-weight: 100;
+      opacity: 0.8;
+      margin-bottom: 35%; }
+    html #scores #total {
+      font-size: 120%;
+      font-weight: 400;
+      opacity: 1; }
+    html #scores #player_score {
+      position: absolute;
+      width: 100%;
+      bottom: -17%; }
+      html #scores #player_score .score_item {
+        display: inline-block;
+        width: 18%;
+        margin-right: 1%;
+        vertical-align: bottom; }
+        html #scores #player_score .score_item .bar {
+          width: 100%;
+          height: 0;
+          vertical-align: bottom;
+          transition: all 0.65s ease;
+          -moz-transition: all 0.65s ease;
+          -webkit-transition: all 0.65s ease-in-out; }
+        html #scores #player_score .score_item .bar.white {
+          background-color: #fff; }
+        html #scores #player_score .score_item .bar.pink {
+          background-color: #ff4399; }
+        html #scores #player_score .score_item .bar.blue {
+          background-color: #2cfff4; }
+        html #scores #player_score .score_item .bar.purple {
+          background-color: #6c7cff; }
+        html #scores #player_score .score_item .bar.green {
+          background-color: #29ff7f; }
+        html #scores #player_score .score_item .name {
+          margin-bottom: 2%;
+          font-weight: 400;
+          font-size: 130%;
+          text-transform: uppercase;
+          display: block; }
+        html #scores #player_score .score_item .name.white {
+          color: #fff; }
+        html #scores #player_score .score_item .name.pink {
+          color: #ff4399; }
+        html #scores #player_score .score_item .name.blue {
+          color: #2cfff4; }
+        html #scores #player_score .score_item .name.purple {
+          color: #6c7cff; }
+        html #scores #player_score .score_item .name.green {
+          color: #29ff7f; }
+        html #scores #player_score .score_item .score {
+          margin-bottom: 10%;
+          font-weight: 100;
+          font-size: 120%;
+          display: block; }
   html #end {
     color: #fff;
     text-align: center;

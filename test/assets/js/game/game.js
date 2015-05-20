@@ -42,7 +42,7 @@ game.interlude = {
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
-  bossTimer: 70,
+  bossTimer: 60,
   countdownTime: {
     secLeft: 3,
     sec: 1,
@@ -122,6 +122,9 @@ game.interlude = {
     this.popSprites = [];
     this.bgObjs = [];
     this.resetLobby();
+		
+		//reset scores screen
+		this.resetScores();
     
     this.bubbleIDCounter = 0;
     this.canstart = false;
@@ -608,6 +611,9 @@ game.interlude = {
       case "BOSS DIE":
         this.updateBossDie();
         break;
+			case "SCORE":
+				this.updateBG(this.getDT());
+				break;
       case "END" :
 				this.updateBG(this.getDT());
         break;
@@ -655,6 +661,9 @@ game.interlude = {
       case "BOSS DIE":
         this.renderBossDie();
         break;
+			case "SCORE":
+				this.renderScore();
+				break;
       case "END" :
 				this.renderEnd();
         break;
@@ -801,9 +810,12 @@ game.interlude = {
     });
   },
 
-  renderEnd : function() {
-    //this.renderBG();
-		
+  renderScore : function() {
+    this.renderBG();
+	},
+	
+	renderEnd : function() {
+    //this.renderBG();	
   },
 	
   ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -913,9 +925,22 @@ game.interlude = {
 		this.bubbles = [];
 		this.popSprites = [];
     this.transitionAnimation(this.videos.outro, function(){
-      self.initEnd();
-    });
+      //self.initEnd();
+    	self.initScores();
+		});
   },
+	
+	initScores : function(){
+		this.state = "SCORE";
+		this.showScores();
+		// will go to end in 10 sec
+		// setTimeout
+		var self = this;
+		setTimeout(function(){ 
+			$("#scores").fadeOut(400);
+			self.initEnd(); 
+		}, 15000);
+	},
 	
 	initEnd : function(){
 		this.state = "END";
@@ -1023,6 +1048,26 @@ game.interlude = {
 		return hex;
 	},
 	
+	showScores : function(){
+		var scorediv = document.getElementsByClassName("score_item");
+		var i = 0;
+		var self = this;
+		var total = "<span id='total'>$"+this.scores["hits"].length+"</span>";
+		$("#scores h4").html("You've Helped Raise "+ total +" to help save the music!");
+		$("#scores").fadeIn(450);		
+		setTimeout( function(){
+			for(var p in self.players){
+				$(scorediv[i]).addClass(self.players[p].color);
+				$(scorediv[i]).find(".bar").addClass(self.players[p].color);
+				$(scorediv[i]).find(".bar").css("height", self.scores[self.players[p].color].hits*5+"px");
+				$(scorediv[i]).find(".name").addClass(self.players[p].color);
+				$(scorediv[i]).find(".name").html(self.players[p].name);
+				$(scorediv[i]).find(".score").html("$"+self.scores[self.players[p].color].hits);
+				i++;
+			}
+		}, 800);
+	},
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	// LOBBY 
@@ -1034,7 +1079,7 @@ game.interlude = {
 		setTimeout( function(){
 			self.reset();
 			self.stopAudio();
-		}, 15000)
+		}, 10000)
 	},
 	
 	// Add player to Lobby
@@ -1089,6 +1134,18 @@ game.interlude = {
 	
 	resetPasswordSect: function(){
 		$(".pwd-sect").removeClass('done');
+	},
+	
+	resetScores : function(){
+		$("#scores").find("#player_score").html('');
+		for(var i=0; i<5; i++){
+			$("#scores").find("#player_score").append("<div class='score_item'>"+
+																									"<span class='name'></span>"+
+																									"<span class='score'></span>"+
+																									"<div class='bar'></div>"+
+																								"</div>");
+		};
+		alert("reset");
 	},
 	
 	
