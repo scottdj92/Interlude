@@ -158,6 +158,8 @@ game.interlude = {
     this.playerSprites = this.loadImg("assets/img/crosshair.png");
     this.videos.instructions = document.querySelector("#instructions");
     this.videos.outro = document.querySelector("#outro");
+    this.videos.intro = document.querySelector("#intro");
+
     this.badBubImg = this.loadImg("assets/img/bad-sprite.png");
   },
 	
@@ -879,18 +881,25 @@ game.interlude = {
       var r = .12;		
       self.state = "INTRO";
   		var players = self.getPlayersById();
+      console.log(self.numPlayers);
       socket.emit('game started', {players: players});
       for(var i = 0; i < self.numPlayers; i++){
         var color = self.introBubbles[i];
+        console.log(self.introBubbles);
         self.bubbles.push(new game.Bubble(0,self.bubbleAssets[color],color,r,
-                        2/9 + 3/9*i, 3/5 - .1, 0, 0, false));  
+                        2/9 + 3/9*i, 3/5 - .1, 0, 0, false));
       } 
     });
   },
   //initializes countdown state
   initCountdown : function(){
 		console.log('start game');
-    this.state = "COUNTDOWN";
+    var self = this;
+    this.transitionAnimation(this.videos.intro, function(){
+      //self.initEnd();
+      self.state = "COUNTDOWN";
+    });
+    
   },
 	
   initGame : function() {
@@ -1263,6 +1272,7 @@ game.interlude = {
 		}
 		//if color availabe
 		if(!used){
+      console.log('bubble make');
 			players[data.id].setColor(data.color);
 			response.color = data.color;
 			game.sockets.socket.emit("player colorcheck", response);
