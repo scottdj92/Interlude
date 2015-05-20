@@ -198,7 +198,7 @@ function Sound(artistFilePath, trackFilePathArray)
 	{
 		//volume is a number between 0-1 where 0 is the quietest possible volume and 1 is the loudest possible volume
 		if(self.volume > 0){
-			self.volume -= 0.01;
+			self.volume -= 0.05;
 			for(var i=0; i<self.gainNode.length; i++){
 				self.gainNode[i].value = self.volume;
 			}

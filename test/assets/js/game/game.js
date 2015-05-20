@@ -1068,7 +1068,7 @@ game.interlude = {
 			for(var p in self.players){
 				$(scorediv[i]).addClass(self.players[p].color);
 				$(scorediv[i]).find(".bar").addClass(self.players[p].color);
-				$(scorediv[i]).find(".bar").css("height", self.scores[self.players[p].color].hits*5+"px");
+				$(scorediv[i]).find(".bar").css("height", self.scores[self.players[p].color].hits*9+"px");
 				$(scorediv[i]).find(".name").addClass(self.players[p].color);
 				$(scorediv[i]).find(".name").html(self.players[p].name);
 				$(scorediv[i]).find(".score").html("$"+self.scores[self.players[p].color].hits);
