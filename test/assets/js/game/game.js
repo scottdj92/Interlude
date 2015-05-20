@@ -726,8 +726,8 @@ game.interlude = {
       self.players[p].render();
     }
     
-    this.drawMeter();
-    this.updateMeter();
+    //this.drawMeter();
+    //this.updateMeter();
   },
 	renderIntro : function(){
 		this.renderGame();
@@ -755,7 +755,6 @@ game.interlude = {
     for(var p in this.players){
       self.players[p].render();
     }
-
     //this.drawMeter();
     //this.updateMeter();
   },
