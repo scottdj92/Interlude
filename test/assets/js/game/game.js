@@ -134,9 +134,9 @@ game.interlude = {
     //Music son
 
 		this.state = "START";
-    this.loop();
+    //this.loop();
 
-	  //document.location.reload(true);
+	  document.location.reload(true);
   },
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 	
