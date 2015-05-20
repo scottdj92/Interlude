@@ -42,7 +42,7 @@ game.interlude = {
   lastLane: 0,//last lane a bubble spawned in
   //stores last date val in milliseconds thats 1/1000 sec
   lastUpdate: 0,
-  bossTimer: 60,
+  bossTimer: 70,
   countdownTime: {
     secLeft: 3,
     sec: 1,
@@ -192,6 +192,7 @@ game.interlude = {
     this.scores["purple"]={total:0, hits:0};
     this.scores["pink"]={total:0, hits:0};
     this.scores["bad"]={total:0, hits:0};
+		this.scores["hits"] = [];
   },
 	
   //Main loop that gets called on each frame
@@ -225,6 +226,7 @@ game.interlude = {
         if((self.state === "GAME" || self.state === "BOSS") && !(c1.bad))
         {
           self.scores[bubble.type].hits++;
+					if(bubble.type != "bad") self.scores["hits"].push(bubble.type);
           console.log(bubble.type + ':' + self.scores[bubble.type].hits);
           //self.updateMeter();
         }
@@ -494,7 +496,7 @@ game.interlude = {
 
 				var distSq = xDist * xDist + yDist * yDist;
 				var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
-				var pull = .06/distSq;
+				var pull = .08/distSq;
 				pull *= distSq <= bh.r/10 ? 2 : 1/4;
 				var yAcc = fwd.y*pull;
 				var xAcc = -fwd.x*pull;
@@ -692,7 +694,7 @@ game.interlude = {
     game.draw.ctx.globalAlpha = 0.35;
     game.draw.circle(8/9, 0.5, .29, "#5B7C96");
     game.draw.ctx.restore();
-
+		// size is 8/9
     game.draw.ctx.save();
     game.draw.ctx.globalAlpha = 0.25;
     game.draw.strokeArc(8/9, 0.5, .3, "#5B7C96", .02,Math.PI*3/2, 
@@ -726,8 +728,8 @@ game.interlude = {
       self.players[p].render();
     }
     
-    //this.drawMeter();
-    //this.updateMeter();
+    this.drawMeter();
+    this.updateMeter();
   },
 	renderIntro : function(){
 		this.renderGame();
@@ -755,8 +757,8 @@ game.interlude = {
     for(var p in this.players){
       self.players[p].render();
     }
-    //this.drawMeter();
-    //this.updateMeter();
+    this.drawMeter();
+    this.updateMeter();
   },
 	renderBossEnter : function() {
     var self = this;//Save a reference to this
@@ -769,6 +771,8 @@ game.interlude = {
     for(var p in this.players){
       self.players[p].render();
     }
+		this.drawMeter();
+    this.updateMeter();
   },
 	/**
 		BG
@@ -809,7 +813,7 @@ game.interlude = {
     var self = this; //cache
     (function loop() {
         console.log('playing');
-        if (!self.paused && !self.ended) {
+        if (!self.paused && !self.ended) { //test
           game.draw.ctx.drawImage(self, 0, 0,
           game.draw.canvas.width, game.draw.canvas.height);
           if(self.instructions)
@@ -919,55 +923,96 @@ game.interlude = {
     // game.draw.ctx.fillRect(20, 20, 50, 50);
 
     //draw meter fill
-    game.draw.ctx.strokeStyle = '#BFBFBF';
-    game.draw.ctx.strokeRect(this.canvas.width * .98, 15, 20, this.canvas.height * .95);
+    //game.draw.ctx.strokeStyle = '#BFBFBF';
+    //game.draw.ctx.strokeRect(this.canvas.width * .99, 15, 20, this.canvas.height * .95);
+		var x = 14/9;
+		var y = 0.8;
+		var r = .09;
+		var s = .015; //stroke width
+		game.draw.ctx.save();
+    game.draw.ctx.globalAlpha = 0.45;
+    game.draw.circle( x, y, r, "#5B7C96");
+    game.draw.ctx.restore();
+    game.draw.ctx.save();
+    game.draw.ctx.globalAlpha = 0.3;
+		
+		if( this.scores["hits"].length < 1 ){
+			var tSize = 0.06;
+    	game.draw.text("$", x, y + (0.3*tSize), tSize, "#fff");
+		}
+		
+		var inc = 10
+		if( this.scores["hits"].length - inc > 0 ){
+			var n = inc * Math.floor(this.scores["hits"].length / inc);
+			var col = this.getHex( this.scores["hits"][n] );
+			game.draw.strokeArc( x, y, r, col, s, 0, 
+                        Math.PI*2);
+		} else {
+			game.draw.strokeArc( x, y, r, "#5B7C96", s, 0, 
+                        Math.PI*2);
+		}
   },
 
   updateMeter : function() 
   {
+		game.draw.ctx.restore();
     //update meter here
-    // this.maxMeterHeight - 15.0; //shrink max height of meter
-    // console.log(this.maxMeterHeight);
-    //score is updated each time a bubble is popped
-    //squares are drawn, but drawn over as soon as the next frame is drawn
-    if (this.scores['blue'].hits + 1)
-    {
-      //console.log('blue square drawn');
-      game.draw.ctx.fillStyle = '#2CFFF4'; //blue
-      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
-      this.maxMeterHeight - 15.0; //shrink max height of meter
-      console.log(this.maxMeterHeight);
-    }
-    else if (this.scores['white'].hits % 2 == 1 || this.scores['white'].hits % 2 == 0 && this.scores['white'].hits > 0)
-    {
-      game.draw.ctx.fillStyle = '##FFFFFF'; //white
-      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
-    }
-    else if (this.scores['purple'].hits % 2 == 1 || this.scores['purple'].hits % 2 == 0 && this.scores['purple'].hits > 0) 
-    {
-      game.draw.ctx.fillStyle = '#6E7CFF'; //purple
-      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
-    }
-    else if (this.scores['green'].hits % 2 == 1 || this.scores['green'] % 2 == 0 && this.scores['green'].hits > 0)
-    {
-      game.draw.ctx.fillStyle = '#29FF7F'; //green
-      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
-    }
-    else if (this.scores['pink'].hits % 2 == 1 || this.scores['pink'].hits % 2 == 0 && this.scores['pink'].hits > 0)
-    {
-      game.draw.ctx.fillStyle = '#FF4399'; //pink
-      game.draw.ctx.fillRect(this.canvas.width * .98, (this.maxMeterHeight - 15), 20, 15);
-    }
-    
-    // console.log(this.maxMeterHeight);
+		var x = 14/9;
+		var y = 0.8;
+		var r = .09;
+		var s = .025; //stroke width
+		var inc = 10;
+		// INCREMENT
+		// the gauge will increase by 1/10 for each bubble hit
+		// on completion, the ring will restart
+		// increments made after will overlap
+		var e = 2;
+		var total = this.scores["hits"].length;
 
-    //test to see if max meter height has been reached
-    if (this.maxMeterHeight <= 14)
-    {
-      console.log('max meter reached');
-    }
+		var startPt = 0;
+		if(total - inc > 0 && total%inc!=0) startPt = total - (total%inc);
+		else if( total - inc > 0 && total%inc==0) startPt = total - inc;
+		
+		var count = total%inc;
+		if( total>0 && total%inc==0 ) count = inc;
 
+		for(var i=0; i < count; i++){
+			var start = (Math.PI*(inc*3/4))+(Math.PI/inc*i);
+			var color = this.getHex(this.scores["hits"][total-1]);
+    	game.draw.strokeArc( x, y, r, color, s,
+                       start, start+(Math.PI/inc*e));
+			e++;
+		}
+		
+		if( total > 0 ){
+			var tSize = 0.04;
+    	game.draw.text("$"+total, x, y + (0.3*tSize), tSize, this.getHex(this.scores["hits"][total-1]));
+		}
+		
+		
   },
+	
+	getHex : function(type){
+		var hex;
+		switch(type){
+			case "blue":
+				hex = "#2CFFF4";
+				break;
+			case "white":
+				hex = "#FFFFFF";
+				break;
+			case "purple":
+				hex = "#6E7CFF";
+				break;
+			case "green":
+				hex = "#29FF7F";
+				break;
+			case "pink":
+				hex = "#FF4399";
+				break;
+		}
+		return hex;
+	},
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
