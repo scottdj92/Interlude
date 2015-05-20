@@ -541,7 +541,7 @@ game.interlude = {
   updateBossDie : function() {
     var self = this;
     var dt = this.getDT();
-    this.bossShakeT += dt;
+    /*this.bossShakeT += dt;
     this.bossEndT += dt;
     this.blackHole.update(dt);
     this.updatePlayers(dt);
@@ -570,7 +570,7 @@ game.interlude = {
     }
 		if(this.bossEndT > 8) {	//DANNY SWITCH STATE HERE!!!!!!!
       this.initEnd();
-		}
+		}*/
 		
   },
 	/**
@@ -653,8 +653,8 @@ game.interlude = {
         this.renderBossEnter();
         break;
       case "BOSS DIE":
-        this.renderBoss();
-				break;
+        this.renderBossDie();
+        break;
       case "END" :
 				this.renderEnd();
         break;
@@ -790,6 +790,15 @@ game.interlude = {
       game.draw.img(this.bgImgs[this.currBG], 0,8625 - this.bgPos,1920,1080,0,0,16/9,1);
     }
 
+  },
+
+  renderBossDie : function() {
+    var self = this;
+    this.renderBG();
+    this.blackHole.render();
+    this.bubbles.forEach(function(bubble) {
+      bubble.render(self.ctx);//draw each bubble
+    });
   },
 
   renderEnd : function() {
