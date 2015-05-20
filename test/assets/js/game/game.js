@@ -223,7 +223,7 @@ game.interlude = {
     this.bubbles.forEach(function(bubble){
       if((c1.type === bubble.type || bubble.type ==="bad" || c1.bad === true) && self.circleCollison(bubble, c1)) {
         bubble.remove = true;
-        if((self.state === "GAME" || self.state === "BOSS") && !(c1.bad))
+        if((self.state === "GAME" || self.state === "BOSS"))
         {
           self.scores[bubble.type].hits++;
 					if(bubble.type != "bad") self.scores["hits"].push(bubble.type);
@@ -497,7 +497,7 @@ game.interlude = {
 				var distSq = xDist * xDist + yDist * yDist;
 				var fwd = game.physicsUtils.normalize({x:xDist, y:yDist});
 				var pull = .08/distSq;
-				pull *= distSq <= bh.r/10 ? 2 : 1/4;
+				pull *= distSq <= bh.r/8 ? 2 : 1/3;
 				var yAcc = fwd.y*pull;
 				var xAcc = -fwd.x*pull;
 				bub.setAccleration(xAcc, yAcc);
