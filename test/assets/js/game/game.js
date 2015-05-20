@@ -883,13 +883,13 @@ game.interlude = {
     //console.log('fuck this code in particular');
 
     for (var i = 0; i < this.audio.sources.length; i++) {
-      this.audio.distortion[i].curve = this.audio.makeDistortionCurve(100);
+      this.audio.distortion[i].curve = this.audio.makeDistortionCurve(20);
       this.audio.distortion[i].oversample = "4x";
 
       this.audio.biquad[i].type = 'allpass';
       this.audio.biquad[i].frequency.value = 1000;
       this.audio.biquad[i].Q.value = 2000;
-      this.audio.biquad[i].gain.value = 0.7;
+      //this.audio.biquad[i].gain.value = 0.7;
     };
     //console.log(this.audio.distortion[0]);
     //console.log(this.audio.makeDistortionCurve(400));
