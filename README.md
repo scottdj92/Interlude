@@ -18,4 +18,4 @@ Now run this command to start your server.
 $ npm start
 ```  
   
-You can view the page at 127.0.0.1:3000, but you are probably missing the resource files so the website will not function.
+You can view the page at 127.0.0.1:3000, but you are probably missing the animation asset files so the website will not function.
