@@ -1,0 +1,354 @@
+$def-font: "proxima-nova-condensed", 'Lato', sans-serif
+	
+@import "loading.css"
+@import "mixins" 
+
+html,body
+	font-family: $def-font
+	margin: 0
+	background: #162028
+	background-image: url("/assets/img/ipad-background.jpg")
+	background-size: cover
+	background-repeat: no-repeat
+	background-position: center
+	font-weight: 300
+	color: #FFF
+	overflow: hidden
+	height: 100%
+	
+#mobile_body
+	overflow: hidden
+	display: block
+	position: relative
+	width: 100%
+	height: 100%
+	-webkit-user-select: none 
+	-moz-user-select: none
+
+	.button
+		display: inline-block
+		margin: auto
+		border: 1px solid #fff
+		padding: 4% 5%
+		min-width: 150px
+		max-width: 240px
+		text-transform: uppercase
+		opacity: 0.8
+		font-size: 75%
+		font-weight: 300
+		font-family: $def-font
+		background: none
+		color: #fff
+		box-shadow: inset 0px 0px 25px 15px rgba(255,255,255,0.16)
+
+	.button:active
+		opacity: 1
+		background: #FFF
+		color: #162028
+		font-weight: 300
+
+	.center
+		position: absolute
+		left: 50%
+		top: 45%
+		transform: translate(-50%, -45%)
+		-webkit-transform: translate(-50%, -45%)
+		-moz-transform: translate(-50%, -45%)
+		-o-transform: translate(-50%, -45%)
+
+	.center-top
+		position: absolute
+		left: 50%
+		top: 28%
+		transform: translate(-50%, -28%)
+		-webkit-transform: translate(-50%, -28%)
+		-moz-transform: translate(-50%, -28%)
+		-o-transform: translate(-50%, -28%)
+
+	// sect
+	.sect
+		display: none
+		position: absolute
+		margin: auto
+		text-align: center
+		width: 100%	
+		article
+			font-size: 150%
+			width: 120%
+			margin-left: -10%
+
+	// states
+	.active
+		display: block
+
+	.nonactive
+		display: block
+		+slideOut(0.65s)
+
+	.finished
+		opacity: 0
+
+	.initial
+		display: block
+		+slideUp(0.8s)
+
+	// PRE GAME ////////////////////////////////////////////////////////
+	#pre-game
+		display: block
+		min-width: 320px
+		text-align: center
+		+transition(0.5s)
+
+		//
+		.logo
+			text-transform: uppercase
+			color: #FFF
+			font-size: 280%
+			background-image: url("/assets/img/logo.svg")
+			background-size: contain
+			background-repeat: no-repeat
+			background-position: center
+			height: 150px
+			width: 300px
+			margin: auto
+			+transition(0.4s) //using a mixin
+			.icon
+				background-image: url("/assets/img/logo-symbol-2x.png")
+				background-size: contain
+				background-repeat: no-repeat
+				background-position: center
+				height: 2vh
+				display: block
+				width: 100%
+				margin: auto
+				margin-top: 10px
+
+		#intro 
+			p
+				margin-bottom: 15%
+				font-size: 110%
+				font-weight: 100
+
+		#game_login
+			font-weight: 100
+			+slideIn(0.7s)
+			input
+				width: 420px
+				padding-left: 30px
+				letter-spacing: 56px
+				overflow: hidden
+				height: 70px
+				background: transparent
+				border: none
+				outline: none
+				font-size: 40px
+				font-family: 'Inconsolata'
+				position: absolute
+				margin-top: -85px
+				text-transform: uppercase
+				color: #fff
+				display: block
+			#boxes
+				display: inline-block
+				margin: auto
+				.box
+					display: inline-block
+					float: left
+					height: 70px
+					width: 70px
+					background: #080827
+					border: 1px solid
+					margin: 2px
+					outline: none
+					opacity: 0.2
+				.filled
+					opacity: 1
+			.button
+				margin-top: 10%
+				margin-bottom: 7%
+			#status
+				color: #FF2F47
+				font-weight: 400
+
+
+
+	/* IN GAME ****************/
+
+	#in-game
+		display: block
+		height: 100%
+
+		#game_prep
+			height: 100%
+			.instructions
+				display: block
+				position: relative
+				height: 20%
+				#name_instr.inactive
+					margin-top: -100%
+				#name_instr
+					display: none
+					font-size: 175%
+					margin-top: 60%
+					+transition(0.5s)
+					+fadeIn(0.3s)
+					input
+						display: block
+						margin: auto
+						color: #fff
+						font-family: $def-font
+						font-size: 110%
+						text-align: center
+						text-transform: uppercase
+						letter-spacing: 5px
+						margin-bottom: 15%
+						background: transparent
+						border: none
+						border-bottom: 1px solid rgba(255,255,255,0.9)
+						padding: 1%
+						outline: none
+					input::-webkit-input-placeholder 
+						opacity: 0.3
+				#colors_instr
+					font-size: 175%
+					font-weight: 100
+			#colors.down
+				margin-top: 200px
+			#colors.inactive
+				margin-top: 150%
+			#colors
+				display: block
+				height: 80%
+				+transition(0.4s)
+				.color
+					display: none
+					//display: block
+					height: 20%
+					width: 100%
+					background-size: 100%
+					overflow: hidden
+					-webkit-transform: translate3d(0,0,0)
+					-webkit-timing-function: cubic-bezier(0.42, 0, 0.58, 1.0)
+					+transition(0.4s)
+				.color.white:before
+					+diagonalBG("/assets/img/pattern-white-strings-2x.svg")
+				.white
+					background-color: #fff
+				.color.pink:before
+					+diagonalBG("/assets/img/pattern-pink-brass-2x.svg")
+				.pink
+					background-color: #ff4399
+				.color.blue:before
+					+diagonalBG("/assets/img/pattern-blue-keyboards-2x.svg")
+				.blue
+					background-color: #2cfff4
+				.color.purple:before
+					+diagonalBG("/assets/img/pattern-purple-percussion-2x.svg")
+				.purple
+					background-color: #6c7cff
+				.color.green:before
+					+diagonalBG("/assets/img/pattern-green-woodwinds-2x.svg")
+				.green
+					background-color: #29ff7f
+				.color.selected
+					height: 100%
+					z-index: 1
+				.color.selected:before
+					+colorSelectedBG() 
+				.color.nonactive
+					height: 0%
+				.color.unavailable
+					opacity: 0.15
+					+transition(0.8s)
+				// transition
+				.color:nth-child(odd)
+					+slideInRight(0.6s)
+					//+rotateRight(0.8s)
+				.color:nth-child(even)
+					+slideIn(0.5s)
+					//+rotate(0.8s)
+				
+		#game_controls
+			display: none
+			.instructions
+				font-size: 160%
+				font-weight: 300
+				display: block 
+				margin: auto 
+				max-width: 400px 
+				margin-top: 10% 
+				padding: 2%
+				text-align: center
+				opacity: 0.7
+			#status
+				font-size: 180%
+				font-weight: 400
+				display: block 
+				margin: auto 
+				max-width: 400px 
+				margin-top: 15% 
+				padding: 2%
+				text-align: center
+				text-transform: uppercase
+			#ready
+				z-index: 1
+				position: absolute
+				font-size: 160%
+				top: 80%
+				padding: 3% 10%
+				max-width: 300px
+				border-width: 2px
+				+transition(0.4s)
+			#ready.clicked
+				opacity: 0.2
+		
+//
+// ON NON-IPAD SCREENS (GENERAL)
+//
+@media only screen and (max-width : 540px) and (max-device-width: 960px)
+	html,body
+		font-size: 85%
+		#mobile_body
+			.sect
+				article
+					width: 90%
+					margin: auto
+					margin-bottom: 20%
+			#pre-game
+				.logo
+					width: 75%
+					height: 95px
+				#intro
+					p
+						font-size: 115%
+				#game_login
+					#boxes
+						.box
+							width: 50px
+							height: 50px
+					input
+						width: 300px
+						padding-left: 25px
+						letter-spacing: 41px
+						height: 50px
+						font-size: 30px
+						margin-top: -62px
+			#in-game 
+				#game_prep 
+					.instructions #name_instr
+						margin-top: 85%
+						input
+							width: 130%
+							margin-left: -15%
+							font-size: 130%
+				#game_controls
+					#ready
+						font-size: 130%
+						top: 85%
+					.instructions
+						max-width: 250px
+			
+@media only screen and (max-width : 360px) and (max-device-width : 480px) 
+	html,body
+		font-size: 80%
+				
