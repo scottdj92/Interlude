@@ -2,3 +2,5 @@
 *.ogv
 *.mp4
 npm-debug.log
+
+node_modules/
