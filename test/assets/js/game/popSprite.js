@@ -14,12 +14,15 @@ game.PopSprite = function(){
     this.remove = false; 
     this.frames = 18;
     this.spriteCoords = [];//init this if we need it
+    this.bad = false;
   };
   //get prototype
   var p = PopSprite.prototype;
   //Updates current frame
   p.update = function(dt){
     this.timeToNext -= dt;
+    if(this.bad)
+      this.r += .3*dt;
     if(this.timeToNext <= 0){
       this.timeToNext = this.fps;
       this.currentFrame++;

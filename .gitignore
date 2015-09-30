@@ -1,2 +1,4 @@
 *.mov
 *.ogv
+*.mp4
+npm-debug.log

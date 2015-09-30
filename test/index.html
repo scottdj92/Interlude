@@ -27,6 +27,7 @@
 		<script src="/assets/js/game/physicsUtils.js"></script>
     <script src="/assets/js/game/popSprite.js"></script>
     <script src="/assets/js/game/triStar.js"></script>
+    <script src="/assets/js/game/badBubble.js"></script>
     <!--<script src = '/assets/js/audio.js'></script> -->
     <script type="text/javascript" src = '/assets/js/soundStuff.js'></script>
     <script type="text/javascript" src = '/assets/js/bufferLoader.js'></script>
@@ -37,6 +38,8 @@
   </head>
   <body>
     <video id="instructions" class="hidden" src="/assets/animations/instructions.ogv" controls="false"></video>
+    <video id="outro" class="hidden" src="/assets/animations/outro.mp4" controls="false"></video>
+    <video id="intro" class="hidden" src="/assets/animations/intro.mp4" controls="false"></video>
     <!--<video id="scroll" class="hidden" src="/assets/animations/website_scroll.mov" controls="false"></video>-->
     <div class="container">
       <div id="canvas-holder">
@@ -67,6 +70,43 @@
 				</div>
 				<figure class="logo center"></figure>
 				<div class="pwd-sect center">ENTER <span id="password"></span> TO JOIN</div>
+			</section>
+			<section id="scores" class="center">
+				<h3>CONGRATULATIONS</h3>
+				<h4>You've Helped Raise $$ to help save the music!</h4>
+				<div id="player_score">
+					<div class="score_item">
+						<span class='name'></span>
+						<span class='score'></span>
+						<div class='bar'></div>
+					</div>
+					<div class="score_item">
+						<span class='name'></span>
+						<span class='score'></span>
+						<div class='bar'></div>
+					</div>
+					<div class="score_item">
+						<span class='name'></span>
+						<span class='score'></span>
+						<div class='bar'></div>
+					</div>
+					<div class="score_item">
+						<span class='name'></span>
+						<span class='score'></span>
+						<div class='bar'></div>
+					</div>
+					<div class="score_item">
+						<span class='name'></span>
+						<span class='score'></span>
+						<div class='bar'></div>
+					</div>
+				</div>
+			</section>
+			<section id="end" class='center'>
+				<h3>HELP SAVE THE MUSIC!</h3>
+				<p>Schools across the nation are increasingly facing tighter budgets and music is often the first subject to cut.</p>
+				<h4>Learn what you can do by visiting</h4>
+				<span class='link'>interlude.rocks</span>
 			</section>
     </div> 
 		<span id='fullscreen_btn' class='fa fa-arrows-alt'></span>

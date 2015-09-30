@@ -18,22 +18,23 @@ game.BadBubble = function() {
     this.velocity = { x : xVel, y : yVel};
     this.acceleration = { x : 0, y : 0};
     this.id = id;
-    this.type = type;
+    this.type = "bad";
     this.color = img;
     this.collisions = [];
     this.mass = 10;
-    this.img = img;
+    this.theta = .05;
+    this.img = game.interlude.badBubImg;
     this.rising = rising;
     this.opacity = 0;
-    this.acceleration.y += this.rising ? .005 : 0;
-  }
+    this.acceleration.y = -.01;
+  };
   //create a reference to the bubble prototype
   var b = BadBubble.prototype;
   /** Update function for the bubble
    * @param dt : delta time for if we want to cap the frame rate
    */
   b.update = function(dt) {
-    if(this.y < -1) //if the bubble is off of the screen
+    if(this.y > 1.5) //if the bubble is off of the screen
       this.remove = true;//it can be removed
     
     if(this.x > 16/9 - this.r || this.x < this.r)
@@ -41,6 +42,7 @@ game.BadBubble = function() {
     if(this.opacity<1)
       this.opacity+=dt;
 
+    this.theta += .05;
     this.move(dt);
     this.updateCollisions();
     //acceleration
@@ -104,10 +106,13 @@ game.BadBubble = function() {
    * @param ctx : drawing context
    */
   b.render = function() {
+    var sc = game.draw.canvas.height;
     game.draw.ctx.save();
     game.draw.ctx.globalAlpha = this.opacity;
+    game.draw.ctx.translate(this.x*sc, this.y*sc);
+    game.draw.ctx.rotate(this.theta);
     game.draw.img(this.img, 48, 48, 256, 256, 
-              this.x-this.r, this.y-this.r, 2*this.r, 2*this.r);
+              -this.r, -this.r, 2*this.r, 2*this.r);
     game.draw.ctx.restore();
   };
   //bitch you know what this does

@@ -14,6 +14,7 @@ game.BlackHole = function() {
     this.x = x;
     this.y = y;
     this.r = r;//radius
+    this.bad = true;
     this.speed = 0.003;
     this.particles = this.generateParticles(numParticles);
   }
@@ -57,12 +58,12 @@ game.BlackHole = function() {
   b.render = function() {
     var scale = game.draw.canvas.height;
     var grd = game.draw.ctx.createRadialGradient(this.x*scale, this.y*scale, 
-                   this.r/100 * scale, this.x*scale, 
+                   this.r/90 * scale, this.x*scale, 
                    this.y*scale, this.r*.9 * scale);
     grd.addColorStop(0,"white");
     grd.addColorStop(1,'rgba(0,0,0,0)');
     game.draw.ctx.save();
-    game.draw.ctx.globalAlpha = .5;
+    game.draw.ctx.globalAlpha = .8;
     game.draw.circle(this.x,this.y,this.r,grd);
     game.draw.ctx.restore();
     game.draw.particle(this.r*3/5, this.x, this.y, "black", 0.7);

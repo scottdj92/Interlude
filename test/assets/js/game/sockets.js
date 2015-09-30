@@ -18,7 +18,7 @@ game.sockets = {
 				// check password
 				if( data.password === app.password ){ 
 					// check number of players
-					if( app.playersReady < 5 ){
+					if( (app.playersReady < app.numPlayers || app.numPlayers === 0 || app.numPlayers < 2) && app.numPlayers < 5 ){
 						self.socket.emit('player joined', {id:data.sockID, room: app.room}); // emit successful join
 						app.createPlayer(data); // create new player
 						app.addPlayertoLobby(data); //Add player to lobby
@@ -54,10 +54,17 @@ game.sockets = {
 			app.getSelectedColors();
 		});
 		
+		//set player name
+		//color selection
+		this.socket.on("player name", function(data){
+			app.setPlayerName(data);
+		});
+		
     //recieves event once a player has typed in the code and selected a color
     this.socket.on('player ready', function(data){
+			console.log(data.id+" is ready");
 			app.setPlayerReady(data);
-      if(app.playersReady >= 5)
+      if(app.playersReady >= app.numPlayers && app.numPlayers > 0)
         app.canstart = true;
     });
   
@@ -94,5 +101,14 @@ game.sockets = {
 				app.playersReady --;
       }
     });
+  },
+  //Disconnects all currently connected players
+  disconnectPlayers : function(players){
+		var playerIDs = [];
+		for(var p in players){
+			playerIDs.push(p);
+		};
+		var data = { sockets: playerIDs};
+		this.socket.emit('disconnect players', data);
   }
 }

@@ -39,15 +39,16 @@ mobileClient = {
 			console.log(id);
 			self.id = id;
 		});
+		
+		//when player has successfully joined
 		socket.on('response joined', function(msg){
-			//when player has successfully joined
 			$("#status").html(msg);
 			self.room = msg.room;
 			self.changeState();
 		});
-
+		
+		//when player has been rejected
 		socket.on('response reject', function(msg){
-			//when player has been rejected
 			$("#status").html(msg);
 		});
 		
@@ -57,7 +58,6 @@ mobileClient = {
 			if(msg.color){
 				self.selectColor(msg.color);
 			}
-			// if not available 
 		});
 		
 		// Lists of taken colors recieved from game
@@ -68,7 +68,12 @@ mobileClient = {
 		});
 		
 		socket.on('game start', function(data){
+			console.log(data);
 			self.gameStart();
+		});
+
+		socket.on('disconnect players', function(data){
+			document.location.reload(true);
 		});
 		
 		if(jQuery.isFunction(callback)){
@@ -248,10 +253,7 @@ mobileClient = {
 			e.preventDefault();
 			if($("#name_input").val().trim() != "") {
 				self.name = $("#name_input").val().toUpperCase();
-				console.log(self.name);
-				//change state
-				//send ready to game
-				self.sendReady();
+				self.sendName();
 				$("#name_input").blur();
 				$(this).off();
 			}
@@ -268,8 +270,16 @@ mobileClient = {
 			//hide game_prep content
 			$("#game_prep").removeClass("active").hide();
 			$('#game_controls').addClass("active").fadeIn(500);
-	
+			//create slingshot
 			mobileClient.slingshot.init(self);
+			//create game ready button (will only start game if everyone hits the button)
+			$("#ready").on("touchend click", function(e){
+				e.preventDefault();
+				self.sendReady();
+				$(this).addClass('clicked');
+				$(this).off();
+			});
+			
 		});
 	},
 	
@@ -285,7 +295,7 @@ mobileClient = {
 	clearInputFill: function(){
 		var boxes = document.getElementsByClassName('box');
 		for(var i=0; i<5; i++){
-				$(boxes[i]).removeClass('filled');
+			$(boxes[i]).removeClass('filled');
 		}
 	},
 	
@@ -311,6 +321,7 @@ mobileClient = {
 	},
 	
 	markSelectedColors: function(colors){
+		console.log(colors);
 		colors.forEach(function(color){
 			var col = document.getElementsByClassName(color)[0];
 			if( !$(col).hasClass("selected") )
@@ -318,11 +329,17 @@ mobileClient = {
 		});
 	},
 	
+	// notify Game of player's name
+	sendName: function(){
+		var data = {id:this.id, room:this.room, name:this.name};
+		this.socket.emit('player name', data);
+		this.changeState();
+	},
+	
 	// Notify Game that Player is ready
 	sendReady: function(){
-		var data = { id:this.id, name:this.name, room: this.room };
-		this.socket.emit("player ready", data);
-		this.changeState(); 
+		var data = { id:this.id, room: this.room };
+		this.socket.emit("player ready", data); 
 	},
 
 }

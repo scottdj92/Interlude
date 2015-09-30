@@ -28,7 +28,13 @@ io.on('connection', function(socket){
 	//broadcast that a user has connected
 	//pass an object containing user informatiojn?
   io.to(socket.id).emit('game init', {id:socket.id});
-
+  //DISCONNECT PLAYERS
+  //forces ids passed in out of the game
+  socket.on('disconnect players', function(data){
+  	data.sockets.forEach(function(sock){
+  		io.to(sock).emit('disconnect players', data);
+  	});
+  });
 	// DISCONNECT
 	// handle disconnects
 	socket.on('disconnect', function(){
@@ -54,9 +60,9 @@ io.on('connection', function(socket){
 		PLAYER JOINED 
 	**/
   // Sent from game to notify that player has been accepted
+	// players.push(data.id); //add new player's socketID
+	// emit to individual player that they hve just joined the game
   socket.on('player joined', function(data){
-  	//players.push(data.id); //add new player's socketID
-		//emit to individual player that they hve just joined the game
 		var msg = data;
 		io.to(data.id).emit('response joined', msg);
   });
@@ -65,8 +71,8 @@ io.on('connection', function(socket){
 		PLAYER REJECT 
 	**/
   // Sent from game to notify that player has been rejected
+	// data should be socket id of client
   socket.on('player reject', function(data){
-		//data should be socket id of client
   	io.to(data.id).emit('response reject', data.msg);
   });
 
@@ -93,13 +99,22 @@ io.on('connection', function(socket){
 	socket.on("color getAvail", function(data){
 		io.to(data.room).emit('color checkAvail', data.color);
 	});
+	
 	// game -> mobile (all)
 	// let all mobile clients know that a color is taken (return response)
   //---------------------------- MUST GO TO ALL PLAYERS IN THAT GAME ----------------------------------------------//
 	socket.on("color selected", function(data){
 		data.players.forEach(function(p){
-			io.to(p).emit('color selected', data.colors);
+			io.to(p).emit('color selected', data);
 		});
+	});
+	
+	/** 
+		PLAYER NAME 
+	**/
+	socket.on('player name', function(data){
+		console.log(data.room);
+		io.to(data.room).emit('player name', data);
 	});
 	
 	/** 
@@ -113,10 +128,9 @@ io.on('connection', function(socket){
 	 GAME START
 	**/
 	// game -> mobile (all)
-	socket.on('game start', function(data){
-		console.log(data.players);
+	socket.on('game started', function(data){
 		data.players.forEach(function(p){
-			io.to(p).emit('game start', true);
+			io.to(p).emit('game start', data);
 		});
 	});
 	
